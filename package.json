@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "Remake of my altair baseline template.",
   "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node .",
+    "lint": "eslint ."
+  },
   "author": "mara",
   "license": "MIT",
   "dependencies": {
