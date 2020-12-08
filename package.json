@@ -1,6 +1,6 @@
 {
   "name": "altair",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "Remake of my altair baseline template.",
   "main": "index.js",
   "scripts": {
