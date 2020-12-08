@@ -7,7 +7,15 @@ This is just a repository to store and track development of my personal discord 
 
 ## Usage example
 
-Simply clone this repository into an easily accessable folder, and start adding your own commands into the respective folder.
+Simply clone this repository into an easily accessable folder and create a file named ``config.json`` in the root of the repository.
+```json
+{
+    "token": "your token here",
+    "ownerId": "this is optional.",
+    "prefix": "a!"
+}
+```
+Now you can add your own commands in the respective folder.
 I recommend orienting yourself after ``ping.js``, as it demonstrates how a module is usually structured. (I may add a template with other options later.)
 
 ## Release History
