@@ -1,6 +1,8 @@
 module.exports = {
 	name: 'say',
-	description: 'Repeats anything you say',
+	aliases: ['speak', 'echo'],
+	description: 'Repeats anything you say.',
+	usage: 'say [message]',
 	disabled: false,
 	execute(client, message, args) {
 		message.channel.send(args.join(' '));

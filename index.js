@@ -50,4 +50,9 @@ client.on('message', message => {
 	}
 });
 
+process.on('unhandledRejection', error => {
+	console.log(chalk.redBright('[main] Unhandled Promise Rejection Warning:'));
+	console.log(chalk.red(error));
+});
+
 client.login(token);

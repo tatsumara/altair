@@ -20,6 +20,10 @@ I recommend orienting yourself after ``ping.js``, as it demonstrates how a modul
 
 ## Release History
 
+* 0.0.2
+    * Implementation of image search, needs to be improved
+    * Working help command
+    * Improvements to error handling
 * 0.0.1
     * Initial release, should serve as an alright base.
 
