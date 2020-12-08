@@ -24,6 +24,7 @@ I recommend orienting yourself after ``ping.js``, as it demonstrates how a modul
     * Implementation of image search, needs to be improved
     * Working help command
     * Improvements to error handling
+    * Totally unnecessary coordinated color change, just because I can.
 * 0.0.1
     * Initial release, should serve as an alright base.
 
