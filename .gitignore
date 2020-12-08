@@ -1,3 +1,8 @@
+# custom stuff
+README.md
+config.json
+.eslintrc.json
+
 ### Node ###
 # Logs
 logs
@@ -114,11 +119,8 @@ dist
 !.vscode/tasks.json
 !.vscode/launch.json
 *.code-workspace
-.eslintrc.json
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
 .ionide
-
-# End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode
