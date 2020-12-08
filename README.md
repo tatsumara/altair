@@ -13,7 +13,7 @@ I recommend orienting yourself after ``ping.js``, as it demonstrates how a modul
 ## Release History
 
 * 0.0.1
-    * Initial release, should serve as an alright baseline.
+    * Initial release, should serve as an alright base.
 
 ## Meta
 mara#8977 on Discord
