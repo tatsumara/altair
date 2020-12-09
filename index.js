@@ -36,9 +36,9 @@ client.on('message', message => {
 		return;
 	}
 
+	console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name}'.`));
 	try {
 		command.execute(client, message, args);
-		console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name}'.`));
 	}
 	catch (error) {
 		console.log(chalk.redBright('[main] An error has occured.'));
@@ -51,8 +51,13 @@ client.on('message', message => {
 	}
 });
 
+client.on('shardError', error => {
+	console.log(chalk.redBright('[main] Websocket connection error:'));
+	console.log(chalk.red(error));
+});
+
 process.on('unhandledRejection', error => {
-	console.log(chalk.redBright('[main] Unhandled Promise Rejection Warning:'));
+	console.log(chalk.redBright('[main] Unhandled promise rejection:'));
 	console.log(chalk.red(error));
 });
 
