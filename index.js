@@ -38,6 +38,7 @@ client.on('message', message => {
 
 	try {
 		command.execute(client, message, args);
+		console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name}'.`));
 	}
 	catch (error) {
 		console.log(chalk.redBright('[main] An error has occured.'));
