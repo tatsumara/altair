@@ -11,7 +11,7 @@ Simply clone this repository into an easily accessable folder and create a file 
 ```json
 {
     "token": "your token here",
-    "ownerId": "this is optional.",
+    "ownerId": "id of your account here",
     "prefix": "a!"
 }
 ```
