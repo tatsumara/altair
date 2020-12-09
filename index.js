@@ -1,6 +1,7 @@
 const fs = require('fs');
 const chalk = require('chalk');
 const Discord = require('discord.js');
+const functions = require('./functions.js');
 const { prefix, token, ownerId } = require('./config.json');
 
 const client = new Discord.Client();
@@ -38,7 +39,7 @@ client.on('message', message => {
 
 	console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name}'.`));
 	try {
-		command.execute(client, message, args);
+		command.execute(client, message, args, functions);
 	}
 	catch (error) {
 		console.log(chalk.redBright('[main] An error has occured.'));
