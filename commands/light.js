@@ -5,7 +5,7 @@ module.exports = {
 	name: 'light',
 	description: 'Controls my lights.',
 	usage: 'light [on/off]\nlight color [hex color]',
-	disabled: true,
+	disabled: false,
 	execute(client, message, args, functions) {
 		if (args[0] === 'on') {
 			mclient.publish('cmnd/yami/Power0', 'ON');
