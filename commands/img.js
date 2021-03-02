@@ -6,7 +6,7 @@ module.exports = {
 	description: 'Searches for an image on DuckDuckGo.',
 	usage: 'img [search query]',
 	execute(client, message, args) {
-		ddgi.image_search({ query: args.join(' ') })
+		ddgi.image_search({ query: args.join(' '), moderate : true,  })
 			.then(results=>{
 				message.channel.send(results[0].image);
 			});

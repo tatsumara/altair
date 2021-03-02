@@ -37,7 +37,7 @@ client.on('message', message => {
 		return;
 	}
 
-	console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name}'.`));
+	console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name + ' ' + args}'.`));
 	try {
 		command.execute(client, message, args, functions);
 	}
