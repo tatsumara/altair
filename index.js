@@ -2,7 +2,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 const Discord = require('discord.js');
 const functions = require('./functions.js');
-const { prefix, token, ownerId } = require('./config.json');
+const token = require('./config.json').token;
 
 const client = new Discord.Client();
 console.log(chalk.grey('[main] Initialized client.'));
@@ -25,11 +25,6 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 console.log(chalk.grey(`[cmnd] Loaded ${commandFiles.length} commands.`));
-
-client.on('shardError', error => {
-	console.log(chalk.redBright('[main] Websocket connection error:'));
-	console.log(chalk.red(error));
-});
 
 process.on('unhandledRejection', error => {
 	console.log(chalk.redBright('[main] Unhandled promise rejection:'));
