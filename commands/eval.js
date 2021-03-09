@@ -14,7 +14,7 @@ module.exports = {
             }
             message.channel.send(evaled, {code:"js"});
         } catch (err) {
-            message.channel.send(err, {code: "xl"});
+            message.channel.send(err, {code: "js"});
         }
 	},
 };
