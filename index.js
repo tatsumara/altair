@@ -1,7 +1,6 @@
+const Discord = require('discord.js');
 const fs = require('fs');
 const chalk = require('chalk');
-const Discord = require('discord.js');
-const functions = require('./functions.js');
 const token = require('./config.json').token;
 
 const client = new Discord.Client();
