@@ -13,6 +13,7 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "discord.js": "^12.5.1",
+    "g-i-s": "^2.1.6",
     "install": "^0.13.0",
     "mqtt": "^4.2.6",
     "npm": "^7.6.1",
