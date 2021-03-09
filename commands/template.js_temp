@@ -1,0 +1,8 @@
+module.exports = {
+	name: 'command name',
+	description: 'command description',
+    aliases: ['aliases']
+	execute(client, message) {
+
+	},
+};
