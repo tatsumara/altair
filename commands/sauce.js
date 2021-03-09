@@ -14,7 +14,7 @@ module.exports = {
         } else {
             return message.channel.send(functions.ezEmbed('Please include an image with your message.', ''))
         }
-        
+        message.channel.startTyping();
         got(url + image).then(res => {
             const result = JSON.parse(res.body).results[0];
             if (result.header.similarity < 50) {
@@ -34,5 +34,6 @@ module.exports = {
             };
             message.channel.send({ embed: embed })
         })
+        message.channel.stopTyping();
 	},
 };
