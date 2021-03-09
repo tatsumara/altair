@@ -12,13 +12,13 @@ module.exports = {
         } else if (args[0] && args[0].startsWith('http')) {
             image = encodeURIComponent(args[0]);
         } else {
-            return message.channel.send(functions.ezEmbed('Please include an image with your message.', ''))
+            return message.channel.send(functions.simpleEmbed('Please include an image with your message.', ''))
         }
         message.channel.startTyping();
         got(url + image).then(res => {
             const result = JSON.parse(res.body).results[0];
             if (result.header.similarity < 50) {
-                return message.channel.send(functions.ezEmbed('No confident source found.', ''))
+                return message.channel.send(functions.simpleEmbed('No confident source found.', ''))
             }
             const title = result.data.title || 'Source found!';
             const titleURL = result.data.source || result.data.ext_urls[0];

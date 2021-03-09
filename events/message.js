@@ -1,4 +1,3 @@
-const fs = require('fs');
 const chalk = require('chalk');
 const functions = require('../functions.js');
 const { prefix, ownerID } = require('../config.json');
@@ -15,11 +14,7 @@ module.exports = {
         if (!command) return;
 
         if (command.disabled) {
-            const disabledEmbed = {
-                color: 0xFF0000,
-                description: 'This command is currently disabled.',
-            };
-            message.channel.send({ embed: disabledEmbed });
+            message.channel.send(functions.simpleEmbed('This command is currently disabled.', '', '0xFF0000'));
             return;
         }
 
@@ -30,11 +25,7 @@ module.exports = {
         catch (error) {
             console.log(chalk.redBright('[main] An error has occured.'));
             console.log(chalk.red(error));
-            const errorEmbed = {
-                color: 0xFF0000,
-                description: `I'm sorry, something went wrong. Please contact <@${ownerID}> if this issue persists!`,
-            };
-            message.channel.send({ embed: errorEmbed });
+            message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${ownerID}> if this issue persists!`, '0xFF0000'));
         }
     }
 }

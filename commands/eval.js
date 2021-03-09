@@ -5,7 +5,7 @@ module.exports = {
 	description: 'Enables the owner to execute commands directly from inside discord.',
 	execute(client, message, args, functions) {
         if (message.author.id !== ownerID) {
-            return message.channel.send(functions.ezEmbed('You are not permitted to use this command.', '','0xFF0000'));
+            return message.channel.send(functions.simpleEmbed('You are not permitted to use this command.', '','0xFF0000'));
         };
         try {
             let evaled = eval(args.join(' '));

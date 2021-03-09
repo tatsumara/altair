@@ -14,9 +14,9 @@ module.exports = {
         gis(options, logResults); 
         function logResults(error, results) {
             if (!results[0]) {
-                return message.channel.send(functions.ezEmbed('Nothing found!', ''));
+                return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
             }
-            message.channel.send(functions.ezEmbed(`Search results for '${query}':`, '', '', results[0].url));
+            message.channel.send(functions.simpleEmbed(`Search results for '${query}':`, '', '', results[0].url));
         }
         message.channel.stopTyping();
 	},
