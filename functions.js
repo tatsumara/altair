@@ -1,10 +1,11 @@
 const Discord = require('discord.js');
 module.exports = {
-	ezEmbed(title, desc, color) {
+	ezEmbed(title, desc, color, image) {
 		const embed = new Discord.MessageEmbed()
 			.setTitle(title)
 			.setDescription(desc)
-			.setColor(color);
+			.setColor(color)
+			.setImage(image);
 		return embed;
 	},
 	cleanEval(text) {

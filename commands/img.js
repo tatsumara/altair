@@ -12,12 +12,10 @@ module.exports = {
         }
         gis(options, logResults); 
         function logResults(error, results) {
-            if (error) {
-            console.log(error);
+            if (!results[0]) {
+                return message.channel.send(functions.ezEmbed('Nothing found!', ''));
             }
-            else {
-            message.channel.send(results[0].url);
-            }
+            message.channel.send(functions.ezEmbed(`Search results for '${query}':`, '', '', results[0].url));
         }
 	},
 };
