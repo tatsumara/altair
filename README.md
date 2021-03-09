@@ -19,7 +19,10 @@ Now you can add your own commands in the respective folder.
 I recommend orienting yourself after ``ping.js``, as it demonstrates how a module is usually structured. (I may add a template with other options later.)
 
 ## Release History
-
+* 0.0.4
+    * Completely reworked event handler (implementation is kinda messy right now but I will work on it in the future)
+    * Added an avatar command
+    * Multiple small quality-of-life improvements
 * 0.0.2
     * Implementation of image search, needs to be improved
     * Working help command
