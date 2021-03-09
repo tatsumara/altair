@@ -23,8 +23,8 @@ module.exports = {
             command.execute(client, message, args, functions);
         }
         catch (error) {
-            console.log(chalk.redBright('[main] An error has occured.'));
-            console.log(chalk.red(error));
+            console.log(chalk.red('[main] An error has occured.'));
+            console.log(chalk.redBright(error));
             message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${ownerID}> if this issue persists!`, '0xFF0000'));
         }
     }
