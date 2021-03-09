@@ -23,7 +23,7 @@ module.exports = {
             const title = result.data.title || 'Source found!';
             const titleURL = result.data.source || result.data.ext_urls[0];
             const thumbURL = result.header.thumbnail;
-            const author = result.data.member_name || result.data.creator;
+            const author = result.data.member_name || result.data.creator || result.data.author_name;
             const embed = {
                 title: title,
                 url: titleURL,
