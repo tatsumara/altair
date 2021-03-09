@@ -1,6 +1,6 @@
 # Altair Discord Bot
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/tatsumara/altair/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-no-yellow.svg)](https://github.com/tatsumara/altair/graphs/commit-activity)
 [![Author](https://img.shields.io/badge/Author-mara-purple.svg)](https://shields.io/)
 
 This is just a repository to store and track development of my personal discord bot. You can do with this code what you want, but if you're gonna publish something based off of it (which is understandably very unlikely), please be sure to credit me! (:
