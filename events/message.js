@@ -1,7 +1,7 @@
 const fs = require('fs');
 const chalk = require('chalk');
 const functions = require('../functions.js');
-const { prefix, token, ownerId } = require('../config.json');
+const { prefix, ownerID } = require('../config.json');
 
 module.exports = {
     name: 'message',
@@ -32,7 +32,7 @@ module.exports = {
             console.log(chalk.red(error));
             const errorEmbed = {
                 color: 0xFF0000,
-                description: `I'm sorry, something went wrong. Please contact <@${ownerId}> if this issue persists!`,
+                description: `I'm sorry, something went wrong. Please contact <@${ownerID}> if this issue persists!`,
             };
             message.channel.send({ embed: errorEmbed });
         }
