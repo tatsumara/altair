@@ -5,6 +5,7 @@ module.exports = {
 	description: 'Searches on Google Images.',
     aliases: ['im', 'image'],
 	execute(client, message, args, functions) {
+        message.channel.startTyping();
         const query = args.join(' ');
         const options = {
             searchTerm: query,
@@ -17,5 +18,6 @@ module.exports = {
             }
             message.channel.send(functions.ezEmbed(`Search results for '${query}':`, '', '', results[0].url));
         }
+        message.channel.stopTyping();
 	},
 };
