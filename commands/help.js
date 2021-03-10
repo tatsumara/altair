@@ -24,7 +24,7 @@ module.exports = {
 			content.setTitle(`Command "${command.name}"`);
 			if (command.aliases) content.addField('Aliases', `\`${command.aliases.join(', ')}\``, true);
 			if (command.usage) content.addField('Usage', `\`${command.usage}\``, true);
-			if (command.usage) content.addField('Cooldown', `\`${command.usage}s\``, true);
+			if (command.usage) content.addField('Cooldown', `\`${command.cooldown}s\``, true);
 			if (command.description) content.addField('Description', command.description);
 		}
 
