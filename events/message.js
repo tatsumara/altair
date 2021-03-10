@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const chalk = require('chalk');
 const functions = require('../functions.js');
 const { prefix, ownerID } = require('../config.json');
@@ -17,6 +18,24 @@ module.exports = {
             message.channel.send(functions.simpleEmbed('This command is currently disabled.', '', '0xFF0000'));
             return;
         }
+
+        if (!client.cooldowns.has(command.name)) {
+            client.cooldowns.set(command.name, new Discord.Collection());
+        }
+
+        const timestamps = client.cooldowns.get(command.name);
+        const cooldownAmount = (command.cooldown || 0) * 1000;
+
+        if (timestamps.has(message.author.id)) {
+            const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+            if (Date.now() < expirationTime) {
+                const timeLeft = (expirationTime - now) / 1000; 
+                return message.channel.send(functions.simpleEmbed(`Cooldown: ${timeLeft.toFixed(1)}s left.`, '', '0xFF0000'));
+            }
+        }
+
+        timestamps.set(message.author.id, now);
+        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
         console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name + ' ' + args.join(' ')}'.`));
         try {

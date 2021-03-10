@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'avatar',
 	description: 'Sends your or the mentioned users avatar.',
+	cooldown: '5',
     aliases: ['av', 'pfp'],
 	execute(client, message) {
 		let user = '';

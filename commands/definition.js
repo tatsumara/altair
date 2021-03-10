@@ -4,6 +4,7 @@ const Discord = require('discord.js')
 module.exports = {
 	name: 'definition',
 	description: 'Queries definition of a word.',
+    cooldown: '5',
     aliases: ['def', 'define'],
 	execute(client, message, args, functions) {
         if (!args[0]) {

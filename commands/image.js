@@ -3,6 +3,7 @@ const gis = require('g-i-s');
 module.exports = {
 	name: 'image',
 	description: 'Searches on Google Images.',
+    cooldown: '10',
     aliases: ['im', 'img'],
 	execute(client, message, args, functions) {
         message.channel.startTyping();

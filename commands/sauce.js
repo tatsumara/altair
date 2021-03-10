@@ -3,6 +3,7 @@ const got = require('got');
 module.exports = {
 	name: 'sauce',
 	description: 'Finds the source of an image (anime/artworks/manga)',
+    cooldown: '30',
     aliases: ['source', 'saucenao'],
 	execute(client, message, args, functions) {
         const url = 'https://saucenao.com/search.php?api_key=449d9b8b9c82c93d11acdacb7fd225c4a8870df3&db=999&output_type=2&numres=1&url='

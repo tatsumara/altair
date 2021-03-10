@@ -2,6 +2,7 @@ module.exports = {
 	name: 'say',
 	aliases: ['speak', 'echo'],
 	description: 'Repeats anything you say.',
+	cooldown: '5',
 	usage: 'say [message]',
 	disabled: false,
 	execute(client, message, args, functions) {
