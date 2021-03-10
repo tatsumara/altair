@@ -16,7 +16,7 @@ module.exports = {
             if (!results[0]) {
                 return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
             }
-            message.channel.send(functions.simpleEmbed(`Search results for '${query}':`, '', '', results[0].url));
+            message.channel.send(functions.simpleEmbed(`Search results for '${query}':`, '', '0x0000FF', results[0].url));
         }
         message.channel.stopTyping();
 	},
