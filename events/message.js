@@ -29,7 +29,7 @@ module.exports = {
         if (timestamps.has(message.author.id)) {
             const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
             if (Date.now() < expirationTime) {
-                const timeLeft = (expirationTime - now) / 1000; 
+                const timeLeft = (expirationTime - Date.now()) / 1000; 
                 return message.channel.send(functions.simpleEmbed(`Cooldown: ${timeLeft.toFixed(1)}s left.`, '', '0xFF0000'));
             }
         }
