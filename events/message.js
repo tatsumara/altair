@@ -34,7 +34,7 @@ module.exports = {
             }
         }
 
-        timestamps.set(message.author.id, now);
+        timestamps.set(message.author.id, Date.now());
         setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
         console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name + ' ' + args.join(' ')}'.`));
