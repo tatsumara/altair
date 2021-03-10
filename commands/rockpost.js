@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'rockpost',
 	description: 'Rockpost command cuz liam wouldnt stop complaining',
+    disabled: true,
     aliases: ['aliases'],
 	execute(client, message, args, functions) {
         if (args[0] > 6) {
