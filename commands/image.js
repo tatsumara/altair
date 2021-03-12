@@ -33,7 +33,7 @@ module.exports = {
             const filter = m => m.author.id === message.author.id;
 
             while (Date.now() < expiration) {
-                const collected = await imageMessage.channel.awaitMessages(filter, { max: 1, time: 10000, error: 'time' });
+                const collected = await imageMessage.channel.awaitMessages(filter, { max: 1, time: 60000, error: 'time' });
                 if (error || collected.array().length === 0) return;
                 if (collected.array()[0].content.toLowerCase() === 'n') x++
                 else if (collected.array()[0].content.toLowerCase() === 'b' && x > 0) x--
