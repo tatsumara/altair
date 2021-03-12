@@ -16,9 +16,14 @@ Simply clone this repository into an easily accessable folder and create a file 
 }
 ```
 Now you can add your own commands in the respective folder.
-I recommend orienting yourself after ``ping.js``, as it demonstrates how a module is usually structured. (I may add a template with other options later.)
+I recommend orienting yourself after ``template.js_temp``, as it demonstrates how a module is usually structured.
 
 ## Release History
+* 0.1.0
+    * Added and improved image command
+    * Added definition and urban dictionary commands
+    * Crudely implemented cooldown system, needs to be improved/cleaned up
+    * Rockpost will be removed if I ever make this bot "official"
 * 0.0.4
     * Completely reworked event handler (implementation is kinda messy right now but I will work on it in the future)
     * Added an avatar command
