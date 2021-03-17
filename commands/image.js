@@ -11,7 +11,7 @@ module.exports = {
         const query = args.join(' ');
         let safe = '';
         if (!message.channel.nsfw) {
-            safe = '`?safe=active'
+            safe = '&safe=active'
         }
         gis({ searchTerm: query, queryStringAddition: safe}, logResults); 
 
