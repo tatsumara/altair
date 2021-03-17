@@ -9,11 +9,11 @@ module.exports = {
 	execute(client, message, args, functions) {
         message.channel.startTyping();
         const query = args.join(' ');
-        const options = {
-            searchTerm: query,
-            queryStringAddition: '&safe=active'
+        let safe = '';
+        if (!message.channel.nsfw) {
+            safe = '`?safe=active'
         }
-        gis(options, logResults); 
+        gis({ searchTerm: query, queryStringAddition: safe}, logResults); 
 
         async function logResults(error, results) {
             if (!results[0]) {
