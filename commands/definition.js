@@ -16,6 +16,11 @@ module.exports = {
         got(`https://api.dictionaryapi.dev/api/v2/entries/en_US/${args[0]}`).then(res =>{
             const result = JSON.parse(res.body)[0];
             const embed = new Discord.MessageEmbed().setTitle(`Definition for '${args[0]}':`).setColor('0x0000FF');
+            result.meanings[1].definitions.forEach(definition => {
+                embed.addFields(
+                    { name: definition.definition, value: `*${definition.example || 'No example.'}*` }
+                )
+            });
             result.meanings[0].definitions.forEach(definition => {
                 embed.addFields(
                     { name: definition.definition, value: `*${definition.example || 'No example.'}*` }
