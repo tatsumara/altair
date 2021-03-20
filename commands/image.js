@@ -27,7 +27,7 @@ module.exports = {
                 .setDescription(`*"${query}"*`)
                 .setColor('0x0000FF')
                 .setImage(results[x].url)
-                .setFooter(`Page ${x+1}`)
+                .setFooter(`b⯇ Page ${x+1} ⯈n`)
             const imageMessage = await message.channel.send(embed);
             const expiration = Date.now() + 60000;
             const filter = m => m.author.id === message.author.id;
@@ -39,7 +39,7 @@ module.exports = {
                 else if (collected.array()[0].content.toLowerCase() === 'b' && x > 0) x--
                 else continue;
                 collected.array()[0].delete();
-                imageMessage.edit(embed.setImage(results[x].url).setFooter(`Page ${x+1}`))
+                imageMessage.edit(embed.setImage(results[x].url).setFooter(`b⯇ Page ${x+1} ⯈n`))
             }
         }
         message.channel.stopTyping();
