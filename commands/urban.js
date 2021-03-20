@@ -9,6 +9,7 @@ module.exports = {
 		if (!args[0]) {
             return message.channel.send(functions.simpleEmbed('Please run this command with the word you want to look up.', '', '0xFFFF00'))
         }
+        message.channel.startTyping();
         const term = encodeURIComponent(args.join(' '))
 		got(`http://api.urbandictionary.com/v0/define?term=${term}`).then(res =>{
             const result = JSON.parse(res.body);
@@ -21,5 +22,6 @@ module.exports = {
 				.setDescription(result.list[0].definition)
             message.channel.send(embed)
         })
+        message.channel.stopTyping();
 	},
 };
