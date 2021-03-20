@@ -36,6 +36,13 @@ I recommend orienting yourself after ``template.js_temp``, as it demonstrates ho
 * 0.0.1
     * Initial release, should serve as an alright base.
 
+## Issues
+* Definition command will throw an error when no definition is found, need to find a way to catch 404's
+* Image command throws an API error when embed is deleted before collector timer runs out, too lazy to catch it/detect embed deletion
+    * Also when the command is triggered multiple times in a short timespan, changing the page will trigger for all embeds
+* Source command won't always display author properly, need to improve embed and variables (SauceNAO API SUCKS)
+* Urban command still looks bad
+
 ## Meta
 mara#8977 on Discord
 
