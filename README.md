@@ -1,4 +1,5 @@
 # Altair Discord Bot
+[![Version](https://img.shields.io/github/v/release/tatsumara/altair)](https://github.com/tatsumara/altair/releases/latest)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/tatsumara/altair/graphs/commit-activity)
 [![Author](https://img.shields.io/badge/Author-mara-purple.svg)](https://shields.io/)
