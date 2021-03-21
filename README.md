@@ -18,24 +18,6 @@ Simply clone this repository into an easily accessable folder and create a file 
 Now you can add your own commands in the respective folder.
 I recommend orienting yourself after ``template.js_temp``, as it demonstrates how a module is usually structured.
 
-## Release History
-* 0.1.0
-    * Added and improved image command
-    * Added definition and urban dictionary commands
-    * Crudely implemented cooldown system, needs to be improved/cleaned up
-    * Rockpost will be removed if I ever make this bot "official"
-* 0.0.4
-    * Completely reworked event handler (implementation is kinda messy right now but I will work on it in the future)
-    * Added an avatar command
-    * Multiple small quality-of-life improvements
-* 0.0.2
-    * Implementation of image search, needs to be improved
-    * Working help command
-    * Improvements to error handling
-    * Totally unnecessary coordinated color change, just because I can.
-* 0.0.1
-    * Initial release, should serve as an alright base.
-
 ## Issues
 * Definition command will throw an error when no definition is found, need to find a way to catch 404's
 * Image command throws an API error when embed is deleted before collector timer runs out, too lazy to catch it/detect embed deletion
