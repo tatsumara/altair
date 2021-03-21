@@ -5,6 +5,9 @@ module.exports = {
 	aliases: ['err'],
 	description: 'Intionally causes an error.',
 	execute(message) {
+		if (message.author.id !== require('../config.json').ownerID) {
+            return message.channel.send(functions.simpleEmbed('You are not permitted to use this command.', '','0xFF0000'));
+        };
 		message.lol();
 	},
 };
