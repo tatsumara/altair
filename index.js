@@ -6,11 +6,15 @@ const token = require('./config.json').token;
 const client = new Discord.Client();
 console.log(chalk.grey('[main] Initialized client.'));
 
+// cooldown collection must be defined this early or message.js wouldn't have access to it
 client.cooldowns = new Discord.Collection();
 
+
+// redirects most used events to the respective files in ./events, for example the message and ready events
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
+	// i don't understand this code either but it works
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args, client));
 	} else {
@@ -19,6 +23,7 @@ for (const file of eventFiles) {
 }
 console.log(chalk.grey(`[cmnd] Loaded ${eventFiles.length} event listeners.`));
 
+// builds the command collection to be used in ./events/message.js
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
@@ -27,6 +32,7 @@ for (const file of commandFiles) {
 }
 console.log(chalk.grey(`[cmnd] Loaded ${commandFiles.length} commands.`));
 
+// lowest level error handler
 process.on('unhandledRejection', error => {
 	console.log(chalk.redBright('[main] Unhandled promise rejection:'));
 	console.log(chalk.red(error));

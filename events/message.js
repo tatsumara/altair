@@ -3,14 +3,18 @@ const chalk = require('chalk');
 const functions = require('../functions.js');
 const { prefix, ownerID } = require('../config.json');
 
+// this is pretty much the meat of this entire bot. complete command handler, cooldowns, aliases, toggles, error handler, you name it.
+
 module.exports = {
     name: 'message',
     execute(message, client) {
         if (!message.content.startsWith(prefix) || message.author.bot) return;
 
+        // this removes the prefix, seperates the command and declares the arguments
         const args = message.content.slice(prefix.length).trim().split(/ +/);
         const commandName = args.shift().toLowerCase();
 
+        // searches command in collection, includes aliases
         const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
         if (!command) return;
 
@@ -19,13 +23,16 @@ module.exports = {
             return;
         }
 
+        // a collection inside of a collection??? i know i know, i don't know
         if (!client.cooldowns.has(command.name)) {
             client.cooldowns.set(command.name, new Discord.Collection());
         }
 
+        // bit wasteful declarations in here, but it makes everything readable
         const timestamps = client.cooldowns.get(command.name);
         const cooldownAmount = (command.cooldown || 0) * 1000;
 
+        // just checks if message author has executed command before cooldown runs out and acts accordingly
         if (timestamps.has(message.author.id)) {
             const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
             if (Date.now() < expirationTime) {
@@ -36,6 +43,7 @@ module.exports = {
         timestamps.set(message.author.id, Date.now());
         setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
+        // this is the main bit that actually executes the command and catches any errors (i might add more info to the console.log())
         console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name + ' ' + args.join(' ')}'.`));
         try {
             command.execute(client, message, args, functions);

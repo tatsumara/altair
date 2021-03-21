@@ -13,9 +13,11 @@ module.exports = {
         const term = encodeURIComponent(args.join(' '))
 		got(`http://api.urbandictionary.com/v0/define?term=${term}`).then(res =>{
             const result = JSON.parse(res.body);
+            // thankfully instead of responding with a 404 this api just sends back nothing, meaning i don't have to catch shit
             if (!result.list[0]) {
                 return message.channel.send(functions.simpleEmbed('Nothing found!', ''))
             }
+            // might add some more elements to the embed later
             const embed = new Discord.MessageEmbed()
 				.setTitle(`UrbanDictionary: "${args.join(' ')}"`)
 				.setColor('0x0000FF')

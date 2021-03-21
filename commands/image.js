@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const gis = require('g-i-s');
-
+// g-i-s is an awesome library!
 module.exports = {
 	name: 'image',
 	description: 'Searches on Google Images.',
@@ -15,6 +15,7 @@ module.exports = {
         }
         gis({ searchTerm: query, queryStringAddition: safe}, logResults); 
 
+        // i dislike using callback functions but i don't understand enough to js to use the g-i-s library without
         async function logResults(error, results) {
             if (!results[0]) {
                 return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
@@ -32,6 +33,7 @@ module.exports = {
             const expiration = Date.now() + 60000;
             const filter = m => m.author.id === message.author.id;
 
+            // async/await is actually super helpful, i should use it more
             while (Date.now() < expiration) {
                 const collected = await imageMessage.channel.awaitMessages(filter, { max: 1, time: 60000, error: 'time' });
                 if (error || collected.array().length === 0) return;

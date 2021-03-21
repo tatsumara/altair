@@ -1,5 +1,5 @@
 const got = require('got');
-
+// saucenao is really cool but holy shit its api sucks
 module.exports = {
 	name: 'sauce',
 	description: 'Finds the source of an image (anime/artworks/manga)',
@@ -21,10 +21,12 @@ module.exports = {
             if (result.header.similarity < 50) {
                 return message.channel.send(functions.simpleEmbed('No confident source found.', ''))
             }
+            // if only this api would properly store the values under one unified variable instead of a different one for every different source \:
             const title = result.data.title || 'Source found!';
             const titleURL = result.data.source || result.data.ext_urls[0];
             const thumbURL = result.header.thumbnail;
             const author = result.data.member_name || result.data.creator || result.data.author_name;
+            // declaring all these consts is probably unnecessary but i gotta rework this command sometime anyway
             const embed = {
                 title: title,
                 url: titleURL,
