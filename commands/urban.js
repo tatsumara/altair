@@ -21,7 +21,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
 				.setTitle(`UrbanDictionary: "${args.join(' ')}"`)
 				.setColor('0x0000FF')
-				.setDescription(result.list[0].definition)
+				.setDescription(result.list[0].definition.replace(/\[/g, '').replace(/\]/g, ''))
             message.channel.send(embed)
         })
         message.channel.stopTyping();
