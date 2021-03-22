@@ -35,7 +35,7 @@ console.log(chalk.grey(`[cmnd] Loaded ${commandFiles.length} commands.`));
 // lowest level error handler
 process.on('unhandledRejection', error => {
 	console.log(chalk.redBright('[main] Unhandled promise rejection:'));
-	console.log(chalk.red(error));
+	console.log(chalk.red(error.stack));
 });
 
 client.login(token);
