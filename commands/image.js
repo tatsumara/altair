@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const gis = require('g-i-s');
+const { prefix } = require('../config.json');
 // g-i-s is an awesome library!
 module.exports = {
 	name: 'image',
@@ -28,7 +29,7 @@ module.exports = {
                 .setDescription(`*"${query}"*`)
                 .setColor('0x0000FF')
                 .setImage(results[x].url)
-                .setFooter(`b⯇ Page ${x+1} ⯈n`)
+                .setFooter(`b <-Page ${x+1}-> n`)
             const imageMessage = await message.channel.send(embed);
             const expiration = Date.now() + 60000;
             const filter = m => m.author.id === message.author.id;
@@ -39,9 +40,11 @@ module.exports = {
                 if (error || collected.array().length === 0) return;
                 if (collected.array()[0].content.toLowerCase() === 'n') x++
                 else if (collected.array()[0].content.toLowerCase() === 'b' && x > 0) x--
+                // ends the collector if user executed another command
+                else if (collected.array()[0].content.toLowerCase().startsWith(prefix)) return
                 else continue;
                 collected.array()[0].delete();
-                imageMessage.edit(embed.setImage(results[x].url).setFooter(`b⯇ Page ${x+1} ⯈n`))
+                imageMessage.edit(embed.setImage(results[x].url).setFooter(`b⯇ Page ${x+1} ⯈n`));
             }
         }
         message.channel.stopTyping();
