@@ -33,7 +33,7 @@ module.exports = {
         const cooldownAmount = (command.cooldown || 0) * 1000;
 
         // just checks if message author has executed command before cooldown runs out and acts accordingly
-        if (timestamps.has(message.author.id)) {
+        if (timestamps.has(message.author.id) && message.author.id !== ownerID) {
             const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
             if (Date.now() < expirationTime) {
                 return message.react('⏱️')
