@@ -7,7 +7,7 @@ const { prefix, ownerID } = require('../config.json');
 
 module.exports = {
     name: 'message',
-    execute(message, client) {
+    async execute(message, client) {
         if (!message.content.startsWith(prefix) || message.author.bot) return;
 
         // this removes the prefix, seperates the command and declares the arguments
@@ -46,11 +46,11 @@ module.exports = {
         // this is the main bit that actually executes the command and catches any errors (i might add more info to the console.log())
         console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name + ' ' + args.join(' ')}'`));
         try {
-            command.execute(client, message, args, functions);
+            await command.execute(client, message, args, functions);
         }
         catch (error) {
-            console.log(chalk.red('[main] An error has occured.'));
-            console.log(chalk.redBright(error));
+            console.log(chalk.red(`[main] An error has occured!`));
+            console.log(chalk.redBright(error.stack));
             message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${ownerID}> if this issue persists!`, '0xFF0000'));
         }
     }
