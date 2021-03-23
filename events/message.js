@@ -44,7 +44,7 @@ module.exports = {
         setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
         // this is the main bit that actually executes the command and catches any errors (i might add more info to the console.log())
-        console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name + ' ' + args.join(' ')}'.`));
+        console.log(chalk.yellow(`[cmnd] ${message.author.tag} executed '${command.name + ' ' + args.join(' ')}'`));
         try {
             command.execute(client, message, args, functions);
         }

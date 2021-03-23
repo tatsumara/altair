@@ -21,7 +21,7 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args, client));
 	}
 }
-console.log(chalk.grey(`[cmnd] Loaded ${eventFiles.length} event listeners.`));
+console.log(chalk.grey(`[evnt] Registered ${eventFiles.length} event listeners.`));
 
 // builds the command collection to be used in ./events/message.js
 client.commands = new Discord.Collection();
