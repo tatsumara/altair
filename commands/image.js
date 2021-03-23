@@ -29,7 +29,7 @@ module.exports = {
                 .setDescription(`*"${query}"*`)
                 .setColor('0x0000FF')
                 .setImage(results[x].url)
-                .setFooter(`b <-Page ${x+1}-> n`)
+                .setFooter(`Page ${x+1} - Navigate with b/n`)
             const imageMessage = await message.channel.send(embed);
             const expiration = Date.now() + 60000;
             const filter = m => m.author.id === message.author.id;
@@ -44,7 +44,7 @@ module.exports = {
                 else if (collected.array()[0].content.toLowerCase().startsWith(prefix)) return
                 else continue;
                 collected.array()[0].delete();
-                imageMessage.edit(embed.setImage(results[x].url).setFooter(`b⯇ Page ${x+1} ⯈n`));
+                imageMessage.edit(embed.setImage(results[x].url).setFooter(`Page ${x+1} - Navigate with b/n`));
             }
         }
         message.channel.stopTyping();
