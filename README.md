@@ -8,15 +8,13 @@ This is just a repository to store and track development of my personal discord 
 
 ## Usage example
 Simply download the latest release (usually named ``altair.zip``), enter your bot token into ``config.js``, make necessary adjustments and you're set!
+To use the `sauce.js` command you also need to supply an API key for saucenao.
 Now you can add your own commands and events in the respective folders.
 I recommend orienting yourself after ``template.js_temp`` in both cases, as it demonstrates how a module is usually structured.
 
 ## Issues
 * Definition command will throw an error when no definition is found, need to find a way to catch 404's
-* Image command throws an API error when embed is deleted before collector timer runs out, too lazy to catch it/detect embed deletion
-    * Also when the command is triggered multiple times in a short timespan, changing the page will trigger for all embeds
-* Source command won't always display author properly, need to improve embed and variables (SauceNAO API SUCKS)
-* Urban command still looks bad
+* Source command currently not working on RPi3b+
 
 ## Meta
 mara#8977 on Discord
