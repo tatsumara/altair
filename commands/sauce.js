@@ -1,5 +1,5 @@
-const sagiri = require('sagiri')
-const { saucenaoAPIKey } = require('../config.json')
+const sagiri = require('sagiri');
+const { saucenaoAPIKey } = require('../config.json');
 // saucenao is really cool but holy shit its api sucks (thankfully this npm module is good)
 module.exports = {
 	name: 'source',

@@ -2,8 +2,9 @@ module.exports = {
 	name: 'command name',
 	description: 'command description',
 	cooldown: '5',
+	args: true,
     aliases: ['aliases'],
-	execute(client, message) {
+	execute(client, message, args, functions) {
 
 	},
 };

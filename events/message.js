@@ -19,8 +19,11 @@ module.exports = {
         if (!command) return;
 
         if (command.disabled) {
-            message.channel.send(functions.simpleEmbed('This command is currently disabled.', '', '0xFF0000'));
-            return;
+            return message.channel.send(functions.simpleEmbed('This command is currently disabled.', '', '0xFF0000'));
+        }
+
+        if (command.args && !args.length) {
+            return message.channel.send(functions.simpleEmbed('Please provide at least one argument!', '', '0xFFFF00'));
         }
 
         // a collection inside of a collection??? i know i know, i don't know
@@ -30,7 +33,7 @@ module.exports = {
 
         // bit wasteful declarations in here, but it makes everything readable
         const timestamps = client.cooldowns.get(command.name);
-        const cooldownAmount = (command.cooldown || 0) * 1000;
+        const cooldownAmount = (command.cooldown || 5) * 1000;
 
         // just checks if message author has executed command before cooldown runs out and acts accordingly
         if (timestamps.has(message.author.id) && message.author.id !== ownerID) {

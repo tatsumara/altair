@@ -4,11 +4,9 @@ const got = require('got');
 module.exports = {
 	name: 'urban',
 	description: 'Searches a word on urbandictionary.org',
+    args: true,
     aliases: ['urb'],
 	execute(client, message, args, functions) {
-		if (!args[0]) {
-            return message.channel.send(functions.simpleEmbed('Please run this command with the word you want to look up.', '', '0xFFFF00'))
-        }
         message.channel.startTyping();
         const term = encodeURIComponent(args.join(' '))
 		got(`http://api.urbandictionary.com/v0/define?term=${term}`).then(res =>{

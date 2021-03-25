@@ -4,12 +4,9 @@ const got = require('got');
 module.exports = {
 	name: 'definition',
 	description: 'Queries definition of a word.',
-    cooldown: '5',
+    args: true,
     aliases: ['def', 'define'],
 	async execute(client, message, args, functions) {
-        if (!args[0]) {
-            return message.channel.send(functions.simpleEmbed('Please run this command with the word you want to look up.', '', '0xFFFF00'))
-        }
         if (args.length > 1) {
             return message.channel.send(functions.simpleEmbed('Please only run this command with one word.', '', '0xFFFF00'))
         }

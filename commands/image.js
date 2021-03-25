@@ -6,6 +6,7 @@ module.exports = {
 	name: 'image',
 	description: 'Searches on Google Images.',
     cooldown: '15',
+    args: true,
     aliases: ['im', 'img'],
 	execute(client, message, args, functions) {
         message.channel.startTyping();
