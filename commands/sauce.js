@@ -6,6 +6,7 @@ module.exports = {
 	description: 'Finds the source of an image (anime/artworks/manga)',
     cooldown: '30',
     aliases: ['sauce', 'saucenao'],
+    disabled: true,
 	async execute(client, message, args, functions) {
         let image = '';
         if (message.attachments.first()) {
