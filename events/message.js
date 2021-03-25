@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const chalk = require('chalk');
-const functions = require('../functions.js');
+const functions = require('../modules/functions.js');
 const { prefix, ownerID } = require('../config.json');
 
 // this is pretty much the meat of this entire bot. complete command handler, cooldowns, aliases, toggles, error handler, you name it.
