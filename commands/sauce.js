@@ -6,9 +6,9 @@ module.exports = {
 	description: 'Finds the source of an image (anime/artworks/manga)',
     cooldown: '30',
     aliases: ['sauce', 'saucenao'],
-    disabled: true,
 	async execute(client, message, args, functions) {
         let image = '';
+        // with v13.0 of discord.js i'll also implement message reply handling
         if (message.attachments.first()) {
             image = message.attachments.first().url;
         } else if (args[0] && args[0].startsWith('http')) {
