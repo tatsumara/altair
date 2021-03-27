@@ -8,7 +8,7 @@ const { prefix, ownerID } = require('../config.json');
 module.exports = {
     name: 'message',
     async execute(message, client) {
-        if (!message.content.startsWith(prefix) || message.author.bot) return;
+        if (!message.content.toLowerCase().startsWith(prefix) || message.author.bot) return;
 
         // this removes the prefix, seperates the command and declares the arguments
         const args = message.content.slice(prefix.length).trim().split(/ +/);
