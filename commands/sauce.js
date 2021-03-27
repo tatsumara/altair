@@ -25,6 +25,7 @@ module.exports = {
             return false; 
         })
         if (!results[0]) {
+            message.channel.stopTyping();
             return message.channel.send(functions.simpleEmbed('Nothing found!', ''))
         }
         const embed = {
