@@ -7,7 +7,7 @@ module.exports = {
     args: true,
     aliases: ['urb'],
 	execute(client, message, args, functions) {
-        message.channel.startTyping();
+        
         const term = encodeURIComponent(args.join(' '))
 		got(`http://api.urbandictionary.com/v0/define?term=${term}`).then(res =>{
             const result = JSON.parse(res.body);
@@ -22,6 +22,6 @@ module.exports = {
 				.setDescription(result.list[0].definition.replace(/\[/g, '').replace(/\]/g, ''))
             message.channel.send(embed)
         })
-        message.channel.stopTyping();
+        
 	},
 };

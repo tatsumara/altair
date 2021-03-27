@@ -17,7 +17,7 @@ module.exports = {
             return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '0xFFFF00'))
         }
 
-        message.channel.startTyping();
+        
         const sagiriClient = sagiri(saucenaoAPIKey);
         const resultList = await sagiriClient(image)
         const results = resultList.filter(result => {
@@ -25,7 +25,7 @@ module.exports = {
             return false; 
         })
         if (!results[0]) {
-            message.channel.stopTyping();
+            
             return message.channel.send(functions.simpleEmbed('Nothing found!', ''))
         }
         const embed = {
@@ -41,6 +41,6 @@ module.exports = {
             }
         }
         message.channel.send({ embed: embed});
-        message.channel.stopTyping();
+        
 	},
 };

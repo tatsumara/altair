@@ -9,7 +9,7 @@ module.exports = {
     args: true,
     aliases: ['im', 'img'],
 	execute(client, message, args, functions) {
-        message.channel.startTyping();
+        
         const query = args.join(' ');
         let safe = '';
         if (!message.channel.nsfw) {
@@ -48,6 +48,6 @@ module.exports = {
                 imageMessage.edit(embed.setImage(results[x].url).setFooter(`Page ${x+1} - Navigate with b/n`));
             }
         }
-        message.channel.stopTyping();
+        
 	},
 };
