@@ -33,7 +33,8 @@ for (const file of commandFiles) {
 console.log(chalk.grey(`[cmnd] Loaded ${commandFiles.length} commands.`));
 
 process.on('unhandledRejection', error => {
-	console.error('Unhandled promise rejection:', error);
+	console.error(chalk.red('[main] Unhandled promise rejection:'));
+	console.error(chalk.redBright('[----]', error));
 });
 
 client.login(token);
