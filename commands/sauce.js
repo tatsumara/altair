@@ -14,9 +14,11 @@ module.exports = {
         } else if (args[0] && args[0].startsWith('http')) {
             image = args[0];
         } else {
-            return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '0xFFFF00'))
+            const messages = await message.channel.messages.fetch({ limit: 15 });
+            found = messages.find(msg => msg.attachments.first());
+            if (found) image = found.attachments.first().url;
+            if (!image) return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '0xFFFF00'))
         }
-
         
         const sagiriClient = sagiri(saucenaoAPIKey);
         const resultList = await sagiriClient(image)
@@ -25,8 +27,13 @@ module.exports = {
             return false; 
         })
         if (!results[0]) {
-            
-            return message.channel.send(functions.simpleEmbed('Nothing found!', ''))
+            const failEmbed = {
+                title: 'Nothing found!',
+                thumbnail: {
+                    url: image,
+                }
+            }
+            return message.channel.send({ embed: failEmbed });
         }
         const embed = {
             color: 0x0000FF,
