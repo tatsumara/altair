@@ -11,6 +11,7 @@
   "author": "mara",
   "license": "MIT",
   "dependencies": {
+    "anilist-node": "^1.7.0",
     "chalk": "^4.1.0",
     "discord.js": "^12.5.1",
     "g-i-s": "^2.1.6",
