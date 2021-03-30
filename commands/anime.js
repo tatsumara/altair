@@ -16,10 +16,11 @@ module.exports = {
             title: `[${anime.format}] ${anime.title.userPreferred} (${anime.seasonYear})`,
             url: anime.siteUrl,
             fields: [
-                {name: 'Alternate Spellings:', value: `${Object.values(anime.title).slice(0,-1).join(', ')}`, inline: true},
+                {name: 'Alternate Spellings:', value: Object.values(anime.title).slice(0,-1).join(', '), inline: true},
                 {name: 'Start date:', value: `${anime.startDate.day}.${anime.startDate.month}.${anime.startDate.year}`, inline: true},
                 {name: 'End date:', value: `${anime.endDate.day || '' }.${anime.endDate.month || '' }.${anime.endDate.year || '' }`, inline: true},
                 {name: 'Status:', value: `${anime.status} with ${anime.episodes || anime.nextAiringEpisode.episode - 1} episodes`, inline: true},
+                // {name: 'Studio:', values: anime.studios[0].name, inline: true}
             ],
             description: `${anime.description.split(' ').splice(0,32).join(' ')}...`,
             footer: {
