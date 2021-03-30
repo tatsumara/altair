@@ -1,5 +1,6 @@
 const sagiri = require('sagiri');
-const { saucenaoAPIKey } = require('../config.json');
+const config = require('../config.json');
+const chalk = require('chalk');
 // saucenao is really cool but holy shit its api sucks (thankfully this npm module is good)
 module.exports = {
 	name: 'source',
@@ -7,6 +8,7 @@ module.exports = {
     cooldown: '30',
     aliases: ['sauce', 'saucenao'],
 	async execute(client, message, args, functions) {
+        if (!config.saucenaoAPIKey) return console.log(chalk.red('[cmnd] Please input your SauceNAO API key in the config.'))
         let image = '';
         // with v13.0 of discord.js i'll also implement message reply handling
         if (message.attachments.first()) {
@@ -20,7 +22,7 @@ module.exports = {
             if (!image) return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '0xFFFF00'))
         }
         
-        const sagiriClient = sagiri(saucenaoAPIKey);
+        const sagiriClient = sagiri(config.saucenaoAPIKey);
         const resultList = await sagiriClient(image)
         const results = resultList.filter(result => {
             if (result.similarity > 50.0 && result.authorName !== null) return true;

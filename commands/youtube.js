@@ -1,5 +1,7 @@
 const youtubeNode = require('youtube-node');
-const { youtubeAPIKey } = require('../config.json');
+const config = require('../config.json');
+const chalk = require('chalk');
+
 module.exports = {
 	name: 'youtube',
 	description: 'Searches for a video on YouTube.',
@@ -7,8 +9,9 @@ module.exports = {
 	args: true,
     aliases: ['yt', 'ytube'],
 	execute(client, message, args, functions) {
+		if (!config.youtubeAPIKey) return console.log(chalk.red('[cmnd] Please input your YouTube API key in the config.'))
 		const youtube = new youtubeNode();
-		youtube.setKey(youtubeAPIKey);
+		youtube.setKey(config.youtubeAPIKey);
 		youtube.search(args.join(' '), 5, (error, result) => {
 			const video = result.items.find(item => item.id.kind === 'youtube#video');
 			if (!video) {
