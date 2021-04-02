@@ -19,7 +19,7 @@ module.exports = {
             const messages = await message.channel.messages.fetch({ limit: 15 });
             found = messages.find(msg => msg.attachments.first());
             if (found) image = found.attachments.first().url;
-            if (!image) return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '0xFFFF00'))
+            if (!image) return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '#FFFF00'))
         }
         
         const sagiriClient = sagiri(config.saucenaoAPIKey);
@@ -38,7 +38,7 @@ module.exports = {
             return message.channel.send({ embed: failEmbed });
         }
         const embed = {
-            color: 0x0000FF,
+            color: '#0000FF',
             title: 'Source found!',
             url: results[0].url,
             thumbnail: {

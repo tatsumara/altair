@@ -19,11 +19,11 @@ module.exports = {
         if (!command) return;
 
         if (command.disabled) {
-            return message.channel.send(functions.simpleEmbed('This command is currently disabled.', '', '0xFF0000'));
+            return message.channel.send(functions.simpleEmbed('This command is currently disabled.', '', '#FF0000'));
         }
 
         if (command.args && !args.length) {
-            return message.channel.send(functions.simpleEmbed('Please provide at least one argument!', '', '0xFFFF00'));
+            return message.channel.send(functions.simpleEmbed('Please provide at least one argument!', '', '#FFFF00'));
         }
 
         // a collection inside of a collection??? i know i know, i don't know
@@ -56,7 +56,7 @@ module.exports = {
         catch (error) {
             console.log(chalk.red(`[main] An error has occured in '${command.name} ${args.join(' ')}'!`));
             console.log(chalk.redBright(error.stack));
-            message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${ownerID}> if this issue persists!`, '0xFF0000'));
+            message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${ownerID}> if this issue persists!`, '#FF0000'));
             message.channel.stopTyping();
         }
     }

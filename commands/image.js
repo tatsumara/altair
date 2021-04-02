@@ -28,7 +28,7 @@ module.exports = {
                 .setAuthor(message.author.tag, message.author.avatarURL())
                 .setTitle(`Image Search Results:`,)
                 .setDescription(`*"${query}"*`)
-                .setColor('0x0000FF')
+                .setColor('#0000FF')
                 .setImage(results[x].url)
                 .setFooter(`Page ${x+1} - Navigate with b/n`)
             const imageMessage = await message.channel.send(embed);

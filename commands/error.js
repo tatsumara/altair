@@ -2,11 +2,11 @@
 
 module.exports = {
 	name: 'error',
-	aliases: ['err'],
 	description: 'Intionally causes an error.',
+	owner: true,
 	execute(message) {
 		if (message.author.id !== require('../config.json').ownerID) {
-            return message.channel.send(functions.simpleEmbed('You are not permitted to use this command.', '','0xFF0000'));
+            return message.channel.send(functions.simpleEmbed('You are not permitted to use this command.', '','#FF0000'));
         };
 		message.lol();
 	},

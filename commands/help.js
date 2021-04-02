@@ -11,7 +11,7 @@ module.exports = {
 		if (!args[0]) {
 			// this help command is pretty cool but it looks like shit, and i would love to implement categories
 			content.setTitle('Altair Commands');
-			client.commands.forEach(command => {
+			client.commands.filter(c => !c.owner).forEach(command => {
 				content.addField(command.name, `${command.description}`, true);
 			});
 		}

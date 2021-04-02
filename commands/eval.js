@@ -1,9 +1,10 @@
 module.exports = {
 	name: 'eval',
 	description: 'Enables the owner to execute commands directly from inside discord.',
+    owner: true,
 	execute(client, message, args, functions) {
         if (message.author.id !== require('../config.json').ownerID) {
-            return message.channel.send(functions.simpleEmbed('You are not permitted to use this command.', '','0xFF0000'));
+            return message.channel.send(functions.simpleEmbed('You are not permitted to use this command.', '','#FF0000'));
         };
         try {
             let evaled = eval(args.join(' '));
