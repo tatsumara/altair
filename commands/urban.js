@@ -3,7 +3,7 @@ const got = require('got');
 
 module.exports = {
 	name: 'urban',
-	description: 'Searches a word on urbandictionary.org',
+	description: 'Searches a word on the UrbanDictionary.',
     args: true,
     aliases: ['urb'],
 	execute(client, message, args, functions) {

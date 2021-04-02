@@ -4,7 +4,7 @@ const chalk = require('chalk');
 // saucenao is really cool but holy shit its api sucks (thankfully this npm module is good)
 module.exports = {
 	name: 'source',
-	description: 'Finds the source of an image (anime/artworks/manga)',
+	description: 'Finds the source of an image (artwork).',
     cooldown: '30',
     aliases: ['sauce', 'saucenao'],
 	async execute(client, message, args, functions) {
