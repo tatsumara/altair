@@ -13,9 +13,7 @@ Now you can add your own commands and events in the respective folders.
 I recommend orienting yourself after ``template.js_temp`` in both cases, as it demonstrates how a module is usually structured.
 
 ## Issues
-* Definition command will throw an error when no definition is found, need to find a way to catch 404's
-* Source command currently not working on RPi3b+
-
+* Typing status is a bit wonky, after commands that execute very quickly Altair doesn't stop typing for about 5 seconds, this is probably related to rate-limits.
 ## Meta
 mara#8977 on Discord
 
