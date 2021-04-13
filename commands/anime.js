@@ -14,14 +14,15 @@ module.exports = {
         const anime = await anilist.media.anime(data.media[0].id)
         const embed = {
             color: anime.coverImage.color,
-            title: `[${anime.format}] ${anime.title.userPreferred} (${anime.seasonYear})`,
+            title: `[${anime.format}] ${anime.title.userPreferred} ${anime.seasonYear || '(TBA)'}`,
             url: anime.siteUrl,
             fields: [
                 {name: 'Alternate Spellings:', value: Object.values(anime.title).slice(0,-1).join(', '), inline: true},
                 {name: 'Start date:', value: `${anime.startDate.day || '--' }.${anime.startDate.month || '--' }.${anime.startDate.year || '----' }`, inline: true},
                 {name: 'End date:', value: `${anime.endDate.day || '--' }.${anime.endDate.month || '--' }.${anime.endDate.year || '----' }`, inline: true},
-                {name: 'Status:', value: `${anime.status} with ${anime.episodes || 'unknown'} episodes`, inline: true},
-                // {name: 'Studio:', values: anime.studios[0].name, inline: true} not working, sadly
+                {name: 'Status:', value: `${anime.status.replace('NOT_YET_RELEASED', 'Not yet released')} with ${anime.episodes || 'unknown'} episodes`, inline: true},
+                {name: 'Studio:', value: anime.studios.find(studio => studio.isAnimationStudio).name, inline: true},
+                {name: 'Source:', value: anime.source, inline: true},
             ],
             description: `${anime.description.split(' ').splice(0,32).join(' ')}...`,
             footer: {
