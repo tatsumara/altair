@@ -5,6 +5,7 @@ const chalk = require('chalk');
 module.exports = {
 	name: 'youtube',
 	description: 'Searches for a video on YouTube.',
+	usage: 'youtube <search term>',
 	cooldown: '15',
 	args: true,
     aliases: ['yt', 'ytube'],

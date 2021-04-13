@@ -5,6 +5,7 @@ const { prefix } = require('../config.json');
 module.exports = {
 	name: 'image',
 	description: 'Searches on Google Images.',
+    usage: 'image <search query> (You can navigate the results by sending b/n for next and back respectively!)',
     cooldown: '15',
     args: true,
     aliases: ['im', 'img'],
@@ -30,7 +31,7 @@ module.exports = {
                 .setDescription(`*"${query}"*`)
                 .setColor('#0000FF')
                 .setImage(results[x].url)
-                .setFooter(`Page ${x+1} - Navigate with b/n`)
+                .setFooter(`Page ${x+1} - Navigate with b/n \nConfused? do 'help image'`)
             const imageMessage = await message.channel.send(embed);
             const expiration = Date.now() + 60000;
             const filter = m => m.author.id === message.author.id;

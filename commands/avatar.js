@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'avatar',
 	description: 'Sends your or the mentioned users avatar.',
+	usage: 'avatar [user]',
 	cooldown: '5',
     aliases: ['av', 'pfp'],
 	execute(client, message) {

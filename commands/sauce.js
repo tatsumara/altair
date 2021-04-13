@@ -5,6 +5,7 @@ const chalk = require('chalk');
 module.exports = {
 	name: 'source',
 	description: 'Finds the source of an image (artwork).',
+    usage: 'source [image link or attachment] (If used without arguments, the last recently sent image will be used.)',
     cooldown: '30',
     aliases: ['sauce', 'saucenao'],
 	async execute(client, message, args, functions) {

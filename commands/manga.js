@@ -3,6 +3,7 @@ const anilistNode = require('anilist-node');
 module.exports = {
 	name: 'manga',
 	description: 'Looks up a manga on AniList.',
+    usage: 'manga <manga name>',
 	cooldown: '10',
 	args: true,
     aliases: ['ma'],

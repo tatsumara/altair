@@ -4,6 +4,7 @@ const got = require('got');
 module.exports = {
 	name: 'urban',
 	description: 'Searches a word on the UrbanDictionary.',
+    usage: 'urban <search term>',
     args: true,
     aliases: ['urb'],
 	execute(client, message, args, functions) {

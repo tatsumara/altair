@@ -3,6 +3,7 @@ const anilistNode = require('anilist-node');
 module.exports = {
 	name: 'anime',
 	description: 'Looks up an anime on AniList.',
+    usage: 'anime <anime name>',
 	cooldown: '10',
 	args: true,
     aliases: ['ani', 'anilist'],
@@ -20,7 +21,7 @@ module.exports = {
                 {name: 'Start date:', value: `${anime.startDate.day || '--' }.${anime.startDate.month || '--' }.${anime.startDate.year || '----' }`, inline: true},
                 {name: 'End date:', value: `${anime.endDate.day || '--' }.${anime.endDate.month || '--' }.${anime.endDate.year || '----' }`, inline: true},
                 {name: 'Status:', value: `${anime.status} with ${anime.episodes || 'unknown'} episodes`, inline: true},
-                // {name: 'Studio:', values: anime.studios[0].name, inline: true}
+                // {name: 'Studio:', values: anime.studios[0].name, inline: true} not working, sadly
             ],
             description: `${anime.description.split(' ').splice(0,32).join(' ')}...`,
             footer: {

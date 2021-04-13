@@ -4,6 +4,7 @@ const got = require('got');
 module.exports = {
 	name: 'definition',
 	description: 'Queries definition of a word.',
+    usage: 'definition <word>',
     args: true,
     aliases: ['def', 'define'],
 	async execute(client, message, args, functions) {

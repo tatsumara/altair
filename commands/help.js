@@ -3,8 +3,8 @@ const Discord = require('discord.js');
 module.exports = {
 	name: 'help',
 	description: 'Lists all commands and basic usage.',
-	aliases: ['commands'],
 	usage: 'help [command name]',
+	aliases: ['commands'],
 	execute(client, message, args) {
 		const content = new Discord.MessageEmbed()
 			.setColor('#0073E6');
