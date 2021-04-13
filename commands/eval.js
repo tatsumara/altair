@@ -1,6 +1,5 @@
 module.exports = {
 	name: 'eval',
-	description: 'Enables the owner to execute commands directly from inside discord.',
     owner: true,
 	async execute(client, message, args, functions) {
         if (message.author.id !== require('../config.json').ownerID) {
