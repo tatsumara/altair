@@ -14,7 +14,7 @@ module.exports = {
         const anime = await anilist.media.anime(data.media[0].id)
         const embed = {
             color: anime.coverImage.color,
-            title: `[${anime.format}] ${anime.title.userPreferred} ${anime.seasonYear || '(TBA)'}`,
+            title: `[${anime.format}] ${anime.title.userPreferred} (${anime.seasonYear || 'TBA'})`,
             url: anime.siteUrl,
             fields: [
                 {name: 'Alternate Spellings:', value: Object.values(anime.title).slice(0,-1).join(', '), inline: true},
