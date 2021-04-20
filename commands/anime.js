@@ -14,10 +14,10 @@ module.exports = {
         const anime = await anilist.media.anime(data.media[0].id)
         const embed = {
             color: anime.coverImage.color,
-            title: `[${anime.format}] ${anime.title.userPreferred} (${anime.seasonYear || 'TBA'})`,
+            title: `[${anime.format}] ${anime.title.romaji} (${anime.seasonYear || 'TBA'})`,
             url: anime.siteUrl,
             fields: [
-                {name: 'Alternate Spellings:', value: Object.values(anime.title).slice(0,-1).join(', '), inline: true},
+                {name: 'Alternate Spellings:', value: `${anime.title.english}, ${anime.title.native}`, inline: true},
                 {name: 'Start date:', value: `${anime.startDate.day || '--' }.${anime.startDate.month || '--' }.${anime.startDate.year || '----' }`, inline: true},
                 {name: 'End date:', value: `${anime.endDate.day || '--' }.${anime.endDate.month || '--' }.${anime.endDate.year || '----' }`, inline: true},
                 {name: 'Status:', value: `${anime.status.replace('NOT_YET_RELEASED', 'Not yet released')} with ${anime.episodes || 'unknown'} episodes`, inline: true},
