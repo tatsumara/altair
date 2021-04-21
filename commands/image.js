@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const gis = require('g-i-s');
 const { prefix } = require('../config.json');
 // g-i-s is an awesome library!
@@ -25,7 +25,7 @@ module.exports = {
             }
 
             let x = 0;
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setAuthor(message.author.tag, message.author.avatarURL())
                 .setTitle(`Image Search Results:`,)
                 .setDescription(`*"${query}"*`)
