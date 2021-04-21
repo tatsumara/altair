@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'userinfo',
-	description: 'command description',
+	description: 'Shows info about a user.',
+	usage: 'userinfo <mention or id>',
 	cooldown: '5',
 	args: true,
     aliases: ['ui', 'uinfo', 'user'],
