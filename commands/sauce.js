@@ -39,7 +39,7 @@ module.exports = {
             return message.channel.send({ embed: failEmbed });
         }
         const embed = {
-            color: '#0000FF',
+            color: '#0073E6',
             title: 'Source found!',
             url: results[0].url,
             thumbnail: {

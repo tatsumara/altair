@@ -29,7 +29,7 @@ module.exports = {
                 .setAuthor(message.author.tag, message.author.avatarURL())
                 .setTitle(`Image Search Results:`,)
                 .setDescription(`*"${query}"*`)
-                .setColor('#0000FF')
+                .setColor('#0073E6')
                 .setImage(results[x].url)
                 .setFooter(`Page ${x+1} - Navigate with b/n \nConfused? do 'help image'`)
             const imageMessage = await message.channel.send(embed);
