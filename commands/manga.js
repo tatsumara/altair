@@ -22,7 +22,7 @@ module.exports = {
                 {name: 'End date:', value: `${manga.endDate.day || '--' }.${manga.endDate.month || '--' }.${manga.endDate.year || '----' }`, inline: true},
                 {name: 'Status:', value: `${manga.status} with ${manga.volumes || 'unknown'} volumes`, inline: true},
             ],
-            description: `${manga.description.split(' ').splice(0,32).join(' ')}...`,
+            description: `${manga.description?.split(' ').splice(0,32).join(' ') || 'No description'}...`,
             footer: {
                 text: `Score: ${manga.meanScore || '--'}/100`,
             },
