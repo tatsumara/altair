@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { Collection } = require('discord.js');
 const chalk = require('chalk');
 const functions = require('../modules/functions.js');
 const { prefix, ownerID } = require('../config.json');
@@ -28,7 +28,7 @@ module.exports = {
 
         // a collection inside of a collection??? i know i know, i don't know
         if (!client.cooldowns.has(command.name)) {
-            client.cooldowns.set(command.name, new Discord.Collection());
+            client.cooldowns.set(command.name, new Collection());
         }
 
         // bit wasteful declarations in here, but it makes everything readable

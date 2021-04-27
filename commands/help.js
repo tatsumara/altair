@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	name: 'help',
@@ -6,7 +6,7 @@ module.exports = {
 	usage: 'help [command name]',
 	aliases: ['commands'],
 	execute(client, message, args) {
-		const content = new Discord.MessageEmbed()
+		const content = new MessageEmbed()
 			.setColor('#0073E6');
 		if (!args[0]) {
 			// this help command is pretty cool but it looks like shit, and i would love to implement categories

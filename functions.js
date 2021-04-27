@@ -1,9 +1,9 @@
 // this module just stores a bunch of functions i use often
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 module.exports = {
 	simpleEmbed(title, desc, color, image) {
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setTitle(title)
 			.setDescription(desc)
 			.setColor(color)

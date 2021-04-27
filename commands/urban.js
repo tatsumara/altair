@@ -1,4 +1,4 @@
-const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 const got = require('got');
 
 module.exports = {
@@ -17,10 +17,10 @@ module.exports = {
                 return message.channel.send(functions.simpleEmbed('Nothing found!', ''))
             }
             // might add some more elements to the embed later
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
 				.setTitle(`UrbanDictionary: "${args.join(' ')}"`)
 				.setColor('#0073E6')
-				.setDescription(result.list[0].definition.replace(/\[/g, '').replace(/\]/g, ''))
+				.setDescription(result.list[0].definition.replace(/\[/g, '').replace(/\]/g, '') + '\n')
             message.channel.send(embed)
         })
         
