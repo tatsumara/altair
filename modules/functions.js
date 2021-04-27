@@ -17,5 +17,17 @@ module.exports = {
 		} else {
 			return text;
 		}
+	},
+	convertMS(milliseconds) {
+		let day, hour, minute, seconds;
+		seconds = Math.floor(milliseconds / 1000);
+		minute = Math.floor(seconds / 60);
+		seconds = seconds % 60;
+		hour = Math.floor(minute / 60);
+		minute = minute % 60;
+		day = Math.floor(hour / 24);
+		hour = hour % 24;
+		const duration = `${day}:${hour.toLocaleString('en-US', {minimumIntegerDigits: 2})}:${minute.toLocaleString('en-US', {minimumIntegerDigits: 2})}:${seconds.toLocaleString('en-US', {minimumIntegerDigits: 2})}`
+		return duration;
 	}
 };
