@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { prefix } = require('../config.json');
 
 module.exports = {
 	name: 'status',
@@ -14,12 +15,14 @@ module.exports = {
             .setTitle('Altair - Watching the quadrant.')
             .addFields(
                 { name: 'Uptime', value: functions.convertMS(client.uptime), inline: true },
+                { name: 'Ping', value: `${client.ws.ping} ms`, inline: true },
                 { name: 'Architecture', value: process.arch, inline: true },
                 { name: 'Platform', value: process.platform, inline: true },
                 { name: 'Memory usage', value: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100} mb`, inline: true },
                 { name: 'Servers', value: client.guilds.cache.size, inline: true },
                 { name: 'Users', value: memberCount, inline: true },
-
+                { name: 'Commands ran', value: client.commandsRan, inline: true },
+                { name: 'Prefix', value: prefix, inline: true }
             );
         message.channel.send(embed);
 	},
