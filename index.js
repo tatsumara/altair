@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const chalk = require('chalk');
-const token = require('./config.json').token;
+const { token } = require('./config.json');
 
 const client = new Discord.Client();
 console.log(chalk.grey('[main] Initialized client.'));
@@ -9,6 +9,8 @@ console.log(chalk.grey('[main] Initialized client.'));
 // cooldown collection must be defined this early or message.js wouldn't have access to it
 client.cooldowns = new Discord.Collection();
 
+// command counter, because why not
+client.commandsRan = 0;
 
 // redirects most used events to the respective files in ./events, for example the message and ready events
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
