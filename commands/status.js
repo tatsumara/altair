@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-const { prefix } = require('../config.json');
 
 module.exports = {
 	name: 'status',
@@ -22,7 +21,7 @@ module.exports = {
                 { name: 'Servers', value: client.guilds.cache.size, inline: true },
                 { name: 'Users', value: memberCount, inline: true },
                 { name: 'Commands ran', value: client.commandsRan, inline: true },
-                { name: 'Prefix', value: prefix, inline: true }
+                { name: 'Prefix', value: process.env.prefix, inline: true }
             );
         message.channel.send(embed);
 	},

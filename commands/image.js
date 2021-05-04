@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 const gis = require('g-i-s');
-const { prefix } = require('../config.json');
 // g-i-s is an awesome library!
 module.exports = {
 	name: 'image',
@@ -43,7 +42,7 @@ module.exports = {
                 if (collected.array()[0].content.toLowerCase() === 'n') x++
                 else if (collected.array()[0].content.toLowerCase() === 'b' && x > 0) x--
                 // ends the collector if user executed another command
-                else if (collected.array()[0].content.toLowerCase().startsWith(prefix)) return
+                else if (collected.array()[0].content.toLowerCase().startsWith(process.env.prefix)) return
                 else continue;
                 collected.array()[0].delete();
                 imageMessage.edit(embed.setImage(results[x].url).setFooter(`Page ${x+1} - Navigate with b/n`));

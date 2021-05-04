@@ -1,17 +1,16 @@
 const { Collection } = require('discord.js');
 const chalk = require('chalk');
 const functions = require('../modules/functions.js');
-const { prefix, ownerID } = require('../config.json');
 
 // this is pretty much the meat of this entire bot. complete command handler, cooldowns, aliases, toggles, error handler, you name it.
 
 module.exports = {
     name: 'message',
     async execute(message, client) {
-        if (!message.content.toLowerCase().startsWith(prefix) || message.author.bot) return;
+        if (!message.content.toLowerCase().startsWith(process.env.prefix) || message.author.bot) return;
 
         // this removes the prefix, seperates the command and declares the arguments
-        const args = message.content.slice(prefix.length).trim().split(/ +/);
+        const args = message.content.slice(process.env.prefix.length).trim().split(/ +/);
         const commandName = args.shift().toLowerCase();
 
         // searches command in collection, includes aliases
@@ -36,7 +35,7 @@ module.exports = {
         const cooldownAmount = (command.cooldown || 5) * 1000;
 
         // just checks if message author has executed command before cooldown runs out and acts accordingly
-        if (timestamps.has(message.author.id) && message.author.id !== ownerID) {
+        if (timestamps.has(message.author.id) && message.author.id !== process.env.ownerID) {
             const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
             if (Date.now() < expirationTime) {
                 return message.react('⏱️')
@@ -58,7 +57,7 @@ module.exports = {
         catch (error) {
             console.log(chalk.red(`[main] An error has occured in '${command.name} ${args.join(' ')}'!`));
             console.log(chalk.redBright(error.stack));
-            message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${ownerID}> if this issue persists!`, '#FF0000'));
+            message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${process.env.ownerID}> if this issue persists!`, '#FF0000'));
             message.channel.stopTyping();
         }
     }

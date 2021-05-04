@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const chalk = require('chalk');
-const { token } = require('./config.json');
+require('dotenv').config()
 
 const client = new Discord.Client();
 console.log(chalk.grey('[main] Initialized client.'));
@@ -39,4 +39,4 @@ process.on('unhandledRejection', error => {
 	console.error(chalk.redBright('[----]', error));
 });
 
-client.login(token);
+client.login(process.env.token);

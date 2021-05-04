@@ -10,9 +10,9 @@ module.exports = {
 	args: true,
     aliases: ['yt', 'ytube'],
 	execute(client, message, args, functions) {
-		if (!config.youtubeAPIKey) return console.log(chalk.red('[cmnd] Please input your YouTube API key in the config.'))
+		if (!process.env.youtubeAPIKey) return console.log(chalk.red('[cmnd] Please input your YouTube API key in the config.'))
 		const youtube = new youtubeNode();
-		youtube.setKey(config.youtubeAPIKey);
+		youtube.setKey(process.env.youtubeAPIKey);
 		youtube.search(args.join(' '), 5, (error, result) => {
 			const video = result.items.find(item => item.id.kind === 'youtube#video');
 			if (!video) {
