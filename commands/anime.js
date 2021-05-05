@@ -24,7 +24,7 @@ module.exports = {
                 {name: 'Studio:', value: anime.studios.find(studio => studio.isAnimationStudio)?.name || 'unknown', inline: true},
                 {name: 'Source:', value: anime.source, inline: true},
             ],
-            description: `${anime.description?.split(' ').splice(0,32).join(' ') || 'No description'}...`,
+            description: `${anime.description?.replace(/<[^>]*>/gm, '').split(' ').splice(0,32).join(' ') || 'No description'}...`,
             footer: {
                 text: `Score: ${anime.meanScore || '--'}/100`,
             },
