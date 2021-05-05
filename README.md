@@ -7,11 +7,14 @@
 This is just a repository to store and track development of my personal discord bot. You can do with this code what you want, but if you're gonna publish something based off of it (which is understandably very unlikely), please be sure to credit me! (:
 
 ## Usage example
-Simply download the latest release (usually named ``altair.zip``), enter your bot token into ``config.js``, make necessary adjustments and you're set!
-To use the `sauce.js` command you also need to supply an API key for saucenao.
-Now you can add your own commands and events in the respective folders.
-I recommend orienting yourself after ``template.js_temp`` in both cases, as it demonstrates how a module is usually structured.
-
+Simply download the latest release (usually named ``altair.zip``) or clone this repository, then either create a ``.env`` file or set your environment variables as follows:
+```
+token = <your bot token>
+ownerID = <id of your discord account>
+prefix = a!
+saucenaoAPIKey = 
+youtubeAPIKey = 
+```
 ## Issues
 * Typing status is a bit wonky, after commands that execute very quickly Altair doesn't stop typing for about 5 seconds, this is probably related to rate-limits.
 ## Meta
