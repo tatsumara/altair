@@ -15,6 +15,14 @@ prefix = a!
 saucenaoAPIKey = 
 youtubeAPIKey = 
 ```
+## TODO
+* Server specifig config
+* Automatic Docker image building
+* Rework youtube command with node-ytsr
+* Command categories
+* Voice support/music player
+* Getting the additional discord.js packages to work
+* Better logging solution
 ## Issues
 * Typing status is a bit wonky, after commands that execute very quickly Altair doesn't stop typing for about 5 seconds, this is probably related to rate-limits.
 ## Meta
