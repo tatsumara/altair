@@ -1,5 +1,4 @@
 const youtubeNode = require('youtube-node');
-const config = require('../config.json');
 const chalk = require('chalk');
 
 module.exports = {
