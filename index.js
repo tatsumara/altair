@@ -39,4 +39,9 @@ process.on('unhandledRejection', error => {
 	console.error(chalk.redBright('[----]', error));
 });
 
+process.on('uncaughtException', error => {
+	console.error(chalk.red('[main] Uncaught exception:'));
+	console.error(chalk.redBright('[----]', error));
+})
+
 client.login(process.env.token);
