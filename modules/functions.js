@@ -13,7 +13,7 @@ module.exports = {
 	cleanEval(text) {
 		// i honestly have no idea what exactly this does
 		if (typeof text === 'string') {
-			return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+			return text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203));
 		} else {
 			return text;
 		}
@@ -25,9 +25,10 @@ module.exports = {
 		seconds = seconds % 60;
 		hour = Math.floor(minute / 60);
 		minute = minute % 60;
+		// eslint-disable-next-line prefer-const
 		day = Math.floor(hour / 24);
 		hour = hour % 24;
-		const duration = `${day}:${hour.toLocaleString('en-US', {minimumIntegerDigits: 2})}:${minute.toLocaleString('en-US', {minimumIntegerDigits: 2})}:${seconds.toLocaleString('en-US', {minimumIntegerDigits: 2})}`
+		const duration = `${day}:${hour.toLocaleString('en-US', { minimumIntegerDigits: 2 })}:${minute.toLocaleString('en-US', { minimumIntegerDigits: 2 })}:${seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`;
 		return duration;
-	}
+	},
 };

@@ -3,7 +3,7 @@ module.exports = {
 	description: 'command description',
 	cooldown: '5',
 	args: true,
-    aliases: ['aliases'],
+	aliases: ['aliases'],
 	execute(client, message, args, functions) {
 
 	},

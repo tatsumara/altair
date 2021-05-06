@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const chalk = require('chalk');
-require('dotenv').config()
+require('dotenv').config();
 
 const client = new Discord.Client();
 console.log(chalk.grey('[main] Initialized client.'));
@@ -42,6 +42,6 @@ process.on('unhandledRejection', error => {
 process.on('uncaughtException', error => {
 	console.error(chalk.red('[main] Uncaught exception:'));
 	console.error(chalk.redBright('[----]', error));
-})
+});
 
 client.login(process.env.token);

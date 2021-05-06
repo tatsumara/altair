@@ -1,6 +1,6 @@
 module.exports = {
-    name: 'error',
-    execute(error) {
-        console.log(`[main] ${error}`);
-    }
-}
+	name: 'error',
+	execute(error) {
+		console.log(`[main] ${error}`);
+	},
+};

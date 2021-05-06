@@ -3,7 +3,7 @@ module.exports = {
 	description: 'Sends your or the mentioned users avatar.',
 	usage: 'avatar [user]',
 	cooldown: '5',
-    aliases: ['av', 'pfp'],
+	aliases: ['av', 'pfp'],
 	execute(client, message) {
 		let user = '';
 		if (message.mentions.members.first()) {
@@ -11,6 +11,6 @@ module.exports = {
 		} else {
 			user = message.author;
 		}
-        message.channel.send(user.avatarURL({ size: 2048, dynamic: true }));
+		message.channel.send(user.avatarURL({ size: 2048, dynamic: true }));
 	},
 };
