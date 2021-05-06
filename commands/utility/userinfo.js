@@ -3,11 +3,10 @@ module.exports = {
 	description: 'Shows info about a user.',
 	usage: 'userinfo <mention or id>',
 	cooldown: '5',
-	args: true,
 	guildOnly: true,
 	aliases: ['ui', 'uinfo', 'user'],
 	async execute(client, message, args, functions) {
-		const userID = args[0].replace(/<@!|>/g, '');
+		const userID = args[0]?.replace(/<@!|>/g, '') || message.author.id;
 		if (!userID.match('\\d{17,18}')) return message.channel.send(functions.simpleEmbed('Not a valid mention or ID!', '', '#FFFF00'));
 		let member = '';
 		try {
