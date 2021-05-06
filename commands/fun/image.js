@@ -44,7 +44,7 @@ module.exports = {
 				// ends the collector if user executed another command
 				else if (collected.array()[0].content.toLowerCase().startsWith(process.env.prefix)) return;
 				else continue;
-				collected.array()[0].delete();
+				if (message.channel.type !== 'dm') collected.array()[0].delete();
 				imageMessage.edit(embed.setImage(results[x].url).setFooter(`Page ${x + 1} - Navigate with b/n`));
 			}
 		}

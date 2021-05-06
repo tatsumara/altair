@@ -6,7 +6,7 @@ module.exports = {
 	aliases: ['av', 'pfp'],
 	execute(client, message) {
 		let user = '';
-		if (message.mentions.members.first()) {
+		if (message.mentions.members?.first() && message.channel.type !== 'dm') {
 			user = message.mentions.members.first().user;
 		} else {
 			user = message.author;

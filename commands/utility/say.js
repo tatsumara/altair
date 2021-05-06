@@ -6,6 +6,6 @@ module.exports = {
 	aliases: ['speak', 'echo'],
 	execute(client, message, args, functions) {
 		message.channel.send(args.join(' '));
-		message.delete();
+		if (message.channel.type !== 'dm') message.delete();
 	},
 };

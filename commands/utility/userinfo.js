@@ -4,6 +4,7 @@ module.exports = {
 	usage: 'userinfo <mention or id>',
 	cooldown: '5',
 	args: true,
+	guildOnly: true,
 	aliases: ['ui', 'uinfo', 'user'],
 	async execute(client, message, args, functions) {
 		const userID = args[0].replace(/<@!|>/g, '');

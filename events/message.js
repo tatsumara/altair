@@ -21,6 +21,10 @@ module.exports = {
 			return message.channel.send(functions.simpleEmbed('This command is currently disabled.', '', '#FF0000'));
 		}
 
+		if (command.guildOnly && message.channel.type === 'dm') {
+			return message.channel.send(functions.simpleEmbed('This command only works in servers!', '', '#FFFF00'));
+		}
+
 		if (command.args && !args.length) {
 			return message.channel.send(functions.simpleEmbed('Please provide at least one argument!', '', '#FFFF00'));
 		}
