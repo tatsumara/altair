@@ -9,8 +9,12 @@ module.exports = {
 	async execute(client, message, args, functions) {
 		const userID = args[0].replace(/<@!|>/g, '');
 		if (!userID.match('\\d{17,18}')) return message.channel.send(functions.simpleEmbed('Not a valid mention or ID!', '', '#FFFF00'));
-		const member = message.guild.member(await client.users.fetch(userID));
-		if (!member) return message.channel.send(functions.simpleEmbed('No user found!', 'This command can only look up users in the current server.'));
+		let member = '';
+		try {
+			member = await message.guild.members.fetch(userID);
+		} catch {
+			return message.channel.send(functions.simpleEmbed('No user found!', 'This command can only look up users in the current server.'));
+		}
 		const embed = {
 			color: '#0073E6',
 			title: `${member.user.tag}`,
