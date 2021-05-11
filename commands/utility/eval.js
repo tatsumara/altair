@@ -2,9 +2,6 @@ module.exports = {
 	name: 'eval',
 	owner: true,
 	async execute(client, message, args, functions) {
-		if (message.author.id !== process.env.ownerID) {
-			return message.channel.send(functions.simpleEmbed('You are not permitted to use this command.', '', '#FF0000'));
-		}
 		try {
 			let evaled = eval(args.join(' '));
 			if (typeof evaled !== 'string') {
