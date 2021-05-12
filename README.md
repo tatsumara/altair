@@ -18,7 +18,6 @@ youtubeAPIKey =
 ## TODO
 * Server specifig config
 * Automatic Docker image building
-* Rework youtube command with node-ytsr
 * ~~Command categories~~ make command categories visible in help command
 * Voice support/music player
 * Getting the additional discord.js packages to work

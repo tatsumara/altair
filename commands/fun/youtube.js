@@ -1,4 +1,4 @@
-const youtubeNode = require('youtube-node');
+const ytsr = require('ytsr');
 const chalk = require('chalk');
 
 module.exports = {
@@ -8,16 +8,8 @@ module.exports = {
 	cooldown: '15',
 	args: true,
 	aliases: ['yt', 'ytube'],
-	execute(client, message, args, functions) {
-		if (!process.env.youtubeAPIKey) return console.log(chalk.red('[cmnd] Please input your YouTube API key in the config.'));
-		const youtube = new youtubeNode();
-		youtube.setKey(process.env.youtubeAPIKey);
-		youtube.search(args.join(' '), 5, (error, result) => {
-			const video = result.items.find(item => item.id.kind === 'youtube#video');
-			if (!video) {
-				return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
-			}
-			message.channel.send(`https://www.youtube.com/watch?v=${video.id.videoId}`);
-		});
+	async execute(client, message, args, functions) {
+		const result = await ytsr(args.join(' '), { limit: 1 });
+		message.channel.send(result.items[0].url);
 	},
 };
