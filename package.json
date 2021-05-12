@@ -1,7 +1,7 @@
 {
   "name": "altair",
-  "version": "0.0.2",
-  "description": "Remake of my altair baseline template.",
+  "version": "0.6.0",
+  "description": "Altair discord bot",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
