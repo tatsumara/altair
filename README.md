@@ -12,8 +12,7 @@ Simply download the latest release (usually named ``altair.zip``) or clone this 
 token = <your bot token>
 ownerID = <id of your discord account>
 prefix = a!
-saucenaoAPIKey = 
-youtubeAPIKey = 
+saucenaoAPIKey =  
 ```
 ## TODO
 * Server specifig config
