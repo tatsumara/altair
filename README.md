@@ -13,6 +13,7 @@ token = <your bot token>
 ownerID = <id of your discord account>
 prefix = a!
 saucenaoAPIKey =  
+saucenaoAPIKey = 
 ```
 ## TODO
 * Server specifig config
