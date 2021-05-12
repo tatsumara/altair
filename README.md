@@ -13,7 +13,6 @@ token = <your bot token>
 ownerID = <id of your discord account>
 prefix = a!
 saucenaoAPIKey = 
-youtubeAPIKey = 
 ```
 ## TODO
 * Server specifig config
