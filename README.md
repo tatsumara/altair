@@ -7,7 +7,7 @@
 This is just a repository to store and track development of my personal discord bot. You can do with this code what you want, but if you're gonna publish something based off of it (which is understandably very unlikely), please be sure to credit me! (:
 
 ## Usage example
-Simply download the latest release (usually named ``altair.zip``) or clone this repository, then either create a ``.env`` file or set your environment variables as follows:
+Simply download the latest release (usually named ``altair.zip``) or clone this repository, install dependencies with ``npm install`` then either create a ``.env`` file or set your environment variables as follows:
 ```
 token = <your bot token>
 ownerID = <id of your discord account>
