@@ -10,6 +10,9 @@ module.exports = {
 	aliases: ['yt', 'ytube'],
 	async execute(client, message, args, functions) {
 		const result = await ytsr(args.join(' '), { limit: 1 });
+		if (!result.items[0]) {
+			return message.channel.send(functions.simpleEmbed('Nothing found!', '', ''));
+		}
 		message.channel.send(result.items[0].url);
 	},
 };
