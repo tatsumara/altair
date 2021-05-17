@@ -17,7 +17,7 @@ module.exports = {
 				{ name: 'Owner', value: await message.guild.members.fetch(message.guild.ownerID), inline: true },
 				{ name: 'Boosts', value: message.guild.premiumSubscriptionCount, inline: true },
 				{ name: 'Members', value: message.guild.memberCount, inline: true },
-				{ name: 'Features', value: message.guild.features.join(', ') || 'NONE' },
+				{ name: 'Features', value: message.guild.features.join(', ') || 'NONE', inline: true },
 				{ name: 'Roles', value: message.guild.roles.cache.array().join(' '), inline: true },
 			],
 		};
