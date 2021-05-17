@@ -18,7 +18,7 @@ module.exports = {
 			color: '#0073E6',
 			title: `${member.user.tag}`,
 			thumbnail: {
-				url: member.user.avatarURL(),
+				url: member.user.avatarURL({ size: 4096, dynamic: true }),
 			},
 			fields: [
 				{ name: 'ID', value: member.id, inline: true },
