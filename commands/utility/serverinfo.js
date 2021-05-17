@@ -4,7 +4,7 @@ module.exports = {
 	cooldown: '5',
 	guildOnly: true,
 	aliases: ['si', 'sinfo', 'server'],
-	execute(client, message) {
+	async execute(client, message) {
 		const embed = {
 			color: '#0073E6',
 			title: `${message.guild.name}`,
@@ -14,7 +14,7 @@ module.exports = {
 			fields: [
 				{ name: 'ID', value: message.guild.id, inline: true },
 				{ name: 'Created at', value: message.guild.createdAt.toDateString(), inline: true },
-				{ name: 'Owner', value: message.guild.owner, inline: true },
+				{ name: 'Owner', value: await message.guild.members.fetch(message.guild.ownerID), inline: true },
 				{ name: 'Boosts', value: message.guild.premiumSubscriptionCount, inline: true },
 				{ name: 'Members', value: message.guild.memberCount, inline: true },
 				{ name: 'Features', value: message.guild.features.join(', ') || 'NONE' },
