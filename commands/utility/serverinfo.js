@@ -1,5 +1,5 @@
 module.exports = {
-	name: 'server',
+	name: 'serverinfo',
 	description: 'Shows info about the current server.',
 	cooldown: '5',
 	guildOnly: true,
