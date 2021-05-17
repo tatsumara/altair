@@ -12,7 +12,7 @@ module.exports = {
 				url: message.guild.iconURL({ size: 4096, dynamic: true }),
 			},
 			fields: [
-				{ name: 'ID', value: message.guild.id, inline: true },
+				{ name: 'ID', value: message.guild.members.fetch(message.guild.ownerID), inline: true },
 				{ name: 'Created at', value: message.guild.createdAt.toDateString(), inline: true },
 				{ name: 'Owner', value: await message.guild.members.fetch(message.guild.ownerID), inline: true },
 				{ name: 'Boosts', value: message.guild.premiumSubscriptionCount, inline: true },
