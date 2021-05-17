@@ -24,7 +24,7 @@ module.exports = {
 				{ name: 'ID', value: member.id, inline: true },
 				{ name: 'Created at', value: member.user.createdAt.toDateString(), inline: true },
 				{ name: 'Joined at', value: member.joinedAt.toDateString(), inline: true },
-				{ name: 'Roles', value: member.roles.cache.array().toString(), inline: true },
+				{ name: 'Roles', value: member.roles.cache.array().join(' '), inline: true },
 			],
 		};
 		message.channel.send({ embed: embed });
