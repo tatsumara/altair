@@ -32,7 +32,6 @@ module.exports = {
 		if (command.args && !args.length) {
 			return message.channel.send(functions.simpleEmbed('Please provide at least one argument!', '', '#FFFF00'));
 		}
-		message.channel.startTyping();
 		// a collection inside of a collection??? i know i know, i don't know
 		if (!client.cooldowns.has(command.name)) {
 			client.cooldowns.set(command.name, new Collection());
@@ -56,15 +55,16 @@ module.exports = {
 		client.commandsRan++;
 
 		// this is the main bit that actually executes the command and catches any errors (i might add more info to the console.log())
+		message.channel.startTyping();
 		console.log(chalk.yellow(`[cmnd] ${message.author.tag} ran '${command.name} ${args.join(' ')}'`));
 		try {
 			await command.execute(client, message, args, functions);
-			message.channel.stopTyping();
+			message.channel.stopTyping(true);
 		} catch (error) {
 			console.log(chalk.red(`[main] An error has occured in '${command.name} ${args.join(' ')}'!`));
 			console.log(chalk.redBright(error.stack));
 			message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${process.env.ownerID}> if this issue persists!`, '#FF0000'));
-			message.channel.stopTyping();
+			message.channel.stopTyping(true);
 		}
 	},
 };
