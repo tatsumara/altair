@@ -15,10 +15,7 @@ module.exports = {
 		if (!message.channel.nsfw) {
 			safe = '&safe=active';
 		}
-		gis({ searchTerm: query, queryStringAddition: safe }, logResults);
-
-		// i dislike using callback functions but i don't understand enough to js to use the g-i-s library without
-		async function logResults(error, results) {
+		gis({ searchTerm: query, queryStringAddition: safe }, async (error, results) => {
 			if (!results[0]) {
 				return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
 			}
@@ -47,7 +44,6 @@ module.exports = {
 				if (message.channel.type !== 'dm') collected.array()[0].delete();
 				imageMessage.edit(embed.setImage(results[x].url).setFooter(`Page ${x + 1} - Navigate with b/n`));
 			}
-		}
-
+		});
 	},
 };
