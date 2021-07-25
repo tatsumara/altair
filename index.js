@@ -3,7 +3,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 require('dotenv').config();
 
-const client = new Discord.Client();
+const client = new Discord.Client({ retryLimit: 3 });
 console.log(chalk.grey('[main] Initialized client.'));
 
 // cooldown collection must be defined this early or message.js wouldn't have access to it
