@@ -39,7 +39,7 @@ module.exports = {
 			thumbnail: {
 				url: result.header.thumbnail,
 			},
-			description: `Title: ${result.data.title || 'Unknown'}\n Author: ${result.data.author_name || result.data.member_name}`,
+			description: `Title: ${result.data.title || 'Unknown'}\n Author: ${result.data.author_name || result.data.member_name || result.data.creator}`,
 			footer: {
 				text: `Confidence: ${result.header.similarity}%`,
 			},
