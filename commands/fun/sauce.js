@@ -1,4 +1,4 @@
-const sagiri = require('sagiri');
+const got = require('got');
 const chalk = require('chalk');
 // saucenao is really cool but holy shit its api sucks (thankfully this npm module is good)
 module.exports = {
@@ -21,14 +21,9 @@ module.exports = {
 			if (found) image = found.attachments.first().url;
 			if (!image) return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '#FFFF00'));
 		}
-
-		const sagiriClient = sagiri(process.env.saucenaoAPIKey);
-		const resultList = await sagiriClient(image);
-		const results = resultList.filter(result => {
-			if (result.similarity > 50.0 && result.authorName !== null) return true;
-			return false;
-		});
-		if (!results[0]) {
+		const { body } = await got(`https://saucenao.com/search.php?api_key=${process.env.saucenaoAPIKey}&output_type=2&db=999&numres=10&url=${encodeURIComponent(image)}`, { responseType: 'json' });
+		const result = body.results[0];
+		if (!result || result.header.similarity < 50.0) {
 			const failEmbed = {
 				title: 'Nothing found!',
 				thumbnail: {
@@ -40,13 +35,13 @@ module.exports = {
 		const embed = {
 			color: '#0073E6',
 			title: 'Source found!',
-			url: results[0].url,
+			url: result.data.source || result.data.ext_urls[0],
 			thumbnail: {
-				url: results[0].thumbnail,
+				url: result.header.thumbnail,
 			},
-			description: `Author: ${results[0].authorName}\nSite: ${results[0].site}`,
+			description: `Title: ${result.data.title || 'Unknown'}\n Author: ${result.data.author_name || result.data.member_name}`,
 			footer: {
-				text: `Confidence: ${results[0].similarity}%`,
+				text: `Confidence: ${result.header.similarity}%`,
 			},
 		};
 		message.channel.send({ embed: embed });
