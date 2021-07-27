@@ -27,7 +27,7 @@ module.exports = {
 			title: 'Nothing found!',
 		};
 
-		const { body } = await got(`https://saucenao.com/search.php?api_key=${process.env.saucenaoAPIKey}&output_type=2&db=999&numres=10&url=${encodeURIComponent(image)}`, { responseType: 'json' });
+		const { body } = await got(`https://saucenao.com/search.php?api_key=${process.env.saucenaoAPIKey}&output_type=2&db=999&numres=1&url=${encodeURIComponent(image)}`, { responseType: 'json' });
 		if (!body.results) return message.channel.send({ embed: failEmbed });
 		const result = saucenaoParser(body.results[0]);
 
