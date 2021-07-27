@@ -1,5 +1,6 @@
 module.exports = (result) => {
-	const author = result.data.author_name || result.data.member_name || result.data.creator || result.data.artist || result.data.author || 'Unknown';
+	console.log(result);
+	const author = result.data.author_name || result.data.member_name || result.data.creator || result.data.artist || result.data.author || result.data.twitter_user_handle || 'Unknown';
 	const thumbnail = result.header.thumbnail;
 
 	let source;
