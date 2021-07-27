@@ -22,7 +22,7 @@ module.exports = {
 		}
 
 		if (command.guildOnly && message.channel.type === 'dm') {
-			return message.channel.send(functions.simpleEmbed('This command only works in servers!', '', '#FFFF00'));
+			return message.channel.send(functions.simpleEmbed('This command only works in servers!', '', '#FFA500'));
 		}
 
 		if (command.owner && message.author.id !== process.env.ownerID) {
@@ -30,7 +30,7 @@ module.exports = {
 		}
 
 		if (command.args && !args.length) {
-			return message.channel.send(functions.simpleEmbed('Please provide at least one argument!', '', '#FFFF00'));
+			return message.channel.send(functions.simpleEmbed('Please provide at least one argument!', '', '#FFA500'));
 		}
 		// a collection inside of a collection??? i know i know, i don't know
 		if (!client.cooldowns.has(command.name)) {

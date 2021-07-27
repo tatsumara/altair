@@ -9,7 +9,7 @@ module.exports = {
 	aliases: ['def', 'define'],
 	async execute(client, message, args, functions) {
 		if (args.length > 1) {
-			return message.channel.send(functions.simpleEmbed('Please only run this command with one word.', '', '#FFFF00'));
+			return message.channel.send(functions.simpleEmbed('Please only run this command with one word.', '', '#FFA500'));
 		}
 
 		try {

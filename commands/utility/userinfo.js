@@ -7,7 +7,7 @@ module.exports = {
 	aliases: ['ui', 'uinfo', 'user'],
 	async execute(client, message, args, functions) {
 		const userID = args[0]?.replace(/<@!|>/g, '') || message.author.id;
-		if (!userID.match('\\d{17,18}')) return message.channel.send(functions.simpleEmbed('Not a valid mention or ID!', '', '#FFFF00'));
+		if (!userID.match('\\d{17,18}')) return message.channel.send(functions.simpleEmbed('Not a valid mention or ID!', '', '#FFA500'));
 		let member = '';
 		try {
 			member = await message.guild.members.fetch(userID);
