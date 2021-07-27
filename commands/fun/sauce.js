@@ -1,5 +1,6 @@
 const got = require('got');
 const chalk = require('chalk');
+const saucenaoParser = require('../../modules/saucenaoParser.js');
 // saucenao is really cool but holy shit its api sucks (thankfully this npm module is good)
 module.exports = {
 	name: 'source',
@@ -19,32 +20,32 @@ module.exports = {
 			const messages = await message.channel.messages.fetch({ limit: 15 });
 			const found = messages.find(msg => msg.attachments.first());
 			if (found) image = found.attachments.first().url;
-			if (!image) return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '#FFFF00'));
+			if (!image) return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '#FFA500'));
 		}
+
+		const failEmbed = {
+			title: 'Nothing found!',
+		};
+
 		const { body } = await got(`https://saucenao.com/search.php?api_key=${process.env.saucenaoAPIKey}&output_type=2&db=999&numres=10&url=${encodeURIComponent(image)}`, { responseType: 'json' });
-		const result = body.results[0];
-		if (!result || result.header.similarity < 50.0) {
-			const failEmbed = {
-				title: 'Nothing found!',
-				thumbnail: {
-					url: image,
-				},
-			};
+		if (!body.results) return message.channel.send({ embed: failEmbed });
+		const result = saucenaoParser(body.results[0]);
+
+		if (result.confidence < 40.0) {
 			return message.channel.send({ embed: failEmbed });
 		}
 		const embed = {
-			color: '#0073E6',
-			title: 'Source found!',
-			url: result.data.source || result.data.ext_urls[0],
+			color: result.color,
+			title: result.embedTitle,
+			url: result.source,
 			thumbnail: {
-				url: result.header.thumbnail,
+				url: result.thumbnail,
 			},
-			description: `Title: ${result.data.title || 'Unknown'}\n Author: ${result.data.author_name || result.data.member_name || result.data.creator}`,
+			description: `Title: ${result.title}\n Author: ${result.author}`,
 			footer: {
-				text: `Confidence: ${result.header.similarity}%`,
+				text: `Confidence: ${result.confidence}%`,
 			},
 		};
 		message.channel.send({ embed: embed });
-
 	},
 };
