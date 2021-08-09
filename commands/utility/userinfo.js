@@ -12,7 +12,7 @@ module.exports = {
 		try {
 			member = await message.guild.members.fetch(userID);
 		} catch {
-			return message.channel.send(functions.simpleEmbed('No user found!', 'This command can only look up users in the current server.'));
+			return message.channel.send(functions.simpleEmbed('No user found!', 'This command can only look up users in the current server.', '#FFA500'));
 		}
 		const embed = {
 			color: '#0073E6',
@@ -21,12 +21,11 @@ module.exports = {
 				url: member.user.avatarURL({ size: 4096, dynamic: true }),
 			},
 			fields: [
-				{ name: 'ID', value: member.id, inline: true },
+				{ name: 'ID', value: member.id.toString(), inline: true },
 				{ name: 'Created at', value: member.user.createdAt.toDateString(), inline: true },
 				{ name: 'Joined at', value: member.joinedAt.toDateString(), inline: true },
-				{ name: 'Roles', value: member.roles.cache.array().join(' '), inline: true },
 			],
 		};
-		message.channel.send({ embed: embed });
+		message.channel.send({ embeds: [embed] });
 	},
 };
