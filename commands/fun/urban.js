@@ -8,7 +8,6 @@ module.exports = {
 	args: true,
 	aliases: ['urb'],
 	execute(client, message, args, functions) {
-
 		const term = encodeURIComponent(args.join(' '));
 		got(`http://api.urbandictionary.com/v0/define?term=${term}`).then(res =>{
 			const result = JSON.parse(res.body);
@@ -21,7 +20,7 @@ module.exports = {
 				.setTitle(`UrbanDictionary: "${args.join(' ')}"`)
 				.setColor('#0073E6')
 				.setDescription(result.list[0].definition.replace(/\[/g, '').replace(/\]/g, '') + '\n');
-			message.channel.send(embed);
+			message.channel.send({ embeds: [embed] });
 		});
 
 	},

@@ -5,7 +5,7 @@ const functions = require('../modules/functions.js');
 // this is pretty much the meat of this entire bot. complete command handler, cooldowns, aliases, toggles, error handler, you name it.
 
 module.exports = {
-	name: 'message',
+	name: 'messageCreate',
 	async execute(message, client) {
 		if (!message.content.toLowerCase().startsWith(process.env.prefix) || message.author.bot) return;
 
@@ -25,7 +25,7 @@ module.exports = {
 			return message.channel.send(functions.simpleEmbed('This command only works in servers!', '', '#FFA500'));
 		}
 
-		if (command.owner && message.author.id !== process.env.ownerID) {
+		if (command.owner && message.author.id !== process.env.ownerId) {
 			return message.channel.send(functions.simpleEmbed('You are not permitted to use this command.', '', '#FF0000'));
 		}
 
@@ -42,7 +42,7 @@ module.exports = {
 		const cooldownAmount = (command.cooldown || 5) * 1000;
 
 		// just checks if message author has executed command before cooldown runs out and acts accordingly
-		if (timestamps.has(message.author.id) && message.author.id !== process.env.ownerID) {
+		if (timestamps.has(message.author.id) && message.author.id !== process.env.ownerId) {
 			const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 			if (Date.now() < expirationTime) {
 				return message.react('⏱️');
@@ -55,16 +55,14 @@ module.exports = {
 		client.commandsRan++;
 
 		// this is the main bit that actually executes the command and catches any errors (i might add more info to the console.log())
-		message.channel.startTyping();
+		message.channel.sendTyping();
 		console.log(chalk.yellow(`[cmnd] ${message.author.tag} ran '${command.name} ${args.join(' ')}'`));
 		try {
 			await command.execute(client, message, args, functions);
-			message.channel.stopTyping(true);
 		} catch (error) {
 			console.log(chalk.red(`[main] An error has occured in '${command.name} ${args.join(' ')}'!`));
 			console.log(chalk.redBright(error.stack));
-			message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${process.env.ownerID}> if this issue persists!`, '#FF0000'));
-			message.channel.stopTyping(true);
+			message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${process.env.ownerId}> if this issue persists!`, '#FF0000'));
 		}
 	},
 };

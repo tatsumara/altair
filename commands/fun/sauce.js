@@ -28,11 +28,11 @@ module.exports = {
 		};
 
 		const { body } = await got(`https://saucenao.com/search.php?api_key=${process.env.saucenaoAPIKey}&output_type=2&db=999&numres=1&url=${encodeURIComponent(image)}`, { responseType: 'json' });
-		if (!body.results) return message.channel.send({ embed: failEmbed });
+		if (!body.results) return message.channel.send({ embeds: [failEmbed] });
 		const result = saucenaoParser(body.results[0]);
 
 		if (result.confidence < 40.0) {
-			return message.channel.send({ embed: failEmbed });
+			return message.channel.send({ embeds: [failEmbed] });
 		}
 		const embed = {
 			color: result.color,
@@ -46,6 +46,6 @@ module.exports = {
 				text: `Confidence: ${result.confidence}%`,
 			},
 		};
-		message.channel.send({ embed: embed });
+		message.channel.send({ embeds: [embed] });
 	},
 };

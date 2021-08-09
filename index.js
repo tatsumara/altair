@@ -1,13 +1,25 @@
-const Discord = require('discord.js');
+const { Client, Collection, Intents } = require('discord.js');
 const fs = require('fs');
 const chalk = require('chalk');
 require('dotenv').config();
 
-const client = new Discord.Client({ retryLimit: 3 });
+const intents = [
+	Intents.FLAGS.GUILDS,
+	Intents.FLAGS.GUILD_MEMBERS,
+	Intents.FLAGS.GUILD_MESSAGES,
+	Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+	Intents.FLAGS.DIRECT_MESSAGES,
+];
+
+const partials = [
+	'CHANNEL',
+];
+
+const client = new Client({ retryLimit: 3, intents: intents, partials: partials });
 console.log(chalk.grey('[main] Initialized client.'));
 
 // cooldown collection must be defined this early or message.js wouldn't have access to it
-client.cooldowns = new Discord.Collection();
+client.cooldowns = new Collection();
 
 // command counter, because why not
 client.commandsRan = 0;
@@ -26,7 +38,7 @@ for (const file of eventFiles) {
 console.log(chalk.grey(`[evnt] Registered ${eventFiles.length} event listeners.`));
 
 // builds the command collection to be used in ./events/message.js
-client.commands = new Discord.Collection();
+client.commands = new Collection();
 
 const commandFolders = fs.readdirSync('./commands');
 

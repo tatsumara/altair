@@ -14,7 +14,7 @@ module.exports = {
 			fields: [
 				{ name: 'ID', value: message.guild.id, inline: true },
 				{ name: 'Created at', value: message.guild.createdAt.toDateString(), inline: true },
-				{ name: 'Owner', value: await message.guild.members.fetch(message.guild.ownerID), inline: true },
+				{ name: 'Owner', value: await message.guild.members.fetch(message.guild.ownerId), inline: true },
 				{ name: 'Boosts', value: message.guild.premiumSubscriptionCount, inline: true },
 				{ name: 'Members', value: message.guild.memberCount, inline: true },
 				{ name: 'Features', value: message.guild.features.join(', ') || 'NONE', inline: true },

@@ -32,6 +32,6 @@ module.exports = {
 				url: anime.coverImage.large,
 			},
 		};
-		message.channel.send({ embed: embed });
+		message.channel.send({ embeds: [embed] });
 	},
 };

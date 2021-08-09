@@ -8,7 +8,7 @@ module.exports = {
 			.setDescription(desc)
 			.setColor(color)
 			.setImage(image);
-		return embed;
+		return { embeds: [embed] };
 	},
 	cleanEval(text) {
 		// i honestly have no idea what exactly this does

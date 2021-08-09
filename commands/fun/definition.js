@@ -24,7 +24,7 @@ module.exports = {
 						);
 					});
 				});
-				message.channel.send(embed);
+				message.channel.send({ embeds: [embed] });
 			});
 		} catch {
 			message.channel.send(functions.simpleEmbed('Nothing found!', ''));

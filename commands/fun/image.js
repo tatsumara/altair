@@ -28,21 +28,21 @@ module.exports = {
 				.setColor('#0073E6')
 				.setImage(results[x].url)
 				.setFooter(`Page ${x + 1} - Navigate with b/n \nConfused? do 'help image'`);
-			const imageMessage = await message.channel.send(embed);
+			const imageMessage = await message.channel.send({ embeds: [embed] });
 			const expiration = Date.now() + 60000;
 			const filter = m => m.author.id === message.author.id;
 
 			// async/await is actually super helpful, i should use it more
 			while (Date.now() < expiration) {
-				const collected = await imageMessage.channel.awaitMessages(filter, { max: 1, time: 60000, error: 'time' });
-				if (error || collected.array().length === 0) return;
-				if (collected.array()[0].content.toLowerCase() === 'n') x++;
-				else if (collected.array()[0].content.toLowerCase() === 'b' && x > 0) x--;
+				const collected = await imageMessage.channel.awaitMessages({ filter: filter, max: 1, time: 60000, error: 'time' });
+				if (error || [collected.values()].length === 0) return;
+				if (collected.first().content.toLowerCase() === 'n') x++;
+				else if (collected.first().content.toLowerCase() === 'b' && x > 0) x--;
 				// ends the collector if user executed another command
-				else if (collected.array()[0].content.toLowerCase().startsWith(process.env.prefix)) return;
+				else if (collected.first().content.toLowerCase().startsWith(process.env.prefix)) return;
 				else continue;
-				if (message.channel.type !== 'dm') collected.array()[0].delete();
-				imageMessage.edit(embed.setImage(results[x].url).setFooter(`Page ${x + 1} - Navigate with b/n`));
+				if (message.channel.type !== 'dm') collected.first().delete();
+				imageMessage.edit({ embeds: [embed.setImage(results[x].url).setFooter(`Page ${x + 1} - Navigate with b/n`)] });
 			}
 		});
 	},
