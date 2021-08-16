@@ -49,13 +49,14 @@ module.exports = {
 			}
 		}
 
+		await message.channel.sendTyping();
+
 		timestamps.set(message.author.id, Date.now());
 		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 		client.commandsRan++;
 
 		// this is the main bit that actually executes the command and catches any errors (i might add more info to the console.log())
-		message.channel.sendTyping();
 		console.log(chalk.yellow(`[cmnd] ${message.author.tag} ran '${command.name} ${args.join(' ')}'`));
 		try {
 			await command.execute(client, message, args, functions);
