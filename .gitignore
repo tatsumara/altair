@@ -1,7 +1,5 @@
 # custom stuff
-config.json
 .eslintrc.json
-package-lock.json
 
 ### Node ###
 # Logs
