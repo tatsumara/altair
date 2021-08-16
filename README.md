@@ -1,13 +1,12 @@
 # Altair Discord Bot
-[![Version](https://img.shields.io/github/v/release/tatsumara/altair)](https://github.com/tatsumara/altair/releases/latest)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/tatsumara/altair/graphs/commit-activity)
-[![Author](https://img.shields.io/badge/Author-mara-purple.svg)](https://shields.io/)
+[![Author](https://img.shields.io/badge/Author-tatsumara-purple.svg)](https://shields.io/)
 
 This is just a repository to store and track development of my personal discord bot. You can do with this code what you want, but if you're gonna publish something based off of it (which is understandably very unlikely), please be sure to credit me! (:
 
 ## Usage example
-Simply download the latest release (usually named ``altair.zip``) or clone this repository, install dependencies with ``npm install`` then either create a ``.env`` file or set your environment variables as follows:
+Simply clone this repository, install dependencies with ``npm install`` then either create a ``.env`` file or set your environment variables as follows:
 ```
 token = <your bot token>
 ownerID = <id of your discord account>
