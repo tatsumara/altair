@@ -20,7 +20,7 @@ module.exports = {
 				if (!embed.description) return;
 				embeds.push(embed);
 			});
-			message.channel.send({ embeds: embeds });
+			message.channel.send({ embeds: embeds.slice(0, 5) });
 		});
 	},
 };
