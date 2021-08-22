@@ -13,8 +13,8 @@ module.exports = {
 		if (data.pageInfo.total === 0) return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
 		const anime = await anilist.media.anime(data.media[0].id);
 		const alternateSpellings = anime.title.english === null
-				? anime.title.native
-				: `${anime.title.english}, ${anime.title.native}`;
+			? anime.title.native
+			: `${anime.title.english}, ${anime.title.native}`;
 		const embed = {
 			color: anime.coverImage.color,
 			title: `[${anime.format}] ${anime.title.romaji} (${anime.seasonYear || 'TBA'})`,
