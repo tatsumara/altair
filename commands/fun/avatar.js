@@ -14,6 +14,6 @@ module.exports = {
 		} catch {
 			return message.channel.send(functions.simpleEmbed('No user found!', 'This command can only show the avatar of users in the current server.'));
 		}
-		message.channel.send(member.user.avatarURL({ size: 2048, dynamic: true }));
+		message.channel.send(member.user.displayAvatarURL({ size: 4096, dynamic: true }));
 	},
 };
