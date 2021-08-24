@@ -50,6 +50,7 @@ module.exports = {
 			while (Date.now() < expiration) {
 				await imageMessage.awaitMessageComponent({ filter, componentType: 'BUTTON', time: 60000 }).then(i => {
 					if (i.customId === 'next') x++;
+					else if (x === 0) return;
 					else if (i.customId === 'previous') x--;
 					imageMessage.edit({ embeds: [embed.setImage(results[x].url).setFooter(`Page ${x + 1}`)] });
 				}).catch(err => imageMessage.edit({ components: [disabledButtons] }));
