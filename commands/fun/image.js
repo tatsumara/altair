@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const gis = require('g-i-s');
 // g-i-s is an awesome library!
 module.exports = {
@@ -22,27 +22,37 @@ module.exports = {
 
 			let x = 0;
 			const embed = new MessageEmbed()
-				.setAuthor(message.author.tag, message.author.avatarURL())
 				.setTitle('Image Search Results:')
-				.setDescription(`*"${query}"*`)
+				.setDescription(`"${query}"`)
 				.setColor('#0073E6')
 				.setImage(results[x].url)
-				.setFooter(`Page ${x + 1} - Navigate with b/n \nConfused? do 'help image'`);
-			const imageMessage = await message.channel.send({ embeds: [embed] });
+				.setFooter(`Page ${x + 1}`);
+
+			const buttons = new MessageActionRow()
+				.addComponents(
+					new MessageButton({ label: 'Previous', customId: 'previous', style: 'SECONDARY' }),
+					new MessageButton({ label: 'Next', customId: 'next', style: 'SECONDARY' }),
+				);
+			const disabledButtons = new MessageActionRow()
+				.addComponents(
+					new MessageButton({ label: 'Previous', customId: 'previous', style: 'SECONDARY', disabled: true }),
+					new MessageButton({ label: 'Next', customId: 'next', style: 'SECONDARY', disabled: true }),
+				);
+
+			const imageMessage = await message.reply({ embeds: [embed], components: [buttons] });
 			const expiration = Date.now() + 60000;
-			const filter = m => m.author.id === message.author.id;
+			const filter = i => {
+				i.deferUpdate();
+				return i.user.id === message.author.id;
+			};
 
 			// async/await is actually super helpful, i should use it more
 			while (Date.now() < expiration) {
-				const collected = await imageMessage.channel.awaitMessages({ filter: filter, max: 1, time: 60000, error: 'time' });
-				if (error || [collected.values()].length === 0) return;
-				if (collected.first().content.toLowerCase() === 'n') x++;
-				else if (collected.first().content.toLowerCase() === 'b' && x > 0) x--;
-				// ends the collector if user executed another command
-				else if (collected.first().content.toLowerCase().startsWith(process.env.prefix)) return;
-				else continue;
-				if (message.channel.type !== 'dm') collected.first().delete();
-				imageMessage.edit({ embeds: [embed.setImage(results[x].url).setFooter(`Page ${x + 1} - Navigate with b/n`)] });
+				await imageMessage.awaitMessageComponent({ filter, componentType: 'BUTTON', time: 60000 }).then(i => {
+					if (i.customId === 'next') x++;
+					else if (i.customId === 'previous') x--;
+					imageMessage.edit({ embeds: [embed.setImage(results[x].url).setFooter(`Page ${x + 1}`)] });
+				}).catch(err => imageMessage.edit({ components: [disabledButtons] }));
 			}
 		});
 	},
