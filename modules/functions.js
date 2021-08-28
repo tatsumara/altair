@@ -5,7 +5,7 @@ module.exports = {
 	simpleEmbed(title, desc, color, image) {
 		const embed = new Discord.MessageEmbed()
 			.setTitle(title)
-			.setDescription(desc)
+			.setDescription(desc || '')
 			.setColor(color)
 			.setImage(image);
 		return { embeds: [embed] };
