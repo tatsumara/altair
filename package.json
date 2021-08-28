@@ -11,13 +11,12 @@
   "author": "mara",
   "license": "MIT",
   "dependencies": {
-    "anilist-node": "^1.7.0",
-    "chalk": "^4.1.0",
-    "discord.js": "^13.0.1",
-    "dotenv": "^8.2.0",
+    "anilist-node": "^1.9.1",
+    "chalk": "^4.1.2",
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
     "g-i-s": "^2.1.6",
     "got": "^11.8.2",
-    "nodemon": "^2.0.12",
-    "ytsr": "^3.5.0"
+    "ytsr": "^3.5.3"
   }
 }
