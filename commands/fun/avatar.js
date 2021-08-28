@@ -6,14 +6,11 @@ module.exports = {
 	guildOnly: true,
 	aliases: ['av', 'pfp'],
 	async execute(client, message, args, functions) {
-		const userID = args[0]?.replace(/<@!|>/g, '') || message.author.id;
-		if (!userID.match('\\d{17,18}')) return message.channel.send(functions.simpleEmbed('Not a valid mention or ID!', '', '#FFA500'));
-		let member = '';
-		try {
-			member = await message.guild.members.fetch(userID);
-		} catch {
-			return message.channel.send(functions.simpleEmbed('No user found!', 'This command can only show the avatar of users in the current server.'));
+		let member = message.mentions.users.first() || args[0]?.match(/\d{17,18}/) || message.author;
+		if (Array.isArray(member)) {
+			member = await client.users.cache.get(member[0]);
 		}
-		message.channel.send(member.user.displayAvatarURL({ size: 4096, dynamic: true }));
+		if (!member) return message.channel.send(functions.simpleEmbed('User not found or not a user!'));
+		message.channel.send(member.displayAvatarURL({ size: 4096, dynamic: true }));
 	},
 };
