@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:alpine
 
 # create directionary
 RUN mkdir -p /usr/src/altair
