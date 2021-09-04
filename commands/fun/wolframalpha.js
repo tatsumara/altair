@@ -12,15 +12,18 @@ module.exports = {
 			const pods = res.body.queryresult.pods;
 			if (!pods) return message.channel.send(functions.simpleEmbed('No result!', ''));
 
-			const embeds = [];
+			const embed = new MessageEmbed()
+				.setColor('#0073E6');
+
 			pods.forEach(pod => {
-				const embed = new MessageEmbed()
-					.setTitle(pod.title)
-					.setDescription(pod.subpods[0].plaintext);
-				if (!embed.description) return;
-				embeds.push(embed);
+				if (!pod.subpods[0].plaintext) return;
+				if (pod.title.includes('Result')) {
+					embed.addField(pod.title, pod.subpods[0].plaintext);
+					return;
+				}
+				embed.addField(pod.title, pod.subpods[0].plaintext, true);
 			});
-			message.channel.send({ embeds: embeds.slice(0, 5) });
+			message.reply({ embeds: [embed] });
 		});
 	},
 };
