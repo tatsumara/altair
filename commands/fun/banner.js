@@ -5,6 +5,7 @@ module.exports = {
 	description: 'Sends your or the mentioned users banner.',
 	usage: 'avatar [user]',
 	cooldown: '5',
+	disabled: true,
 	guildOnly: true,
 	async execute(client, message, args, functions) {
 		const b = new DiscordBanners(client);
