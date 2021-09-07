@@ -8,7 +8,7 @@ module.exports = {
 	args: true,
 	aliases: ['wolfram', 'walpha'],
 	execute(client, message, args, functions) {
-		got(`http://api.wolframalpha.com/v2/query?appid=${process.env.wolframAPIKey}&output=json&input=${encodeURIComponent(args.join(' '))}`, { responseType: 'json' }).then(res =>{
+		got(`http://api.wolframalpha.com/v2/query?appid=${process.env.WOLFRAM_API_KEY}&output=json&input=${encodeURIComponent(args.join(' '))}`, { responseType: 'json' }).then(res =>{
 			const pods = res.body.queryresult.pods;
 			if (!pods) return message.channel.send(functions.simpleEmbed('No result!', ''));
 

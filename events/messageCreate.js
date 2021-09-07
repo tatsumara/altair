@@ -7,10 +7,10 @@ const functions = require('../modules/functions.js');
 module.exports = {
 	name: 'messageCreate',
 	async execute(message, client) {
-		if (!message.content.toLowerCase().startsWith(process.env.prefix) || message.author.bot) return;
+		if (!message.content.toLowerCase().startsWith(process.env.PREFIX) || message.author.bot) return;
 
 		// this removes the prefix, seperates the command and declares the arguments
-		const args = message.content.slice(process.env.prefix.length).trim().split(/ +/);
+		const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/);
 		const commandName = args.shift().toLowerCase();
 
 		// searches command in collection, includes aliases
@@ -25,7 +25,7 @@ module.exports = {
 			return message.channel.send(functions.simpleEmbed('This command only works in servers!', '', '#FFA500'));
 		}
 
-		if (command.owner && message.author.id !== process.env.ownerId) {
+		if (command.owner && message.author.id !== process.env.OWNER_ID) {
 			return message.channel.send(functions.simpleEmbed('You are not permitted to use this command.', '', '#FF0000'));
 		}
 
@@ -42,7 +42,7 @@ module.exports = {
 		const cooldownAmount = (command.cooldown || 5) * 1000;
 
 		// just checks if message author has executed command before cooldown runs out and acts accordingly
-		if (timestamps.has(message.author.id) && message.author.id !== process.env.ownerId) {
+		if (timestamps.has(message.author.id) && message.author.id !== process.env.OWNER_ID) {
 			const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 			if (Date.now() < expirationTime) {
 				return message.react('⏱️');
@@ -63,7 +63,7 @@ module.exports = {
 		} catch (error) {
 			console.log(chalk.red(`[main] An error has occured in '${command.name} ${args.join(' ')}'!`));
 			console.log(chalk.redBright(error.stack));
-			message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${process.env.ownerId}> if this issue persists!`, '#FF0000'));
+			message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${process.env.OWNER_ID}> if this issue persists!`, '#FF0000'));
 		}
 	},
 };

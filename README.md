@@ -8,10 +8,11 @@ This is just a repository to store and track development of my personal discord 
 ## Usage example
 Simply clone this repository, install dependencies with ``npm install`` then either create a ``.env`` file or set your environment variables as follows:
 ```
-token = <your bot token>
-ownerID = <id of your discord account>
-prefix = a!
-saucenaoAPIKey =
+TOKEN = <your bot token>
+OWNER_ID = <id of your discord account>
+PREFIX = a!
+SAUCENAO_API_KEY = <>
+WOLFRAM_API_KEY = <>
 ```
 ## TODO
 * Server specifig config

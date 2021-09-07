@@ -9,7 +9,7 @@ module.exports = {
 	cooldown: '30',
 	aliases: ['sauce', 'saucenao'],
 	async execute(client, message, args, functions) {
-		if (!process.env.saucenaoAPIKey) return console.log(chalk.red('[cmnd] Please input your SauceNAO API key in the config.'));
+		if (!process.env.SAUCENAO_API_KEY) return console.log(chalk.red('[cmnd] Please input your SauceNAO API key in the config.'));
 		let image = '';
 		// with v13.0 of discord.js i'll also implement message reply handling
 		if (message.attachments.first()) {
@@ -27,7 +27,7 @@ module.exports = {
 			title: 'Nothing found!',
 		};
 
-		const { body } = await got(`https://saucenao.com/search.php?api_key=${process.env.saucenaoAPIKey}&output_type=2&db=999&numres=1&url=${encodeURIComponent(image)}`, { responseType: 'json' });
+		const { body } = await got(`https://saucenao.com/search.php?api_key=${process.env.SAUCENAO_API_KEY}&output_type=2&db=999&numres=1&url=${encodeURIComponent(image)}`, { responseType: 'json' });
 		if (!body.results) return message.channel.send({ embeds: [failEmbed] });
 		const result = saucenaoParser(body.results[0]);
 
