@@ -14,7 +14,7 @@ module.exports = {
 				name: 'evaled.rb',
 			}] });
 		} catch (err) {
-			message.channel.send(err, { code: 'js' });
+			message.channel.send(functions.simpleEmbed('', err.toString(), '#FF0000'));
 		}
 	},
 };
