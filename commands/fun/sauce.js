@@ -5,35 +5,27 @@ const saucenaoParser = require('../../modules/saucenaoParser.js');
 module.exports = {
 	name: 'source',
 	description: 'Finds the source of an image (artwork).',
-	usage: 'source [image link or attachment] (If used without arguments, the last recently sent image will be used.)',
+	usage: 'source [image link, attachment or message reply] ',
 	cooldown: '30',
 	aliases: ['sauce', 'saucenao'],
 	async execute(client, message, args, functions) {
 		if (!process.env.SAUCENAO_API_KEY) return console.log(chalk.red('[cmnd] Please input your SauceNAO API key in the config.'));
-		let image = '';
-		// with v13.0 of discord.js i'll also implement message reply handling
-		if (message.attachments.first()) {
-			image = message.attachments.first().url;
+		let msg = message;
+		if (message.type === 'REPLY') {
+			msg = await message.fetchReference();
+		}
+		let image;
+		if (msg.attachments.first()) {
+			image = msg.attachments.first().url;
 		} else if (args[0] && args[0].startsWith('http')) {
 			image = args[0];
-		} else {
-			const messages = await message.channel.messages.fetch({ limit: 15 });
-			const found = messages.find(msg => msg.attachments.first());
-			if (found) image = found.attachments.first().url;
-			if (!image) return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '#FFA500'));
 		}
-
-		const failEmbed = {
-			title: 'Nothing found!',
-		};
+		if (!image) return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '#FFA500'));
 
 		const { body } = await got(`https://saucenao.com/search.php?api_key=${process.env.SAUCENAO_API_KEY}&output_type=2&db=999&numres=1&url=${encodeURIComponent(image)}`, { responseType: 'json' });
-		if (!body.results) return message.channel.send({ embeds: [failEmbed] });
+		if (!body.results) return message.channel.send(functions.simpleEmbed('Nothing found!'));
 		const result = saucenaoParser(body.results[0]);
 
-		if (result.confidence < 40.0) {
-			return message.channel.send({ embeds: [failEmbed] });
-		}
 		const embed = {
 			color: result.color,
 			title: result.embedTitle,

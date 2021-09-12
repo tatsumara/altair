@@ -20,7 +20,10 @@ module.exports = (result) => {
 	const confidence = result.header.similarity;
 	let embedTitle = 'Source Found!';
 	let color = '#0073E6';
-	if (confidence < 75.0) {
+	if (confidence < 50.0) {
+		embedTitle = 'Source probably not found.';
+		color = '#FF0000';
+	} else if (confidence < 75.0) {
 		embedTitle = 'Source found?';
 		color = '#FFA500';
 	}
