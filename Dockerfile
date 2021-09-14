@@ -19,5 +19,5 @@ ARG LATEST_COMMIT="Unknown"
 ARG BUILD_DATE="Unknown"
 
 # set environment variables
-ENV LATEST_COMMIT=$latestCommit
-ENV BUILD_DATE=$buildDate
+ENV LATEST_COMMIT=$LATEST_COMMIT
+ENV BUILD_DATE=$BUILD_DATE
