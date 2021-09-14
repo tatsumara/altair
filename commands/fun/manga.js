@@ -9,12 +9,18 @@ module.exports = {
 	aliases: ['ma'],
 	async execute(client, message, args, functions) {
 		const anilist = new anilistNode();
-		const data = await anilist.searchEntry.manga(args.join(' '));
+		const filter = {};
+		if (!message.channel.nsfw) {
+			filter.isAdult = false;
+		}
+		const data = await anilist.searchEntry.manga(args.join(' '), filter);
 		if (data.pageInfo.total === 0) return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
+
 		const manga = await anilist.media.manga(data.media[0].id);
 		const alternateSpellings = manga.title.english === null
 			? manga.title.native
 			: `${manga.title.english}, ${manga.title.native}`;
+
 		const embed = {
 			color: manga.coverImage.color,
 			title: `[${manga.format}] ${manga.title.romaji}`,

@@ -9,12 +9,18 @@ module.exports = {
 	aliases: ['ani', 'anilist'],
 	async execute(client, message, args, functions) {
 		const anilist = new anilistNode();
-		const data = await anilist.searchEntry.anime(args.join(' '));
+		const filter = {};
+		if (!message.channel.nsfw) {
+			filter.isAdult = false;
+		}
+		const data = await anilist.searchEntry.anime(args.join(' '), filter);
 		if (data.pageInfo.total === 0) return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
+
 		const anime = await anilist.media.anime(data.media[0].id);
 		const alternateSpellings = anime.title.english === null
 			? anime.title.native
 			: `${anime.title.english}, ${anime.title.native}`;
+
 		const embed = {
 			color: anime.coverImage.color,
 			title: `[${anime.format}] ${anime.title.romaji} (${anime.seasonYear || 'TBA'})`,
