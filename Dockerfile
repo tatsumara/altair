@@ -1,17 +1,23 @@
 FROM node:alpine
 
-# create directionary
-RUN mkdir -p /usr/src/altair
+# create and set workdir
 WORKDIR /usr/src/altair
 
 # install dependencies 
-COPY package.json /usr/src/altair
+COPY package.json ./
 RUN npm install
 
 # copy bot to work dir
-COPY . /usr/src/altair
+COPY . ./
 
 # main command
 CMD ["node", "index.js"]
 
 LABEL author="tatsumara"
+
+ARG latestCommit="Unknown"
+ARG buildDate="Unknown"
+
+# set environment variables
+ENV LATEST_COMMIT=$latestCommit
+ENV BUILD_DATE=$buildDate
