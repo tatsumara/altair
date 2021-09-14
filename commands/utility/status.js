@@ -17,12 +17,12 @@ module.exports = {
 				{ name: 'Architecture', value: process.arch.toString(), inline: true },
 				{ name: 'Platform', value: process.platform.toString(), inline: true },
 				{ name: 'Memory usage', value: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100} mb`, inline: true },
-				{ name: 'Latest commit', value: process.env.LATEST_COMMIT || 'Unknown', inline: true },
-				{ name: 'Build date', value: process.env.BUILD_DATE || 'Unknown', inline: true },
 				{ name: 'Servers', value: client.guilds.cache.size.toString(), inline: true },
 				{ name: 'Users', value: memberCount.toString(), inline: true },
 				{ name: 'Commands ran', value: client.commandsRan.toString(), inline: true },
 				{ name: 'Prefix', value: process.env.PREFIX, inline: true },
+				{ name: 'Latest commit', value: process.env.LATEST_COMMIT || 'Unknown', inline: true },
+				{ name: 'Build date', value: process.env.BUILD_DATE || 'Unknown', inline: true },
 			);
 		message.channel.send({ embeds: [embed] });
 	},
