@@ -24,6 +24,7 @@ WOLFRAM_API_KEY = <>
 * Getting the additional discord.js packages to work
 ## Issues
 * Typing status is a bit wonky, after commands that execute very quickly Altair doesn't stop typing for about 5 seconds, this is probably related to rate-limits.
+* Not all images in the image command load, this can have a multitude of reasons and I only fixed svg files
 ## Meta
 mara#8977 on Discord
 
