@@ -1,5 +1,6 @@
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const gis = require('g-i-s');
+const isImageUrl = require('is-image-url');
 // g-i-s is an awesome library!
 module.exports = {
 	name: 'image',
@@ -9,7 +10,6 @@ module.exports = {
 	args: true,
 	aliases: ['im', 'img'],
 	execute(client, message, args, functions) {
-
 		const query = args.join(' ');
 		let safe = '';
 		if (!message.channel.nsfw) {
@@ -19,7 +19,7 @@ module.exports = {
 			if (!results[0]) {
 				return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
 			}
-
+			results = results.filter(image => !image.url.endsWith('.svg'));
 			let x = 0;
 			const embed = new MessageEmbed()
 				.setTitle('Image Search Results:')
