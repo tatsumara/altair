@@ -1,6 +1,5 @@
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const gis = require('g-i-s');
-const isImageUrl = require('is-image-url');
 // g-i-s is an awesome library!
 module.exports = {
 	name: 'image',
