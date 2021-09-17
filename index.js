@@ -62,4 +62,4 @@ process.on('uncaughtException', error => {
 	console.error(chalk.redBright('[----]', error));
 });
 
-client.login(process.env.TOKEN);
+client.login();

@@ -9,19 +9,20 @@ This is just a repository to store and track development of my personal discord 
 https://discord.com/oauth2/authorize?client_id=713237659064991805&scope=bot&permissions=8
 
 ## Usage example
-Simply clone this repository, install dependencies with ``npm install`` then either create a ``.env`` file or set your environment variables as follows:
+Simply clone this repository, install dependencies with ``npm install`` then either create a ``.env`` file with the following content or set your environment variables as follows:
 ```
-TOKEN = <your bot token>
+DISCORD_TOKEN = <your bot token>
 OWNER_ID = <id of your discord account>
 PREFIX = a!
 SAUCENAO_API_KEY = <>
 WOLFRAM_API_KEY = <>
 ```
 ## TODO
-* Server specifig config
+* Server specifig config/database implementation
 * ~~Command categories~~ make command categories visible in help command
 * Voice support/music player
 * Getting the additional discord.js packages to work
+* Paginate anime and manga commands
 ## Issues
 * Typing status is a bit wonky, after commands that execute very quickly Altair doesn't stop typing for about 5 seconds, this is probably related to rate-limits.
 * Not all images in the image command load, this can have a multitude of reasons and I only fixed svg files
