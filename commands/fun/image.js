@@ -16,7 +16,7 @@ module.exports = {
 		}
 		gis({ searchTerm: query, queryStringAddition: safe }, async (error, results) => {
 			if (!results[0]) {
-				return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
+				return message.channel.send(functions.simpleEmbed('Nothing found!'));
 			}
 			results = results.filter(image => !image.url.endsWith('.svg'));
 			let x = 0;

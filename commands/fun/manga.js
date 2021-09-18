@@ -14,7 +14,7 @@ module.exports = {
 			filter.isAdult = false;
 		}
 		const data = await anilist.searchEntry.manga(args.join(' '), filter);
-		if (data.pageInfo.total === 0) return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
+		if (data.pageInfo.total === 0) return message.channel.send(functions.simpleEmbed('Nothing found!'));
 
 		const manga = await anilist.media.manga(data.media[0].id);
 		const alternateSpellings = manga.title.english === null

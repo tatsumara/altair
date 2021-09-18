@@ -12,7 +12,7 @@ module.exports = {
 		if (!process.env.WOLFRAM_API_KEY) return console.log(chalk.red('[cmnd] Please input your WolframAlpha API key in the config.'));
 		got(`http://api.wolframalpha.com/v2/query?appid=${process.env.WOLFRAM_API_KEY}&output=json&input=${encodeURIComponent(args.join(' '))}`, { responseType: 'json' }).then(res =>{
 			const pods = res.body.queryresult.pods;
-			if (!pods) return message.channel.send(functions.simpleEmbed('No result!', ''));
+			if (!pods) return message.channel.send(functions.simpleEmbed('No result!'));
 
 			const embed = new MessageEmbed()
 				.setColor('#0073E6');

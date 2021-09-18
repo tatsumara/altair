@@ -13,7 +13,7 @@ module.exports = {
 			const result = JSON.parse(res.body);
 			// thankfully instead of responding with a 404 this api just sends back nothing, meaning i don't have to catch shit
 			if (!result.list[0]) {
-				return message.channel.send(functions.simpleEmbed('Nothing found!', ''));
+				return message.channel.send(functions.simpleEmbed('Nothing found!'));
 			}
 			// might add some more elements to the embed later
 			const embed = new MessageEmbed()
