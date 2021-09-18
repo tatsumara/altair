@@ -62,7 +62,7 @@ module.exports = {
 			await command.execute(client, message, args, functions);
 		} catch (error) {
 			console.log(chalk.red(`[main] An error has occured in '${command.name} ${args.join(' ')}'!`));
-			console.log(chalk.redBright(error.stack));
+			console.log(chalk.redBright(error.stack || error));
 			message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${process.env.OWNER_ID}> if this issue persists!`, '#FF0000'));
 		}
 	},
