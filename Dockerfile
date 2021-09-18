@@ -13,8 +13,6 @@ COPY . ./
 # main command
 CMD ["node", "index.js"]
 
-LABEL author="tatsumara"
-
 ARG LATEST_COMMIT="Unknown"
 ARG BUILD_DATE="Unknown"
 
