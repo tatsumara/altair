@@ -17,7 +17,7 @@
     "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
     "g-i-s": "^2.1.6",
-    "genius-lyrics-api": "^3.2.0",
+    "genius-lyrics": "^4.2.9",
     "got": "^11.8.2",
     "ytsr": "^3.5.3"
   }

@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const genius = require('genius-lyrics-api');
+const Genius = require('genius-lyrics');
 const chalk = require('chalk');
 
 module.exports = {
@@ -7,20 +7,21 @@ module.exports = {
 	description: 'Fetches lyrics to a song.',
 	usage: 'lyrics <song name>',
 	args: true,
+	disabled: true,
 	async execute(client, message, args, functions) {
 		if (!process.env.GENIUS_API_KEY) return console.log(chalk.red('[cmnd] Please input your WolframAlpha API key in the config.'));
-		const result = await genius.getSong({
-			apiKey: process.env.GENIUS_API_KEY,
-			title: args.join(' '),
-			artist: ' ',
-		});
-		if (!result) return message.channel.send(functions.simpleEmbed('Nothing found!'));
+		const geniusClient = new Genius.SongsClient();
+
+		const results = await geniusClient.search(args.join(' '));
+		if (!results[0]) return message.channel.send(functions.simpleEmbed('Nothing found!'));
+
+		const lyrics = await results[0].lyrics();
+
 		const embed = new MessageEmbed()
-			.setTitle(result.title)
-			.setURL(result.url)
-			.setDescription(result.lyrics.substring(0, 1021) + '...')
+			.setTitle(results[0].fullTitle)
+			.setURL(results[0].url)
 			.setColor('#0073E6')
-			.setThumbnail(result.albumArt);
+			.setDescription(lyrics);
 		return message.channel.send({ embeds: [embed] });
 	},
 };
