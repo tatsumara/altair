@@ -7,7 +7,6 @@ module.exports = {
 	description: 'Fetches lyrics to a song.',
 	usage: 'lyrics <song name>',
 	args: true,
-	disabled: true,
 	async execute(client, message, args, functions) {
 		const result = await getLyrics(args.join(' '));
 
