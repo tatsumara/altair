@@ -1,4 +1,4 @@
-# Altair Discord Bot
+# altair discord bot
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/tatsumara/altair/graphs/commit-activity)
 [![Author](https://img.shields.io/badge/Author-tatsumara-purple.svg)](https://shields.io/)
