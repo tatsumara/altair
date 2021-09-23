@@ -29,12 +29,12 @@ module.exports = (result) => {
 	}
 
 	return {
-		embedTitle: embedTitle,
-		color: color,
-		thumbnail: thumbnail,
-		title: title,
-		author: author,
-		source: source,
-		confidence: confidence,
+		embedTitle,
+		color,
+		thumbnail,
+		title,
+		author,
+		source,
+		confidence,
 	};
 };
