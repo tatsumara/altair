@@ -49,7 +49,18 @@ module.exports = {
 			}
 		}
 
-		await message.channel.sendTyping();
+		try {
+			await message.channel.sendTyping();
+			if (client.typingDisabled) {
+				client.typingDisabled = false;
+				console.log(chalk.grey('[main] Typing enabled.'));
+			}
+		} catch (err) {
+			if (!client.typingDisabled) {
+				client.typingDisabled = true;
+				console.log(chalk.grey('[main] Typing disabled.'));
+			}
+		}
 
 		timestamps.set(message.author.id, Date.now());
 		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
