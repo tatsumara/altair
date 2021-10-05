@@ -13,7 +13,6 @@
   "dependencies": {
     "anilist-node": "^1.10.0",
     "chalk": "^4.1.2",
-    "discord-banners": "^1.0.1",
     "discord.js": "^13.2.0",
     "dotenv": "^10.0.0",
     "g-i-s": "^2.1.6",
