@@ -10,12 +10,17 @@ const intents = [
 	Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
 	Intents.FLAGS.DIRECT_MESSAGES,
 ];
-
-const partials = [
-	'CHANNEL',
-];
-
-const client = new Client({ retryLimit: 3, intents: intents, partials: partials });
+const client = new Client({
+	retryLimit: 3,
+	intents: intents,
+	partials: ['CHANNEL'],
+	presence: {
+		activities: [{
+			type: 'WATCHING',
+			name: 'the quadrant.',
+		}],
+	},
+});
 console.log(chalk.grey('[main] Initialized client.'));
 
 // cooldown collection must be defined this early or message.js wouldn't have access to it
