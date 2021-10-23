@@ -17,8 +17,6 @@
     "dotenv": "^10.0.0",
     "g-i-s": "^2.1.6",
     "got": "^11.8.2",
-    "node-fetch": "^2.6.2",
-    "simple-genius-lyrics-scraper": "^1.0.2",
     "ytsr": "^3.5.3"
   }
 }
