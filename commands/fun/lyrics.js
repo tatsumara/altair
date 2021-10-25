@@ -6,6 +6,7 @@ module.exports = {
 	name: 'lyrics',
 	description: 'Fetches lyrics to a song.',
 	usage: 'lyrics <song name>',
+	disabled: true,
 	args: true,
 	async execute(client, message, args, functions) {
 		if (!process.env.GENIUS_API_KEY) return console.log(chalk.red('[cmnd] Please input your Genius API key in the config.'));
