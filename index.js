@@ -59,12 +59,12 @@ console.log(chalk.grey(`[cmnd] Loaded ${client.commands.size} commands.`));
 
 process.on('unhandledRejection', error => {
 	console.error(chalk.red('[main] Unhandled promise rejection:'));
-	console.error(chalk.redBright('[----]', error));
+	console.error(chalk.redBright('[----]', error.stack));
 });
 
 process.on('uncaughtException', error => {
 	console.error(chalk.red('[main] Uncaught exception:'));
-	console.error(chalk.redBright('[----]', error));
+	console.error(chalk.redBright('[----]', error.stack));
 });
 
 client.login();
