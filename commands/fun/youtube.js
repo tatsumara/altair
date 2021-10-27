@@ -21,11 +21,6 @@ module.exports = {
 				new MessageButton({ label: 'Previous', customId: 'previous', style: 'SECONDARY' }),
 				new MessageButton({ label: 'Next', customId: 'next', style: 'SECONDARY' }),
 			);
-		const disabledButtons = new MessageActionRow()
-			.addComponents(
-				new MessageButton({ label: 'Previous', customId: 'previous', style: 'SECONDARY', disabled: true }),
-				new MessageButton({ label: 'Next', customId: 'next', style: 'SECONDARY', disabled: true }),
-			);
 
 		const youtubeMessage = await message.reply({ content: result.items[x].url, components: [buttons] });
 		const expiration = Date.now() + 60000;
@@ -40,7 +35,7 @@ module.exports = {
 				else if (x === 0 || x === 14) return;
 				else if (i.customId === 'previous') x--;
 				youtubeMessage.edit({ content: result.items[x].url });
-			}).catch(err => youtubeMessage.edit({ components: [disabledButtons] }));
+			}).catch(err => youtubeMessage.edit({ components: [] }));
 		}
 	},
 };
