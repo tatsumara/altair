@@ -32,11 +32,6 @@ module.exports = {
 					new MessageButton({ label: 'Previous', customId: 'previous', style: 'SECONDARY' }),
 					new MessageButton({ label: 'Next', customId: 'next', style: 'SECONDARY' }),
 				);
-			const disabledButtons = new MessageActionRow()
-				.addComponents(
-					new MessageButton({ label: 'Previous', customId: 'previous', style: 'SECONDARY', disabled: true }),
-					new MessageButton({ label: 'Next', customId: 'next', style: 'SECONDARY', disabled: true }),
-				);
 
 			const imageMessage = await message.reply({ embeds: [embed], components: [buttons] });
 			const expiration = Date.now() + 60000;
@@ -52,7 +47,7 @@ module.exports = {
 					else if (x === 0) return;
 					else if (i.customId === 'previous') x--;
 					imageMessage.edit({ embeds: [embed.setImage(results[x].url).setFooter(`Page ${x + 1}`)] });
-				}).catch(err => imageMessage.edit({ components: [disabledButtons] }));
+				}).catch(err => imageMessage.edit({ components: [] }));
 			}
 		});
 	},
