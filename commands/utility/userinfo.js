@@ -6,14 +6,11 @@ module.exports = {
 	guildOnly: true,
 	aliases: ['ui', 'uinfo', 'user'],
 	async execute(client, message, args, functions) {
-		const userID = args[0]?.replace(/<@!|>/g, '') || message.author.id;
-		if (!userID.match('\\d{17,18}')) return message.channel.send(functions.simpleEmbed('Not a valid mention or ID!', '', '#FFA500'));
-		let member = '';
-		try {
-			member = await message.guild.members.fetch(userID);
-		} catch {
-			return message.channel.send(functions.simpleEmbed('No user found!', 'This command can only look up users in the current server.', '#FFA500'));
+		let member = message.mentions.members.first() || args[0]?.match(/\d{17,18}/) || message.member;
+		if (Array.isArray(member)) {
+			member = await message.guild.members.fetch(member[0]);
 		}
+		if (!member) return message.channel.send(functions.simpleEmbed('User not found or not a user!'));
 		const embed = {
 			color: '#0073E6',
 			title: `${member.user.tag}`,
