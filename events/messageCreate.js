@@ -55,7 +55,8 @@ module.exports = {
 				client.typingDisabled = false;
 				console.log(chalk.grey('[main] Typing enabled.'));
 			}
-		} catch (err) {
+		}
+		catch (err) {
 			if (!client.typingDisabled) {
 				client.typingDisabled = true;
 				console.log(chalk.grey('[main] Typing disabled.'));
@@ -71,7 +72,8 @@ module.exports = {
 		console.log(chalk.yellow(`[cmnd] ${message.author.tag} ran '${command.name} ${args.join(' ')}'`));
 		try {
 			await command.execute(client, message, args, functions);
-		} catch (error) {
+		}
+		catch (error) {
 			console.log(chalk.red(`[main] An error has occured in '${command.name} ${args.join(' ')}'!`));
 			console.log(chalk.redBright(error.stack || error));
 			message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${process.env.OWNER_ID}> if this issue persists!`, '#FF0000'));

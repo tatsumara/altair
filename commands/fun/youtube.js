@@ -1,5 +1,4 @@
 const ytsr = require('ytsr');
-const chalk = require('chalk');
 const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
@@ -35,7 +34,7 @@ module.exports = {
 				else if (x === 0 || x === 14) return;
 				else if (i.customId === 'previous') x--;
 				youtubeMessage.edit({ content: result.items[x].url });
-			}).catch(err => youtubeMessage.edit({ components: [] }));
+			}).catch(() => youtubeMessage.edit({ components: [] }));
 		}
 	},
 };

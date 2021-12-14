@@ -47,7 +47,7 @@ module.exports = {
 					else if (x === 0) return;
 					else if (i.customId === 'previous') x--;
 					imageMessage.edit({ embeds: [embed.setImage(results[x].url).setFooter(`Page ${x + 1}`)] });
-				}).catch(err => imageMessage.edit({ components: [] }));
+				}).catch(() => imageMessage.edit({ components: [] }));
 			}
 		});
 	},

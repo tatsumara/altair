@@ -9,10 +9,12 @@ module.exports = (result) => {
 	if (result.data.source?.startsWith('http')) {
 		source = result.data.source;
 		title = result.data.title || 'Unknown';
-	} else if (result.data.source) {
+	}
+	else if (result.data.source) {
 		source = result.data.ext_urls[0];
 		title = result.data.source;
-	} else {
+	}
+	else {
 		source = result.data.ext_urls[0];
 		title = result.data.title || 'Unknown';
 	}
@@ -23,7 +25,8 @@ module.exports = (result) => {
 	if (confidence < 50.0) {
 		embedTitle = 'Source probably not found.';
 		color = '#FF0000';
-	} else if (confidence < 75.0) {
+	}
+	else if (confidence < 75.0) {
 		embedTitle = 'Source found?';
 		color = '#FFA500';
 	}

@@ -14,7 +14,8 @@ module.exports = {
 			client.commands.filter(c => !c.owner).forEach(command => {
 				embed.addField(command.name, `${command.description}`, true);
 			});
-		} else {
+		}
+		else {
 			const name = args[0].toLowerCase();
 			// this is probably the only time i'll ever use find(), although it is very nice
 			const command = client.commands.get(name) || client.commands.find(c => c.aliases && c.aliases.includes(name));

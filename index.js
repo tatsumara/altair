@@ -36,7 +36,8 @@ for (const file of eventFiles) {
 	// i don't understand this code either but it works
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args, client));
-	} else {
+	}
+	else {
 		client.on(event.name, (...args) => event.execute(...args, client));
 	}
 }
