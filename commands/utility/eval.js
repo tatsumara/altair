@@ -13,8 +13,7 @@ module.exports = {
 				attachment: Buffer.from(evaled),
 				name: 'evaled.rb',
 			}] });
-		}
-		catch (err) {
+		} catch (err) {
 			message.channel.send(functions.simpleEmbed('', err.toString(), '#FF0000'));
 		}
 	},

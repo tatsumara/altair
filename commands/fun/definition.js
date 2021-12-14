@@ -26,8 +26,7 @@ module.exports = {
 				});
 				message.channel.send({ embeds: [embed] });
 			});
-		}
-		catch {
+		} catch {
 			message.channel.send(functions.simpleEmbed('Nothing found!'));
 		}
 

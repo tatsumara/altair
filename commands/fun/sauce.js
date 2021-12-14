@@ -17,11 +17,9 @@ module.exports = {
 		let image;
 		if (msg.attachments.first()) {
 			image = msg.attachments.first().url;
-		}
-		else if (args[0] && args[0].startsWith('http')) {
+		} else if (args[0] && args[0].startsWith('http')) {
 			image = args[0];
-		}
-		else if (msg.content.split(/ +/)[0] && msg.content.split(/ +/)[0].startsWith('http')) {
+		} else if (msg.content.split(/ +/)[0] && msg.content.split(/ +/)[0].startsWith('http')) {
 			image = msg.content.split(/ +/)[0];
 		}
 		if (!image) return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', '#FFA500'));
