@@ -9,11 +9,13 @@ module.exports = {
 	args: true,
 	aliases: ['yt', 'ytube'],
 	async execute(client, message, args, functions) {
-		const result = await ytsr(args.join(' '), { limit: 15 });
+		const result = await ytsr(args.join(' '), { limit: 20 });
 		if (!result.items[0]) {
 			return message.channel.send(functions.simpleEmbed('Nothing found!'));
 		}
 		let x = 0;
+
+		const results = result.items.filter(item => item.type === 'channel' | item.type === 'video' | item.type === 'playlist');
 
 		const buttons = new MessageActionRow()
 			.addComponents(
@@ -21,20 +23,24 @@ module.exports = {
 				new MessageButton({ label: 'Next', customId: 'next', style: 'SECONDARY' }),
 			);
 
-		const youtubeMessage = await message.reply({ content: result.items[x].url, components: [buttons] });
-		const expiration = Date.now() + 60000;
+		const youtubeMessage = await message.reply({ content: `#1/${results.length} | ${results[x].url}`, components: [buttons] });
 		const filter = i => {
 			i.deferUpdate();
 			return i.user.id === message.author.id;
 		};
-
-		while (Date.now() < expiration) {
-			await youtubeMessage.awaitMessageComponent({ filter, componentType: 'BUTTON', time: 60000 }).then(i => {
-				if (i.customId === 'next') x++;
-				else if (x === 0 || x === 14) return;
-				else if (i.customId === 'previous') x--;
-				youtubeMessage.edit({ content: result.items[x].url });
-			}).catch(() => youtubeMessage.edit({ components: [] }));
-		}
+		const collector = youtubeMessage.createMessageComponentCollector({ filter, time: 60000 });
+		collector.on('collect', i => {
+			if (i.customId === 'next') x++;
+			else if (x === 0) return;
+			else if (i.customId === 'previous') x--;
+			if (x === results.length) {
+				x--;
+				return;
+			}
+			youtubeMessage.edit({ content: `#${x + 1}/${results.length} | ${results[x].url}` });
+		});
+		collector.on('end', (collected, reason) => {
+			if (reason !== 'messageDelete') youtubeMessage.edit({ components: [] });
+		});
 	},
 };
