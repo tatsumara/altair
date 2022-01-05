@@ -9,11 +9,18 @@ module.exports = {
 		const embed = new MessageEmbed()
 			.setColor('#0073E6');
 		if (!args[0]) {
-			// this help command is pretty cool but it looks like shit, and i would love to implement categories
 			embed.setTitle('Altair Commands');
-			client.commands.filter(c => !c.owner).forEach(command => {
-				embed.addField(command.name, `${command.description}`, true);
+			const structure = new Map();
+			client.commands.filter(c => !c.owner).forEach(c => {
+				if (!structure.has(c.category)) structure.set(c.category, []);
+				structure.get(c.category).push(c);
 			});
+			structure.forEach((array, category) => {
+				let commandList = '';
+				array.forEach(c => commandList += c.name + ' ');
+				embed.addField(category, `\`${commandList}\``, true);
+			});
+			embed.setFooter('help <name> to view more about a particular command');
 		} else {
 			const name = args[0].toLowerCase();
 			// this is probably the only time i'll ever use find(), although it is very nice
