@@ -1,6 +1,6 @@
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
-const gis = require('g-i-s');
-// g-i-s is an awesome library!
+const { GOOGLE_IMG_SCRAP } = require('google-img-scrap');
+
 module.exports = {
 	name: 'image',
 	description: 'Searches on Google Images.',
@@ -8,47 +8,51 @@ module.exports = {
 	cooldown: '15',
 	args: true,
 	aliases: ['im', 'img'],
-	execute(client, message, args, functions) {
+	async execute(client, message, args, functions) {
 		const query = args.join(' ');
-		let safe = '';
+		let safe = false;
 		if (!message.channel.nsfw) {
-			safe = '&safe=active';
+			safe = true;
 		}
-		gis({ searchTerm: query, queryStringAddition: safe }, async (error, results) => {
-			if (!results[0]) {
-				return message.channel.send(functions.simpleEmbed('Nothing found!'));
-			}
-			results = results.filter(image => !image.url.endsWith('.svg'));
-			let x = 0;
-			const embed = new MessageEmbed()
-				.setTitle('Image Search Results:')
-				.setDescription(`"${query}"`)
-				.setColor('#0073E6')
-				.setImage(results[x].url)
-				.setFooter(`${x + 1}/${results.length}`);
+		const { result } = await GOOGLE_IMG_SCRAP({
+			search: query,
+			safeSearch: safe,
+			execute(i) {
+				if (!i.url.match('gstatic.com')) return i;
+			},
+		});
+		if (!result[0]) {
+			return message.channel.send(functions.simpleEmbed('Nothing found!'));
+		}
+		let x = 0;
+		const embed = new MessageEmbed()
+			.setTitle('Image Search Results:')
+			.setDescription(`"${query}"`)
+			.setColor('#0073E6')
+			.setImage(result[x].url)
+			.setFooter(`${x + 1}/${result.length}`);
 
-			const buttons = new MessageActionRow()
-				.addComponents(
-					new MessageButton({ label: 'Previous', customId: 'previous', style: 'SECONDARY' }),
-					new MessageButton({ label: 'Next', customId: 'next', style: 'SECONDARY' }),
-				);
+		const buttons = new MessageActionRow()
+			.addComponents(
+				new MessageButton({ label: 'Previous', customId: 'previous', style: 'SECONDARY' }),
+				new MessageButton({ label: 'Next', customId: 'next', style: 'SECONDARY' }),
+			);
 
-			const imageMessage = await message.reply({ embeds: [embed], components: [buttons] });
-			const filter = i => {
-				i.deferUpdate();
-				return i.user.id === message.author.id;
-			};
+		const imageMessage = await message.reply({ embeds: [embed], components: [buttons] });
+		const filter = i => {
+			i.deferUpdate();
+			return i.user.id === message.author.id;
+		};
 
-			const collector = imageMessage.createMessageComponentCollector({ filter, idle: 30000 });
-			collector.on('collect', i => {
-				if (i.customId === 'next') x++;
-				else if (x === 0) return;
-				else if (i.customId === 'previous') x--;
-				imageMessage.edit({ embeds: [embed.setImage(results[x].url).setFooter(`${x + 1}/${results.length}`)] });
-			});
-			collector.on('end', (collected, reason) => {
-				if (reason === 'idle') imageMessage.edit({ components: [] });
-			});
+		const collector = imageMessage.createMessageComponentCollector({ filter, idle: 30000 });
+		collector.on('collect', i => {
+			if (i.customId === 'next') x++;
+			else if (x === 0) return;
+			else if (i.customId === 'previous') x--;
+			imageMessage.edit({ embeds: [embed.setImage(result[x].url).setFooter(`${x + 1}/${result.length}`)] });
+		});
+		collector.on('end', (collected, reason) => {
+			if (reason === 'idle') imageMessage.edit({ components: [] });
 		});
 	},
 };
