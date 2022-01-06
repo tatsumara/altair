@@ -39,12 +39,13 @@ module.exports = {
 				return i.user.id === message.author.id;
 			};
 
-			const collector = imageMessage.createMessageComponentCollector({ filter, time: 180000 });
+			const collector = imageMessage.createMessageComponentCollector({ filter, time: 30000 });
 			collector.on('collect', i => {
 				if (i.customId === 'next') x++;
 				else if (x === 0) return;
 				else if (i.customId === 'previous') x--;
 				imageMessage.edit({ embeds: [embed.setImage(results[x].url).setFooter(`${x + 1}/${results.length}`)] });
+				collector.resetTimer();
 			});
 			collector.on('end', (collected, reason) => {
 				if (reason !== 'messageDelete') imageMessage.edit({ components: [] });
