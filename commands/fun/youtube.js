@@ -40,7 +40,7 @@ module.exports = {
 			youtubeMessage.edit({ content: `#${x + 1}/${results.length} | ${results[x].url}` });
 		});
 		collector.on('end', (collected, reason) => {
-			if (reason !== 'messageDelete') youtubeMessage.edit({ components: [] });
+			if (reason === 'idle') youtubeMessage.edit({ components: [] });
 		});
 	},
 };

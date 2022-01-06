@@ -47,7 +47,7 @@ module.exports = {
 				imageMessage.edit({ embeds: [embed.setImage(results[x].url).setFooter(`${x + 1}/${results.length}`)] });
 			});
 			collector.on('end', (collected, reason) => {
-				if (reason !== 'messageDelete') imageMessage.edit({ components: [] });
+				if (reason === 'idle') imageMessage.edit({ components: [] });
 			});
 		});
 	},
