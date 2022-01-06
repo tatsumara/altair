@@ -28,7 +28,7 @@ module.exports = {
 			i.deferUpdate();
 			return i.user.id === message.author.id;
 		};
-		const collector = youtubeMessage.createMessageComponentCollector({ filter, time: 30000 });
+		const collector = youtubeMessage.createMessageComponentCollector({ filter, idle: 30000 });
 		collector.on('collect', i => {
 			if (i.customId === 'next') x++;
 			else if (x === 0) return;
@@ -38,7 +38,6 @@ module.exports = {
 				return;
 			}
 			youtubeMessage.edit({ content: `#${x + 1}/${results.length} | ${results[x].url}` });
-			collector.resetTimer();
 		});
 		collector.on('end', (collected, reason) => {
 			if (reason !== 'messageDelete') youtubeMessage.edit({ components: [] });
