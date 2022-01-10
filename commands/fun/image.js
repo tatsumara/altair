@@ -5,7 +5,7 @@ module.exports = {
 	name: 'image',
 	description: 'Searches on Google Images.',
 	usage: 'image <search query> (You can navigate the results by sending b/n for next and back respectively!)',
-	cooldown: '15',
+	cooldown: '30',
 	args: true,
 	aliases: ['im', 'img'],
 	async execute(client, message, args, functions) {

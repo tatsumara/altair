@@ -2,7 +2,6 @@ module.exports = {
 	name: 'avatar',
 	description: 'Sends your or the mentioned users avatar.',
 	usage: 'avatar [user]',
-	cooldown: '5',
 	guildOnly: true,
 	aliases: ['av', 'pfp'],
 	async execute(client, message, args, functions) {

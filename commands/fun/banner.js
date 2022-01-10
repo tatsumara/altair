@@ -2,7 +2,6 @@ module.exports = {
 	name: 'banner',
 	description: 'Sends your or the mentioned users banner.',
 	usage: 'avatar [user]',
-	cooldown: '5',
 	guildOnly: true,
 	async execute(client, message, args, functions) {
 		let member = message.mentions.users.first() || args[0]?.match(/\d{17,18}/) || message.author;

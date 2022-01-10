@@ -4,7 +4,7 @@ module.exports = {
 	name: 'manga',
 	description: 'Looks up a manga on AniList.',
 	usage: 'manga <manga name>',
-	cooldown: '10',
+	cooldown: '15',
 	args: true,
 	aliases: ['ma'],
 	async execute(client, message, args, functions) {

@@ -1,7 +1,6 @@
 module.exports = {
 	name: 'serverinfo',
 	description: 'Shows info about the current server.',
-	cooldown: '5',
 	guildOnly: true,
 	aliases: ['si', 'sinfo', 'server'],
 	async execute(client, message) {

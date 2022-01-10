@@ -2,7 +2,6 @@ module.exports = {
 	name: 'userinfo',
 	description: 'Shows info about a user.',
 	usage: 'userinfo <mention or id>',
-	cooldown: '5',
 	guildOnly: true,
 	aliases: ['ui', 'uinfo', 'user'],
 	async execute(client, message, args, functions) {

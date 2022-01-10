@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	name: 'status',
-	owner: true,
+	description: 'Displays some running information about Altair.',
 	aliases: ['stats', 'stat'],
 	execute(client, message, args, functions) {
 		let memberCount = 0;
