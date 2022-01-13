@@ -8,24 +8,16 @@ module.exports = {
 	usage: 'wolframalpha <query>',
 	args: true,
 	aliases: ['wolfram', 'walpha'],
-	execute(client, message, args, functions) {
+	async execute(client, message, args, functions) {
 		if (!process.env.WOLFRAM_API_KEY) return console.log(chalk.red('[cmnd] Please input your WolframAlpha API key in the config.'));
-		got(`http://api.wolframalpha.com/v2/query?appid=${process.env.WOLFRAM_API_KEY}&output=json&input=${encodeURIComponent(args.join(' '))}`, { responseType: 'json' }).then(res => {
-			const pods = res.body.queryresult.pods;
-			if (!pods) return message.channel.send(functions.simpleEmbed('No result!'));
-
+		try {
+			const res = await got(`http://api.wolframalpha.com/v1/spoken?appid=${process.env.WOLFRAM_API_KEY}&i=${encodeURIComponent(args.join(' '))}`);
 			const embed = new MessageEmbed()
-				.setColor('#0073E6');
-
-			pods.forEach(pod => {
-				if (!pod.subpods[0].plaintext) return;
-				if (pod.title.includes('Result')) {
-					embed.addField(pod.title, pod.subpods[0].plaintext);
-					return;
-				}
-				embed.addField(pod.title, pod.subpods[0].plaintext, true);
-			});
+				.setColor('#0073E6')
+				.setDescription(res.body);
 			message.reply({ embeds: [embed] });
-		});
+		} catch (err) {
+			message.reply(functions.simpleEmbed('No result!'));
+		}
 	},
 };
