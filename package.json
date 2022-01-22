@@ -11,17 +11,17 @@
   "author": "mara",
   "license": "MIT",
   "dependencies": {
-    "anilist-node": "^1.10.0",
+    "anilist-node": "^1.11.0",
     "chalk": "^4.1.2",
-    "discord.js": "^13.2.0",
+    "discord.js": "^13.6.0",
     "dotenv": "^10.0.0",
-    "genius-lyrics": "^4.3.1",
+    "genius-lyrics": "^4.3.5",
     "google-img-scrap": "^1.0.6",
     "got": "^11.8.2",
-    "wikijs": "^6.3.2",
-    "ytsr": "^3.5.3"
+    "wikijs": "^6.3.3",
+    "ytsr": "^3.6.0"
   },
   "devDependencies": {
-    "eslint": "^8.4.1"
+    "eslint": "^8.7.0"
   }
 }
