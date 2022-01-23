@@ -11,7 +11,7 @@ module.exports = {
 			// i don't understand how the code is actually executed
 			message.channel.send({ files: [{
 				attachment: Buffer.from(evaled),
-				name: 'evaled.rb',
+				name: 'evaled.yml',
 			}] });
 		} catch (err) {
 			message.channel.send(functions.simpleEmbed('', err.toString(), '#FF0000'));
