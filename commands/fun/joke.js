@@ -3,7 +3,7 @@ const got = require('got');
 
 module.exports = {
 	name: 'dad_joke',
-	description: 'Says a dad joke.',
+	description: 'Tells a dad joke.',
 	usage: 'dad_joke',
 	args: false,
 	aliases: ['joke', 'dad'],
