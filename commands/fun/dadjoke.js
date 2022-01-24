@@ -2,9 +2,9 @@ const { MessageEmbed } = require('discord.js');
 const got = require('got');
 
 module.exports = {
-	name: 'dad_joke',
+	name: 'dadjoke',
 	description: 'Tells a dad joke.',
-	usage: 'dad_joke',
+	usage: 'dadjoke',
 	args: false,
 	aliases: ['joke', 'dad'],
 	execute(client, message) {
@@ -16,12 +16,10 @@ module.exports = {
 			const { id, joke } = JSON.parse(res.body);
 			// send the response
 			const embed = new MessageEmbed()
-				.setTitle(`Joke (id ${id})`)
+				.setTitle(joke)
 				.setColor('#0073E6')
-				.setDescription(joke);
-			return message.channel.send({ embeds: [embed] });
+				.setFooter({ text: `ID: ${id}` });
+			return message.reply({ embeds: [embed] });
 		});
 	},
 };
-
-module.exports.execute();
