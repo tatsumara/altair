@@ -19,7 +19,6 @@ WOLFRAM_API_KEY = <>
 ```
 ## TODO
 * Server specifig config/database implementation
-* ~~Command categories~~ make command categories visible in help command
 * ~~Voice support/music player~~ work on amusic
 * Getting the additional discord.js packages to work
 * Paginate anime and manga commands
