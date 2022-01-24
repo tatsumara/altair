@@ -2,18 +2,18 @@ const { MessageEmbed } = require('discord.js');
 const got = require('got');
 const chalk = require('chalk');
 
-var token = '';
+let ddgToken = '';
 
 function getToken() {
 	// is this even legal
 	return new Promise((resolve, reject) => {
 		const headers = {
-			'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0'
-		}
+			'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0',
+		};
 		got('https://duckduckgo.com/?t=ffab&q=translation+api&ia=translations', { headers }).then(({ body }) => {
 			// yoink the token
-			const rest = body.slice(body.search("vqd='") + 5);
-			const token = rest.slice(0, rest.search("'"));
+			const rest = body.slice(body.search('vqd=\'') + 5);
+			const token = rest.slice(0, rest.search('\''));
 			resolve(token);
 		}).catch(err => reject(err));
 	});
@@ -25,12 +25,13 @@ module.exports = {
 	usage: 'translate <text>',
 	args: true,
 	aliases: ['tr'],
-	execute(client, message, args, functions, retries=3) {
-		if(retries <= 0)
+	execute(client, message, args, functions, retries = 3) {
+		if (retries <= 0) {
 			throw new Error('reached retry limit');
+		}
 		// make the request
 		const body = args.join(' ');
-		const query = `https://duckduckgo.com/translation.js?to=en&query=translation%20api&vqd=${token}`;
+		const query = `https://duckduckgo.com/translation.js?to=en&query=translation%20api&vqd=${ddgToken}`;
 		got.default.post(query, { body }).then(res => {
 			const { detected_language: lang, translated: response } = JSON.parse(res.body);
 			// send the response
@@ -39,11 +40,11 @@ module.exports = {
 				.setColor('#0073E6')
 				.setDescription(response);
 			return message.channel.send({ embeds: [embed] });
-		}).catch(err => {
+		}).catch(() => {
 			// get a new token and retry on error
 			console.log(chalk.blue(`[trns] retrying: ${retries} attempts left`));
 			getToken().then(tok => {
-				token = tok;
+				ddgToken = tok;
 				return this.execute(client, message, args, functions, retries - 1);
 			});
 		});
