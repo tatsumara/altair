@@ -42,7 +42,7 @@ module.exports = {
 			return message.channel.send({ embeds: [embed] });
 		}).catch(() => {
 			// get a new token and retry on error
-			console.log(chalk.blue(`[trns] retrying: ${retries} attempts left`));
+			console.log(chalk.blue(`[trns] Retrying: ${retries} attempts left`));
 			getToken().then(tok => {
 				ddgToken = tok;
 				return this.execute(client, message, args, functions, retries - 1);
