@@ -33,6 +33,6 @@ module.exports = {
 				{ name: 'Contents', value: contents.join(', ') },
 			],
 		};
-		message.reply({ embeds: [embed] });
+		return message.reply({ embeds: [embed] });
 	},
 };

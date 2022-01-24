@@ -36,6 +36,6 @@ module.exports = {
 			if (command.description) embed.addField('Description', command.description);
 		}
 
-		message.channel.send({ embeds: [embed] });
+		return message.channel.send({ embeds: [embed] });
 	},
 };

@@ -17,7 +17,7 @@ module.exports = {
 				.setDescription(res.body);
 			message.reply({ embeds: [embed] });
 		} catch (err) {
-			message.reply(functions.simpleEmbed('No result!'));
+			return message.reply(functions.simpleEmbed('No result!'));
 		}
 	},
 };

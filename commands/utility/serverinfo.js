@@ -19,6 +19,6 @@ module.exports = {
 				{ name: 'Features', value: message.guild.features.join(', ') || 'NONE', inline: true },
 			],
 		};
-		message.channel.send({ embeds: [embed] });
+		return message.channel.send({ embeds: [embed] });
 	},
 };

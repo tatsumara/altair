@@ -10,6 +10,6 @@ module.exports = {
 			member = await message.guild.members.fetch(member[0]);
 		}
 		if (!member) return message.channel.send(functions.simpleEmbed('User not found or not a user!'));
-		message.channel.send(member.displayAvatarURL({ size: 4096, dynamic: true }));
+		return message.channel.send(member.displayAvatarURL({ size: 4096, dynamic: true }));
 	},
 };

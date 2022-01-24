@@ -39,6 +39,6 @@ module.exports = {
 				url: manga.coverImage.large,
 			},
 		};
-		message.channel.send({ embeds: [embed] });
+		return message.channel.send({ embeds: [embed] });
 	},
 };

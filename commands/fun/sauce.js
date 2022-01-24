@@ -40,6 +40,6 @@ module.exports = {
 				text: `Confidence: ${result.confidence}%`,
 			},
 		};
-		message.channel.send({ embeds: [embed] });
+		return message.channel.send({ embeds: [embed] });
 	},
 };

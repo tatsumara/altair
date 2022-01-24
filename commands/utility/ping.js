@@ -3,6 +3,6 @@ module.exports = {
 	description: 'Pong.',
 	usage: 'seriously? its just ping',
 	execute(client, message) {
-		message.channel.send('Pong.');
+		return message.channel.send('Pong.');
 	},
 };

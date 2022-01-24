@@ -15,6 +15,6 @@ module.exports = {
 
 		if (!banner) return message.channel.send(functions.simpleEmbed('User does not have a banner.'));
 
-		message.channel.send(banner);
+		return message.channel.send(banner);
 	},
 };

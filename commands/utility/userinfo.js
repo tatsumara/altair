@@ -22,6 +22,6 @@ module.exports = {
 				{ name: 'Joined at', value: member.joinedAt.toDateString(), inline: true },
 			],
 		};
-		message.channel.send({ embeds: [embed] });
+		return message.channel.send({ embeds: [embed] });
 	},
 };

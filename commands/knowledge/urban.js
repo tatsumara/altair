@@ -20,7 +20,7 @@ module.exports = {
 				.setTitle(`UrbanDictionary: "${args.join(' ')}"`)
 				.setColor('#0073E6')
 				.setDescription(result.list[0].definition.replace(/\[/g, '').replace(/\]/g, '') + '\n');
-			message.channel.send({ embeds: [embed] });
+			return message.channel.send({ embeds: [embed] });
 		});
 
 	},

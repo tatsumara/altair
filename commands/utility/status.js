@@ -24,6 +24,6 @@ module.exports = {
 				{ name: 'Latest commit', value: process.env.LATEST_COMMIT || 'Unknown', inline: true },
 				{ name: 'Build date', value: process.env.BUILD_DATE || 'Unknown', inline: true },
 			);
-		message.channel.send({ embeds: [embed] });
+		return message.channel.send({ embeds: [embed] });
 	},
 };
