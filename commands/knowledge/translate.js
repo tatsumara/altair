@@ -27,7 +27,7 @@ module.exports = {
 	aliases: ['tr'],
 	execute(client, message, args, functions, retries = 3) {
 		if (retries <= 0) {
-			throw new Error('reached retry limit');
+			return message.channel.send(functions.simpleEmbed('Can\'t reach translation service.'));
 		}
 		// make the request
 		const body = args.join(' ');
@@ -36,10 +36,10 @@ module.exports = {
 			const { detected_language: lang, translated: response } = JSON.parse(res.body);
 			// send the response
 			const embed = new MessageEmbed()
-				.setTitle(`Translated from ${lang}`)
+				.setTitle(`Translated from '${lang.toUpperCase()}'`)
 				.setColor('#0073E6')
 				.setDescription(response);
-			return message.channel.send({ embeds: [embed] });
+			return message.channel.reply({ embeds: [embed] });
 		}).catch(() => {
 			// get a new token and retry on error
 			console.log(chalk.blue(`[trns] Retrying: ${retries} attempts left`));
