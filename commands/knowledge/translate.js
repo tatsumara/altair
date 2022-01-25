@@ -50,7 +50,8 @@ module.exports = {
 	description: 'Translates a string of text (into English by default).',
 	usage: 'translate {<target language>} <text>',
 	examples: [
-		'translate {german} i like cookies',
+		'translate {german} I like berries and cream',
+		'translate Dies ist ein Beispiel.',
 	],
 	cooldown: '10',
 	args: true,
