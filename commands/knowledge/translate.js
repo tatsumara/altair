@@ -6,7 +6,7 @@ const chalk = require('chalk');
 
 function langToFlag(lang) {
 	lang = lang.toLowerCase();
-	if (lang == 'ja') lang = 'jp';
+	if (lang == 'ja') return ':flag_jp:';
 	if (lang == 'en') return ':flag_gb:';
 	if (lang.includes('-')) return `:flag_${lang.slice(lang.search('-') + 1)}:`;
 	return `:flag_${lang}:`;
@@ -75,8 +75,8 @@ module.exports = {
 
 		// check length
 		const text = args.join(' ');
-		if (text.length >= 120) {
-			return message.channel.send(functions.simpleEmbed('Text length exceeds 120 characters.'));
+		if (text.length >= 200) {
+			return message.channel.send(functions.simpleEmbed('Text length exceeds 200 characters.'));
 		}
 
 		// query the API
