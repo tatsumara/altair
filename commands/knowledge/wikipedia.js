@@ -22,6 +22,11 @@ module.exports = {
 				contents.push(section.title);
 			}
 		});
+		// sometimes it's empty
+		let fields = undefined;
+		if (contents.length > 0) {
+			fields = [{ name: 'Contents', value: contents.join(', ') }];
+		}
 		const embed = {
 			title: search.results[0],
 			url: page.url(),
@@ -29,9 +34,7 @@ module.exports = {
 			image: {
 				url: await page.mainImage(),
 			},
-			fields: [
-				{ name: 'Contents', value: contents.join(', ') },
-			],
+			fields,
 		};
 		return message.reply({ embeds: [embed] });
 	},
