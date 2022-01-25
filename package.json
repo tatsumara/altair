@@ -19,6 +19,7 @@
     "genius-lyrics": "^4.3.5",
     "google-img-scrap": "^1.0.6",
     "got": "^11.8.2",
+    "sift3": "^0.0.1",
     "wikijs": "^6.3.3",
     "ytsr": "^3.6.0"
   },
