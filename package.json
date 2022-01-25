@@ -13,6 +13,7 @@
   "dependencies": {
     "anilist-node": "^1.11.0",
     "chalk": "^4.1.2",
+    "deepl": "^1.0.13",
     "discord.js": "^13.6.0",
     "dotenv": "^14.2.0",
     "genius-lyrics": "^4.3.5",
