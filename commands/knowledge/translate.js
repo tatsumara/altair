@@ -6,6 +6,7 @@ const chalk = require('chalk');
 
 function langToFlag(lang) {
 	lang = lang.toLowerCase();
+	if (lang == 'ja') lang = 'jp';
 	if (lang == 'en') return ':flag_gb:';
 	if (lang.includes('-')) return `:flag_${lang.slice(lang.search('-') + 1)}:`;
 	return `:flag_${lang}:`;
