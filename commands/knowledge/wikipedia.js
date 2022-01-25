@@ -34,6 +34,7 @@ module.exports = {
 			image: {
 				url: await page.mainImage(),
 			},
+			color: 0x0073E6,
 			fields,
 		};
 		return message.reply({ embeds: [embed] });
