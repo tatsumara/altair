@@ -9,10 +9,11 @@ module.exports = {
 	args: true,
 	aliases: ['tr'],
 	execute(client, message, args, functions) {
+		if (!process.env.DEEPL_API_KEY) return console.log(chalk.red('[cmnd] Please input your DeepL API key in the config.'));
 		// perform length checks
 		const text = args.join(' ');
 		if (text.length >= 120) {
-			return message.channel.send(functions.simpleEmbed('Text length exceeds 120 characters'));
+			return message.channel.send(functions.simpleEmbed('Text length exceeds 120 characters.'));
 		}
 
 		// query the API
@@ -28,7 +29,7 @@ module.exports = {
 				.setTitle(`Translated from '${lang}'`)
 				.setColor('#0073E6')
 				.setDescription(translated);
-			return message.channel.reply({ embeds: [embed] });
+			return message.reply({ embeds: [embed] });
 		}).catch(err => {
 			// send error message
 			console.log(chalk.red(`[trlt] failed to translate string '${text}': ${err}'`));
