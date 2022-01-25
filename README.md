@@ -16,6 +16,7 @@ OWNER_ID = <id of your discord account>
 PREFIX = a!
 SAUCENAO_API_KEY = <>
 WOLFRAM_API_KEY = <>
+DEEPL_API_KEY = <>
 ```
 ## TODO
 * Server specifig config/database implementation
