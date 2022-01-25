@@ -47,11 +47,10 @@ function findLang(target) {
 
 module.exports = {
 	name: 'translate',
-	description: 'Translates a string of text into English.',
-	usage: 'translate [{<target language>} OR !<target language>] <text>',
+	description: 'Translates a string of text (into English by default).',
+	usage: 'translate <target language> <text>',
 	examples: [
-		'translate !de i like cookies',
-		'translate {German} i like cookies',
+		'translate {german} i like cookies',
 	],
 	cooldown: '10',
 	args: true,
@@ -64,11 +63,6 @@ module.exports = {
 
 		// choose target language
 		let target = 'EN';
-		if (args[0].startsWith('!')) {
-			target = args[0].slice(1).toUpperCase();
-			// remove first element
-			args.shift();
-		}
 		if (args[0].startsWith('{') && args[0].endsWith('}')) {
 			const name = args[0].substr(1, args[0].length - 2);
 			target = findLang(name);
