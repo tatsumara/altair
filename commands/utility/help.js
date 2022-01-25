@@ -34,6 +34,11 @@ module.exports = {
 			if (command.usage) embed.addField('Usage', `\`${command.usage}\``, true);
 			if (command.cooldown) embed.addField('Cooldown', `\`${command.cooldown}s\``, true);
 			if (command.description) embed.addField('Description', command.description);
+			if (command.examples) {
+				let title = 'Usage example';
+				if (command.examples.length > 1) title += 's';
+				embed.addField(title, command.examples.map(x => `\`${x}\``).join('\n'));
+			}
 		}
 
 		return message.channel.send({ embeds: [embed] });
