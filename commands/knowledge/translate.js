@@ -20,7 +20,7 @@ function invokeAtMidnight(fun) {
 
 function resetUsage() {
 	usedToday = 0;
-	console.log(chalk.blue(`[trlt] usage reset`));
+	console.log(chalk.blue('[trlt] usage reset'));
 	invokeAtMidnight(resetUsage);
 }
 invokeAtMidnight(resetUsage);
@@ -44,13 +44,12 @@ module.exports = {
 		// query the API
 		translate({
 			text,
-			target_lang: "EN",
+			target_lang: 'EN',
 			auth_key: process.env.DEEPL_API_KEY,
 			free_api: true,
 		}).then(({ data }) => {
 			const { detected_source_language: lang, text: translated } = data.translations[0];
 			usedToday += text.length;
-			console.log(usedToday, dailyLimit);
 			// send response
 			const embed = new MessageEmbed()
 				.setTitle(`Translated from '${lang}'`)
