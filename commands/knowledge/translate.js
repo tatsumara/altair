@@ -48,7 +48,7 @@ function findLang(target) {
 module.exports = {
 	name: 'translate',
 	description: 'Translates a string of text (into English by default).',
-	usage: 'translate <target language> <text>',
+	usage: 'translate {<target language>} <text>',
 	examples: [
 		'translate {german} i like cookies',
 	],
