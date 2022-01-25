@@ -30,17 +30,17 @@ queryLangs().then(l => langs = l);
 function findLang(target) {
 	let best = '';
 	let bestDist = 100;
-	for(const { language, name } of langs) {
-		if (name.toLowerCase().includes(target))
+	for (const { language, name } of langs) {
+		if (name.toLowerCase().includes(target)) {
 			return language;
+		}
 		const dist = sift3(target, name);
 		if (dist <= bestDist) {
 			best = language;
 			bestDist = dist;
 		}
 	}
-	if (bestDist >= 4)
-		return '';
+	if (bestDist >= 4) return '';
 	return best;
 }
 
