@@ -6,6 +6,7 @@ module.exports = {
 	name: 'translate',
 	description: 'Translates a string of text into English.',
 	usage: 'translate <text>',
+	cooldown: '10',
 	args: true,
 	aliases: ['tr'],
 	execute(client, message, args, functions) {
