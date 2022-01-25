@@ -2,6 +2,13 @@ const { MessageEmbed } = require('discord.js');
 const translate = require('deepl');
 const chalk = require('chalk');
 
+function langToFlag(lang) {
+	lang = lang.toLowerCase();
+	if (lang == 'en') return ':flag_gb:';
+	if (lang.includes('-')) return `:flag_${lang.slice(lang.search('-') + 1)}:`;
+	return `:flag_${lang}:`;
+}
+
 module.exports = {
 	name: 'translate',
 	description: 'Translates a string of text into English.',
@@ -35,10 +42,10 @@ module.exports = {
 			auth_key: process.env.DEEPL_API_KEY,
 			free_api: true,
 		}).then(({ data }) => {
-			const { detected_source_language: lang, text: translated } = data.translations[0];
+			const { detected_source_language: source, text: translated } = data.translations[0];
 			// send response
 			const embed = new MessageEmbed()
-				.setTitle(`Translated from '${lang}'`)
+				.setTitle(`Translated ${langToFlag(source)} into ${langToFlag(target)}:`)
 				.setColor('#0073E6')
 				.setDescription(translated);
 			return message.reply({ embeds: [embed] });
