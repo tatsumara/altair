@@ -3,11 +3,13 @@ const translate = require('deepl');
 const got = require('got');
 const sift3 = require('sift3');
 const chalk = require('chalk');
+const bottom = require('bottomify');
 
 function langToFlag(lang) {
 	lang = lang.toLowerCase();
-	if (lang == 'ja') return ':flag_jp:';
-	if (lang == 'en') return ':flag_gb:';
+	if (lang === 'btm') return ':pleading_face:';
+	if (lang === 'ja') return ':flag_jp:';
+	if (lang === 'en') return ':flag_gb:';
 	if (lang.includes('-')) return `:flag_${lang.slice(lang.search('-') + 1)}:`;
 	return `:flag_${lang}:`;
 }
@@ -26,7 +28,11 @@ function queryLangs() {
 		});
 	});
 }
-queryLangs().then(l => langs = l);
+queryLangs().then(l => {
+	langs = l;
+	// mara please don't beat me to death
+	langs.push({ language: 'BTM', name: 'Bottom' });
+});
 
 function findLang(target) {
 	let best = '';
@@ -43,6 +49,21 @@ function findLang(target) {
 	}
 	if (bestDist >= 4) return '';
 	return best;
+}
+
+function getTranslation(text, lang) {
+	if (lang === 'BTM') {
+		const translation = bottom.encode(text);
+		return new Promise((resolve) => resolve({
+			data: { translations: [{ text: translation }] },
+		}));
+	}
+	return translate({
+		text,
+		target_lang: lang,
+		auth_key: process.env.DEEPL_API_KEY,
+		free_api: true,
+	});
 }
 
 module.exports = {
@@ -80,12 +101,7 @@ module.exports = {
 		}
 
 		// query the API
-		translate({
-			text,
-			target_lang: target,
-			auth_key: process.env.DEEPL_API_KEY,
-			free_api: true,
-		}).then(({ data }) => {
+		getTranslation(text, target).then(({ data }) => {
 			const { text: translated } = data.translations[0];
 			// send response
 			const embed = new MessageEmbed()
