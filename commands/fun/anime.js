@@ -1,5 +1,9 @@
 const anilistNode = require('anilist-node');
 
+function formatDate(date) {
+	return `${date.day || '--' }.${date.month || '--' }.${date.year || '----' }`;
+}
+
 module.exports = {
 	name: 'anime',
 	description: 'Looks up an anime on AniList.',
@@ -27,9 +31,11 @@ module.exports = {
 			url: anime.siteUrl,
 			fields: [
 				{ name: 'Alternate Spellings:', value: alternateSpellings, inline: true },
-				{ name: 'Start date:', value: `${anime.startDate.day || '--' }.${anime.startDate.month || '--' }.${anime.startDate.year || '----' }`, inline: true },
-				{ name: 'End date:', value: `${anime.endDate.day || '--' }.${anime.endDate.month || '--' }.${anime.endDate.year || '----' }`, inline: true },
-				{ name: 'Status:', value: `${anime.status.replace('NOT_YET_RELEASED', 'Not yet released')} with ${anime.episodes || 'unknown'} episodes`, inline: true },
+				{ name: 'Start date:', value: formatDate(anime.startDate), inline: true },
+				{ name: 'End date:', value: formatDate(anime.endDate), inline: true },
+				{ name: 'Status:', inline: true, value:
+					`${anime.status.replace('NOT_YET_RELEASED', 'Not yet released')} ` +
+					`with ${anime.episodes || 'unknown'} episodes` },
 				{ name: 'Studio:', value: anime.studios.find(studio => studio.isAnimationStudio)?.name || 'unknown', inline: true },
 				{ name: 'Source:', value: anime.source, inline: true },
 			],
@@ -41,6 +47,7 @@ module.exports = {
 				url: anime.coverImage.large,
 			},
 		};
+		console.log(embed);
 		return message.channel.send({ embeds: [embed] });
 	},
 };
