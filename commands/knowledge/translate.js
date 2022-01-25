@@ -65,7 +65,8 @@ module.exports = {
 		let target = 'EN';
 		if (args[0].startsWith('!')) {
 			target = args[0].slice(1).toUpperCase();
-			[_, ...args] = args; // remove first element
+			// remove first element
+			args.shift();
 		}
 		if (args[0].startsWith('{') && args[0].endsWith('}')) {
 			const name = args[0].substr(1, args[0].length - 2);
@@ -73,7 +74,7 @@ module.exports = {
 			if (target === '') {
 				return message.channel.send(functions.simpleEmbed('I don\'t know this language.'));
 			}
-			[_, ...args] = args;
+			args.shift();
 		}
 
 		// check length
