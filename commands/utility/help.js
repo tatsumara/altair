@@ -20,7 +20,7 @@ module.exports = {
 				array.forEach(c => commandList += c.name + ' ');
 				embed.addField(category, `\`${commandList}\``, true);
 			});
-			embed.setFooter('help <name> to view more about a particular command');
+			embed.setFooter({ text: 'help <name> to view more about a particular command' });
 		} else {
 			const name = args[0].toLowerCase();
 			// this is probably the only time i'll ever use find(), although it is very nice
