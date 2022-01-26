@@ -5,6 +5,8 @@ const sift3 = require('sift3');
 const chalk = require('chalk');
 const bottom = require('bottomify');
 
+const textLenLimit = 200;
+
 function langToFlag(lang) {
 	lang = lang.toLowerCase();
 	if (lang === 'btm') return ':pleading_face:';
@@ -58,12 +60,20 @@ function getTranslation(text, lang) {
 			data: { translations: [{ text: translation }] },
 		}));
 	}
+	if (isBottom(text)) text = bottom.decode(text);
+	if (text.length > textLenLimit) {
+		return new Promise((res, rej) => rej("Size limit exceeded"));
+	}
 	return translate({
 		text,
 		target_lang: lang,
 		auth_key: process.env.DEEPL_API_KEY,
 		free_api: true,
 	});
+}
+
+function isBottom(text) {
+	return /^[ 💖,👉👈✨🥺🫂]+$/.test(text);
 }
 
 module.exports = {
@@ -94,13 +104,8 @@ module.exports = {
 			args.shift();
 		}
 
-		// check length
-		const text = args.join(' ');
-		if (text.length >= 200) {
-			return message.channel.send(functions.simpleEmbed('Text length exceeds 200 characters.'));
-		}
-
 		// query the API
+		const text = args.join(' ');
 		getTranslation(text, target).then(({ data }) => {
 			const { text: translated } = data.translations[0];
 			// send response
@@ -112,7 +117,8 @@ module.exports = {
 		}).catch(err => {
 			// send error message
 			console.log(chalk.red(`[trlt] failed to translate string '${text}': ${err}'`));
-			return message.channel.send(functions.simpleEmbed('Couldn\'t reach translation service.'));
+			const msg = `Couldn\'t reach translation service. Text length may have exceeded ${textLenLimit} characters`;
+			return message.channel.send(functions.simpleEmbed(msg));
 		});
 	},
 };
