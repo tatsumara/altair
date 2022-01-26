@@ -10,7 +10,7 @@ module.exports = {
 			}
 			// i don't understand how the code is actually executed
 			message.channel.send({ files: [{
-				attachment: Buffer.from(evaled),
+				attachment: Buffer.from(evaled.replace(process.env.DISCORD_TOKEN, '<token went poof>')),
 				name: 'evaled.yml',
 			}] });
 		} catch (err) {
