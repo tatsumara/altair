@@ -39,8 +39,9 @@ queryLangs().then(l => {
 function findLang(target) {
 	let best = '';
 	let bestDist = 100;
+	if (target === 'jp') target = 'ja'; // damn you DeepL with non-standard two-letter codes
 	for (const { language, name } of langs) {
-		if (name.toLowerCase().includes(target)) {
+		if (name.toLowerCase().includes(target) || target.toUpperCase() === language) {
 			return language;
 		}
 		const dist = sift3(target, name);
@@ -54,16 +55,25 @@ function findLang(target) {
 }
 
 function getTranslation(text, lang) {
+	// encode bottom
 	if (lang === 'BTM') {
 		const translation = bottom.encode(text);
 		return new Promise((resolve) => resolve({
 			data: { translations: [{ text: translation }] },
 		}));
 	}
-	if (isBottom(text)) text = bottom.decode(text);
+
+	// decode bottom
+	if (/^[🫂✨👉👈💖🥺, ]+$/u.test(text)) {
+		text = bottom.decode(text);
+	}
+
+	// check length
 	if (text.length > textLenLimit) {
 		return new Promise((res, rej) => rej('Size limit exceeded'));
 	}
+
+	// call DeepL
 	return translate({
 		text,
 		target_lang: lang,
@@ -73,7 +83,7 @@ function getTranslation(text, lang) {
 }
 
 function isBottom(text) {
-	return /^[ 💖,👉👈✨🥺🫂]+$/u.test(text);
+	return ;
 }
 
 module.exports = {
