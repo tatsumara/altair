@@ -39,7 +39,8 @@ queryLangs().then(l => {
 function findLang(target) {
 	let best = '';
 	let bestDist = 100;
-	if (target === 'jp') target = 'ja'; // damn you DeepL with non-standard two-letter codes
+	// damn you DeepL with non-standard two-letter codes
+	if (target === 'jp') target = 'ja';
 	for (const { language, name } of langs) {
 		if (name.toLowerCase().includes(target) || target.toUpperCase() === language) {
 			return language;
@@ -80,10 +81,6 @@ function getTranslation(text, lang) {
 		auth_key: process.env.DEEPL_API_KEY,
 		free_api: true,
 	});
-}
-
-function isBottom(text) {
-	return ;
 }
 
 module.exports = {
