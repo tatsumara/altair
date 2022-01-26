@@ -62,7 +62,7 @@ function getTranslation(text, lang) {
 	}
 	if (isBottom(text)) text = bottom.decode(text);
 	if (text.length > textLenLimit) {
-		return new Promise((res, rej) => rej("Size limit exceeded"));
+		return new Promise((res, rej) => rej('Size limit exceeded'));
 	}
 	return translate({
 		text,
@@ -73,7 +73,7 @@ function getTranslation(text, lang) {
 }
 
 function isBottom(text) {
-	return /^[ 💖,👉👈✨🥺🫂]+$/.test(text);
+	return /^[ 💖,👉👈✨🥺🫂]+$/u.test(text);
 }
 
 module.exports = {
@@ -117,7 +117,7 @@ module.exports = {
 		}).catch(err => {
 			// send error message
 			console.log(chalk.red(`[trlt] failed to translate string '${text}': ${err}'`));
-			const msg = `Couldn\'t reach translation service. Text length may have exceeded ${textLenLimit} characters`;
+			const msg = `Couldn't reach translation service. Text length may have exceeded ${textLenLimit} characters`;
 			return message.channel.send(functions.simpleEmbed(msg));
 		});
 	},
