@@ -42,7 +42,8 @@ function findLang(target) {
 	// damn you DeepL with non-standard two-letter codes
 	if (target === 'jp') target = 'ja';
 	for (const { language, name } of langs) {
-		if (name.toLowerCase().includes(target) || target.toUpperCase() === language) {
+		const includes = target.length >= 5 && name.toLowerCase().includes(target);
+		if (includes || target.toUpperCase() === language) {
 			return language;
 		}
 		const dist = sift3(target, name);
