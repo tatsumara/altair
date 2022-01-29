@@ -30,7 +30,7 @@ module.exports = {
 			.setDescription(`"${query}"`)
 			.setColor('#0073E6')
 			.setImage(result[x].url)
-			.setFooter(`${x + 1}/${result.length}`);
+			.setFooter({ text: `${x + 1}/${result.length}` });
 
 		const buttons = new MessageActionRow()
 			.addComponents(
