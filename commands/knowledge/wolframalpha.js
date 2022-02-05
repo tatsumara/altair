@@ -7,6 +7,7 @@ module.exports = {
 	description: 'Queries WolframAlpha.',
 	usage: 'wolframalpha <query>',
 	args: true,
+	disabled: true,
 	aliases: ['wolfram', 'walpha'],
 	async execute(client, message, args, functions) {
 		if (!process.env.WOLFRAM_API_KEY) return console.log(chalk.red('[cmnd] Please input your WolframAlpha API key in the config.'));
