@@ -49,7 +49,7 @@ module.exports = {
 			if (i.customId === 'next') x++;
 			else if (x === 0) return;
 			else if (i.customId === 'previous') x--;
-			imageMessage.edit({ embeds: [embed.setImage(result[x].url).setFooter(`${x + 1}/${result.length}`)] });
+			imageMessage.edit({ embeds: [embed.setImage(result[x].url).setFooter({ text: `${x + 1}/${result.length}` })] });
 		});
 		collector.on('end', (collected, reason) => {
 			if (reason === 'idle') imageMessage.edit({ components: [] });
