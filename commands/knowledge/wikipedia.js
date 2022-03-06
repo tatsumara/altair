@@ -4,39 +4,12 @@ module.exports = {
 	name: 'wikipedia',
 	description: 'Fetches an article from Wikipedia.',
 	usage: 'wikipedia <search term>',
+	args: true,
 	aliases: ['wiki', 'wp'],
 	async execute(client, message, args, functions) {
 		const search = await wiki().search(args.join(' '));
 		if (!search.results[0]) return message.channel.send(functions.simpleEmbed('Nothing found!'));
 		const page = await wiki().page(search.results[0]);
-		const contents = new Array();
-		const unwantedSections = [
-			'See also',
-			'Further reading',
-			'Notes',
-			'References',
-			'External links',
-		];
-		(await page.content()).forEach(section => {
-			if (!unwantedSections.includes(section.title)) {
-				contents.push(section.title);
-			}
-		});
-		// sometimes it's empty
-		let fields = undefined;
-		if (contents.length > 0) {
-			fields = [{ name: 'Contents', value: contents.join(', ') }];
-		}
-		const embed = {
-			title: search.results[0],
-			url: page.url(),
-			description: (await page.summary()).split(' ').splice(0, 64).join(' ') + '...',
-			image: {
-				url: await page.mainImage(),
-			},
-			color: 0x0073E6,
-			fields,
-		};
-		return message.reply({ embeds: [embed] });
+		message.reply(page.url());
 	},
 };
