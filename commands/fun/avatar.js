@@ -44,7 +44,7 @@ module.exports = {
 		];
 
 		const msg = await message.channel.send({
-			content: `${avatarURL}.${filetypeOptions[0].value}?size=4096`,
+			content: `> ${avatarURL}.${filetypeOptions[0].value}?size=4096`,
 			components: rows,
 		});
 		const filter = i => {
@@ -58,12 +58,12 @@ module.exports = {
 				filetypeOptions.find(option => option.default).default = false;
 				filetypeOptions.find(option => option.value === i.values[0]).default = true;
 				rows[0].components[0].setOptions(filetypeOptions);
-				msg.edit({ content: `${avatarURL}.${i.values[0]}?size=${sizeOptions.find(option => option.default).value}`, components: rows });
+				msg.edit({ content: `> ${avatarURL}.${i.values[0]}?size=${sizeOptions.find(option => option.default).value}`, components: rows });
 			} else {
 				sizeOptions.find(option => option.default).default = false;
 				sizeOptions.find(option => option.value === i.values[0]).default = true;
 				rows[1].components[0].setOptions(sizeOptions);
-				msg.edit({ content: `${avatarURL}.${filetypeOptions.find(option => option.default).value}?size=${i.values[0]}`, components: rows });
+				msg.edit({ content: `> ${avatarURL}.${filetypeOptions.find(option => option.default).value}?size=${i.values[0]}`, components: rows });
 			}
 		});
 		collector.on('end', (collected, reason) => {
