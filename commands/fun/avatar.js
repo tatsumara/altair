@@ -67,7 +67,9 @@ module.exports = {
 			}
 		});
 		collector.on('end', (collected, reason) => {
-			if (reason === 'idle') msg.edit({ components: [] });
+			rows[0].components[0].setDisabled();
+			rows[1].components[0].setDisabled();
+			if (reason === 'idle') msg.edit({ components: rows });
 		});
 	},
 };
