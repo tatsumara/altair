@@ -30,12 +30,13 @@ module.exports = {
 			.setDescription(`"${query}"`)
 			.setColor('#0073E6')
 			.setImage(result[x].url)
-			.setFooter({ text: `${x + 1}/${result.length}` });
+			.setFooter({ text: `${x + 1}/${result.length} - using Google Images` });
 
 		const buttons = new MessageActionRow()
 			.addComponents(
-				new MessageButton({ label: 'Previous', customId: 'previous', style: 'SECONDARY' }),
-				new MessageButton({ label: 'Next', customId: 'next', style: 'SECONDARY' }),
+				new MessageButton({ label: '🡰', customId: 'previous', style: 'SECONDARY' }),
+				new MessageButton({ label: '🡲', customId: 'next', style: 'SECONDARY' }),
+				new MessageButton({ label: '🞭', customId: 'close', style: 'DANGER' }),
 			);
 
 		const imageMessage = await message.reply({ embeds: [embed], components: [buttons] });
@@ -46,13 +47,18 @@ module.exports = {
 
 		const collector = imageMessage.createMessageComponentCollector({ filter, idle: 30000 });
 		collector.on('collect', i => {
-			if (i.customId === 'next') x++;
+			if (i.customId === 'close') return collector.stop();
+			else if (i.customId === 'next') x++;
 			else if (x === 0) return;
 			else if (i.customId === 'previous') x--;
-			imageMessage.edit({ embeds: [embed.setImage(result[x].url).setFooter({ text: `${x + 1}/${result.length}` })] });
+			imageMessage.edit({ embeds: [embed.setImage(result[x].url).setFooter({ text: `${x + 1}/${result.length} - using Google Images` })] });
 		});
 		collector.on('end', (collected, reason) => {
 			if (reason === 'idle') imageMessage.edit({ components: [] });
+			if (reason === 'user') {
+				imageMessage.edit({ embeds: [embed.setImage().setDescription(`"${query}"\nImage search closed.`)] });
+				imageMessage.edit({ components: [] });
+			}
 		});
 	},
 };
