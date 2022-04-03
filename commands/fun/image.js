@@ -48,6 +48,7 @@ module.exports = {
 		const collector = imageMessage.createMessageComponentCollector({ filter, idle: 60000 });
 		collector.on('collect', i => {
 			if (i.customId === 'close') return collector.stop();
+			else if (x + 1 === result.length) return;
 			else if (i.customId === 'next') x++;
 			else if (x === 0) return;
 			else if (i.customId === 'previous') x--;
