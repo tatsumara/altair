@@ -45,7 +45,7 @@ module.exports = {
 			return i.user.id === message.author.id;
 		};
 
-		const collector = imageMessage.createMessageComponentCollector({ filter, idle: 30000 });
+		const collector = imageMessage.createMessageComponentCollector({ filter, idle: 60000 });
 		collector.on('collect', i => {
 			if (i.customId === 'close') return collector.stop();
 			else if (i.customId === 'next') x++;
