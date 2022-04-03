@@ -34,9 +34,9 @@ module.exports = {
 
 		const buttons = new MessageActionRow()
 			.addComponents(
-				new MessageButton({ label: '🡰', customId: 'previous', style: 'SECONDARY' }),
-				new MessageButton({ label: '🡲', customId: 'next', style: 'SECONDARY' }),
-				new MessageButton({ label: '🞭', customId: 'close', style: 'DANGER' }),
+				new MessageButton({ label: '◀', customId: 'previous', style: 'SECONDARY' }),
+				new MessageButton({ label: '▶', customId: 'next', style: 'SECONDARY' }),
+				new MessageButton({ label: '✕', customId: 'close', style: 'DANGER' }),
 			);
 
 		const imageMessage = await message.reply({ embeds: [embed], components: [buttons] });
