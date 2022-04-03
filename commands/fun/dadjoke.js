@@ -1,4 +1,3 @@
-const { MessageEmbed } = require('discord.js');
 const got = require('got');
 
 module.exports = {
@@ -13,13 +12,8 @@ module.exports = {
 			'Accept': 'application/json',
 		};
 		got('https://icanhazdadjoke.com/', { headers }).then(res => {
-			const { id, joke } = JSON.parse(res.body);
-			// send the response
-			const embed = new MessageEmbed()
-				.setTitle(joke)
-				.setColor('#0073E6')
-				.setFooter({ text: `ID: ${id}` });
-			return message.reply({ embeds: [embed] });
+			const { joke } = JSON.parse(res.body);
+			return message.reply(joke);
 		});
 	},
 };
