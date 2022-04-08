@@ -13,7 +13,7 @@
   "dependencies": {
     "anilist-node": "^1.11.0",
     "bottomify": "^0.3.0",
-    "chalk": "^4.1.2",
+    "consola": "^2.15.3",
     "deepl": "^1.0.13",
     "discord.js": "^13.6.0",
     "dotenv": "^14.2.0",

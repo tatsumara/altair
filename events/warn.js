@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'warn',
-	execute(warn) {
-		console.log(`[warn] ${warn}`);
+	execute(warn, client) {
+		client.log.info(warn);
 	},
 };

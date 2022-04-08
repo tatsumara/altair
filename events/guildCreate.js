@@ -1,8 +1,6 @@
-const chalk = require('chalk');
-
 module.exports = {
 	name: 'guildCreate',
-	execute(guild) {
-		console.log(chalk.greenBright(`[gild] Joined guild '${guild.name}'.`));
+	execute(guild, client) {
+		client.log.success(`Joined guild '${guild.name}'.`);
 	},
 };

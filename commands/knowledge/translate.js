@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const translate = require('deepl');
 const got = require('got');
 const sift3 = require('sift3');
-const chalk = require('chalk');
 const bottom = require('bottomify');
 
 const textLenLimit = 200;
@@ -25,7 +24,6 @@ function queryLangs() {
 			type: 'target',
 		};
 		got.post('https://api-free.deepl.com/v2/languages', { form }).then(({ body }) => {
-			console.log(chalk.blue('[trlt] Loaded available languages'));
 			resolve(JSON.parse(body));
 		});
 	});
@@ -98,7 +96,7 @@ module.exports = {
 	execute(client, message, args, functions) {
 		// check DEEPL_API_KEY
 		if (!process.env.DEEPL_API_KEY) {
-			return console.log(chalk.red('[cmnd] Please input your DeepL API key in the config.'));
+			return client.log.error('Please input your DeepL API key in the config.');
 		}
 
 		// choose target language
@@ -124,9 +122,8 @@ module.exports = {
 			return message.reply({ embeds: [embed] });
 		}).catch(err => {
 			// send error message
-			console.log(chalk.red(`[trlt] failed to translate string '${text}': ${err}'`));
-			const msg = `Couldn't reach translation service. Text length may have exceeded ${textLenLimit} characters`;
-			return message.channel.send(functions.simpleEmbed(msg));
+			client.log.info(`Failed to translate string '${text}': ${err}'`);
+			return message.channel.send(functions.simpleEmbed(`Couldn't reach translation service. Text length may have exceeded ${textLenLimit} characters.`));
 		});
 	},
 };

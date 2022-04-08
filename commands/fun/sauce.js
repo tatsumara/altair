@@ -1,5 +1,4 @@
 const got = require('got');
-const chalk = require('chalk');
 const saucenaoParser = require('../../modules/saucenaoParser.js');
 // saucenao is really cool but holy shit its api sucks (thankfully this npm module is good)
 module.exports = {
@@ -9,7 +8,7 @@ module.exports = {
 	cooldown: '30',
 	aliases: ['sauce', 'saucenao'],
 	async execute(client, message, args, functions) {
-		if (!process.env.SAUCENAO_API_KEY) return console.log(chalk.red('[cmnd] Please input your SauceNAO API key in the config.'));
+		if (!process.env.SAUCENAO_API_KEY) return client.log.error('Please input your SauceNAO API key in the config.');
 		let msg = message;
 		if (message.type === 'REPLY') {
 			msg = await message.fetchReference();

@@ -1,5 +1,4 @@
 const { Collection } = require('discord.js');
-const chalk = require('chalk');
 const functions = require('../modules/functions.js');
 
 // this is pretty much the meat of this entire bot. complete command handler, cooldowns, aliases, toggles, error handler, you name it.
@@ -53,12 +52,12 @@ module.exports = {
 			await message.channel.sendTyping();
 			if (client.typingDisabled) {
 				client.typingDisabled = false;
-				console.log(chalk.grey('[main] Typing enabled.'));
+				client.log.info('Typing enabled.');
 			}
 		} catch (err) {
 			if (!client.typingDisabled) {
 				client.typingDisabled = true;
-				console.log(chalk.grey('[main] Typing disabled.'));
+				client.log.info('Typing disabled.');
 			}
 		}
 
@@ -67,13 +66,13 @@ module.exports = {
 
 		client.commandsRan++;
 
-		// this is the main bit that actually executes the command and catches any errors (i might add more info to the console.log())
-		console.log(chalk.yellow(`[cmnd] ${message.author.tag} ran '${command.name} ${args.join(' ')}'`));
+		// this is the main bit that actually executes the command and catches any errors (i might add more info to the log)
+		client.log.info(`${message.author.tag} ran '${command.name} ${args.join(' ')}'`);
 		try {
 			await command.execute(client, message, args, functions);
 		} catch (error) {
-			console.log(chalk.red(`[main] An error has occured in '${command.name} ${args.join(' ')}'!`));
-			console.log(chalk.redBright(error.stack || error));
+			client.log.error(`An error has occured in '${command.name} ${args.join(' ')}'!`);
+			client.log.error(error);
 			message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${process.env.OWNER_ID}> if this issue persists!`, '#FF0000'));
 		}
 	},
