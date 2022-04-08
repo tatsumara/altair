@@ -1,6 +1,5 @@
 const { Client, Collection, Intents } = require('discord.js');
 const fs = require('fs');
-const chalk = require('chalk');
 require('dotenv').config();
 
 const intents = [
@@ -21,8 +20,7 @@ const client = new Client({
 		}],
 	},
 });
-console.log(chalk.grey('[main] Initialized client.'));
-
+client.log = require('consola');
 // cooldown collection must be defined this early or message.js wouldn't have access to it
 client.cooldowns = new Collection();
 
@@ -40,7 +38,7 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args, client));
 	}
 }
-console.log(chalk.grey(`[evnt] Registered ${eventFiles.length} event listeners.`));
+client.log.info(`Registered ${eventFiles.length} event listeners.`);
 
 // builds the command collection to be used in ./events/message.js
 client.commands = new Collection();
@@ -55,16 +53,16 @@ for (const folder of commandFolders) {
 		client.commands.set(command.name, command);
 	}
 }
-console.log(chalk.grey(`[cmnd] Loaded ${client.commands.size} commands.`));
+client.log.info(`Loaded ${client.commands.size} commands.`);
 
 process.on('unhandledRejection', error => {
-	console.error(chalk.red('[main] Unhandled promise rejection:'));
-	console.error(chalk.redBright('[----]', error.stack));
+	client.log.error('Unhandled promise rejection:');
+	client.log.error(error);
 });
 
 process.on('uncaughtException', error => {
-	console.error(chalk.red('[main] Uncaught exception:'));
-	console.error(chalk.redBright('[----]', error.stack));
+	client.log.error('Uncaught exception:');
+	client.log.error(error.stack);
 });
 
 client.login();
