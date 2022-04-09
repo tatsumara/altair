@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:lts-alpine
 
 # create and set workdir
 WORKDIR /usr/src/altair
