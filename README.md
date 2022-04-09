@@ -3,9 +3,9 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/tatsumara/altair/graphs/commit-activity)
 [![Author](https://img.shields.io/badge/Author-tatsumara-purple.svg)](https://shields.io/)
 
-This is just a repository to store and track development of my personal discord bot. You can do with this code what you want, but if you're gonna publish something based off of it (which is understandably very unlikely), please be sure to credit me! (:
+altair is your personal search engine for just about everything, inside of discord!
 
-## Add the main version hosted by me to your server (at your own risk)
+## Add to your server
 https://discord.com/oauth2/authorize?client_id=713237659064991805&scope=bot&permissions=294208924736
 
 ## Usage example
@@ -20,8 +20,7 @@ DEEPL_API_KEY = <>
 ```
 ## TODO
 * Server specifig config/database implementation
-* ~~Voice support/music player~~ work on amusic
-* Getting the additional discord.js packages to work
+* Standardize responses, embeds and buttons
 * Paginate anime and manga commands
 ## Meta
 mara#8977 on Discord
