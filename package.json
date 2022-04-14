@@ -22,7 +22,7 @@
     "got": "11.8.3",
     "sift3": "^0.0.1",
     "wikijs": "^6.3.3",
-    "ytsr": "^3.6.0"
+    "ytsr": "^3.7.0"
   },
   "devDependencies": {
     "eslint": "^8.8.0",

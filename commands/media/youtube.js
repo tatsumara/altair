@@ -19,11 +19,11 @@ module.exports = {
 
 		const buttons = new MessageActionRow()
 			.addComponents(
-				new MessageButton({ label: 'Previous', customId: 'previous', style: 'SECONDARY' }),
-				new MessageButton({ label: 'Next', customId: 'next', style: 'SECONDARY' }),
+				new MessageButton({ label: '◀', customId: 'previous', style: 'SECONDARY' }),
+				new MessageButton({ label: '▶', customId: 'next', style: 'SECONDARY' }),
 			);
 
-		const youtubeMessage = await message.reply({ content: `#1/${results.length} | ${results[x].url}`, components: [buttons] });
+		const youtubeMessage = await message.reply({ content: `1/${results.length} | ${results[x].url}`, components: [buttons] });
 		const filter = i => {
 			i.deferUpdate();
 			return i.user.id === message.author.id;
@@ -37,7 +37,7 @@ module.exports = {
 				x--;
 				return;
 			}
-			youtubeMessage.edit({ content: `#${x + 1}/${results.length} | ${results[x].url}` });
+			youtubeMessage.edit({ content: `${x + 1}/${results.length} | ${results[x].url}` });
 		});
 		collector.on('end', (collected, reason) => {
 			if (reason === 'idle') youtubeMessage.edit({ components: [] });
