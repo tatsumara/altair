@@ -68,7 +68,7 @@ process.on('unhandledRejection', error => {
 
 process.on('uncaughtException', error => {
 	client.log.error('Uncaught exception:');
-	client.log.error(error.stack);
+	client.log.error(error);
 });
 
 client.login();
