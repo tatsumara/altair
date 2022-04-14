@@ -15,7 +15,7 @@ module.exports = {
 		}
 		let x = 0;
 
-		const results = result.items.filter(item => item.type === 'channel' | item.type === 'video' | item.type === 'playlist');
+		const results = result.items.filter(item => item.type !== 'shelf');
 
 		const buttons = new MessageActionRow()
 			.addComponents(
