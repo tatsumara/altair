@@ -5,7 +5,7 @@ module.exports = {
 	aliases: ['si', 'sinfo', 'server'],
 	async execute(client, message) {
 		const embed = {
-			color: '#0073E6',
+			color: client.colors.blue,
 			title: `${message.guild.name}`,
 			thumbnail: {
 				url: message.guild.iconURL({ size: 4096, dynamic: true }),

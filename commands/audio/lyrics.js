@@ -19,7 +19,7 @@ module.exports = {
 		const embed = new MessageEmbed()
 			// .setTitle(results[0].featuredTitle)
 			.setURL(results[0].url)
-			.setColor('#0073E6')
+			.setColor(client.colors.blue)
 			.setAuthor(results[0].fullTitle, results[0].thumbnail, results[0].url);
 		return message.channel.send({ embeds: [embed], files: [{
 			attachment: Buffer.from(lyrics),

@@ -1,4 +1,4 @@
-module.exports = (result) => {
+module.exports = (client, result) => {
 	const author = result.data.author_name || result.data.member_name || result.data.creator || result.data.artist || result.data.author || result.data.twitter_user_handle || 'Unknown';
 	const thumbnail = result.header.thumbnail;
 
@@ -19,13 +19,13 @@ module.exports = (result) => {
 
 	const confidence = result.header.similarity;
 	let embedTitle = 'Source Found!';
-	let color = '#0073E6';
+	let color = client.colors.blue;
 	if (confidence < 50.0) {
 		embedTitle = 'Source probably not found.';
-		color = '#FF0000';
+		color = client.colors.red;
 	} else if (confidence < 75.0) {
 		embedTitle = 'Source found?';
-		color = '#FFA500';
+		color = client.colors.yellow;
 	}
 
 	return {

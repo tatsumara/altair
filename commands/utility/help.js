@@ -7,7 +7,7 @@ module.exports = {
 	aliases: ['commands'],
 	execute(client, message, args, functions) {
 		const embed = new MessageEmbed()
-			.setColor('#0073E6');
+			.setColor(client.colors.blue);
 		if (!args[0]) {
 			embed.setTitle('Altair Commands');
 			const structure = new Map();
@@ -26,7 +26,7 @@ module.exports = {
 			// this is probably the only time i'll ever use find(), although it is very nice
 			const command = client.commands.get(name) || client.commands.find(c => c.aliases && c.aliases.includes(name));
 			if (!command) {
-				return message.channel.send(functions.simpleEmbed('This command doesn\'t exist!', '', '#FFA500'));
+				return message.channel.send(functions.simpleEmbed('This command doesn\'t exist!', '', client.colors.yellow));
 			}
 			embed.setTitle(`Command "${command.name}"`);
 			// this looks ugly but it works, maybe i'll just loop over all available properties of the command and display them like that

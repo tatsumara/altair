@@ -27,6 +27,12 @@ client.cooldowns = new Collection();
 // command counter, because why not
 client.commandsRan = 0;
 
+client.colors = {
+	'blue': '#0073E6',
+	'yellow': '#E67300',
+	'red': '#ff2f2f',
+};
+
 // redirects most used events to the respective files in ./events, for example the message and ready events
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {

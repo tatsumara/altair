@@ -18,7 +18,7 @@ module.exports = {
 			// might add some more elements to the embed later
 			const embed = new MessageEmbed()
 				.setTitle(`UrbanDictionary: "${args.join(' ')}"`)
-				.setColor('#0073E6')
+				.setColor(client.colors.blue)
 				.setDescription(result.list[0].definition.replace(/\[/g, '').replace(/\]/g, '') + '\n');
 			return message.channel.send({ embeds: [embed] });
 		});

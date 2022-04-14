@@ -117,7 +117,7 @@ module.exports = {
 			// send response
 			const embed = new MessageEmbed()
 				.setTitle(`Translated into ${langToFlag(target)}:`)
-				.setColor('#0073E6')
+				.setColor(client.colors.blue)
 				.setDescription(translated);
 			return message.reply({ embeds: [embed] });
 		}).catch(err => {

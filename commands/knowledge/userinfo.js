@@ -11,7 +11,7 @@ module.exports = {
 		}
 		if (!member) return message.channel.send(functions.simpleEmbed('User not found or not a user!'));
 		const embed = {
-			color: '#0073E6',
+			color: client.colors.blue,
 			title: `${member.user.tag}`,
 			thumbnail: {
 				url: member.user.avatarURL({ size: 4096, dynamic: true }),

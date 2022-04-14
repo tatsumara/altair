@@ -28,7 +28,7 @@ module.exports = {
 		const embed = new MessageEmbed()
 			.setTitle('Image Search Results:')
 			.setDescription(`"${query}"`)
-			.setColor('#0073E6')
+			.setColor(client.colors.blue)
 			.setImage(result[x].url)
 			.setFooter({ text: `${x + 1}/${result.length} - using Google Images` });
 

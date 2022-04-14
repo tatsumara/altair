@@ -8,7 +8,7 @@ module.exports = {
 		let memberCount = 0;
 		client.guilds.cache.forEach(guild => memberCount = memberCount + guild.memberCount);
 		const embed = new MessageEmbed()
-			.setColor('#0073E6')
+			.setColor(client.colors.blue)
 			.setThumbnail(client.user.avatarURL())
 			.setTitle('Altair - Watching the quadrant.')
 			.addFields(
