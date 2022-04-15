@@ -9,7 +9,11 @@ module.exports = {
 	async execute(client, message, args, functions) {
 		let member = message.mentions.members.first() || args[0]?.match(/\d{17,18}/) || message.member;
 		if (Array.isArray(member)) {
-			member = await message.guild.members.fetch(member[0]);
+			try {
+				member = await message.guild.members.fetch(member[0]);
+			} catch {
+				member = undefined;
+			}
 		}
 		if (!member) return message.channel.send(functions.simpleEmbed('User not found or not a user!'));
 
