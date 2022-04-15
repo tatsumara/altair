@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageSelectMenu } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
 
 module.exports = {
 	name: 'avatar',
@@ -43,8 +43,13 @@ module.exports = {
 			new MessageActionRow().setComponents([ new MessageSelectMenu().setCustomId('size').setOptions(sizeOptions) ]),
 		];
 
-		const msg = await message.channel.send({
-			content: `> ${avatarURL}.${filetypeOptions[0].value}?size=4096`,
+		const embed = new MessageEmbed()
+			.setColor(client.colors.blue)
+			.setImage(`${avatarURL}.${filetypeOptions[0].value}?size=4096`)
+			.setTitle('Open original')
+			.setURL(`${avatarURL}.${filetypeOptions[0].value}?size=4096`);
+		const msg = await message.reply({
+			embeds: [embed],
 			components: rows,
 		});
 		const filter = i => {
@@ -58,18 +63,18 @@ module.exports = {
 				filetypeOptions.find(option => option.default).default = false;
 				filetypeOptions.find(option => option.value === i.values[0]).default = true;
 				rows[0].components[0].setOptions(filetypeOptions);
-				msg.edit({ content: `> ${avatarURL}.${i.values[0]}?size=${sizeOptions.find(option => option.default).value}`, components: rows });
+				const url = `${avatarURL}.${i.values[0]}?size=${sizeOptions.find(option => option.default).value}`;
+				msg.edit({ embeds: [embed.setImage(url).setTitle('Open original').setURL(url)], components: rows });
 			} else {
 				sizeOptions.find(option => option.default).default = false;
 				sizeOptions.find(option => option.value === i.values[0]).default = true;
 				rows[1].components[0].setOptions(sizeOptions);
-				msg.edit({ content: `> ${avatarURL}.${filetypeOptions.find(option => option.default).value}?size=${i.values[0]}`, components: rows });
+				const url = `${avatarURL}.${filetypeOptions.find(option => option.default).value}?size=${i.values[0]}`;
+				msg.edit({ embeds: [embed.setImage(url).setTitle('Open original').setURL(url)], components: rows });
 			}
 		});
 		collector.on('end', (collected, reason) => {
-			rows[0].components[0].setDisabled();
-			rows[1].components[0].setDisabled();
-			if (reason === 'idle') msg.edit({ components: rows });
+			if (reason === 'idle') msg.edit({ components: [] });
 		});
 	},
 };
