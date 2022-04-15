@@ -6,7 +6,7 @@ module.exports = {
 	usage: 'wolframalpha <query>',
 	args: true,
 	disabled: false,
-	aliases: ['wolfram', 'walpha'],
+	aliases: ['wolfram', 'walpha', 'wa'],
 	async execute(client, message, args) {
 		if (!process.env.WOLFRAM_API_KEY) return client.log.info('Please input your WolframAlpha API key in the config.');
 		try {
