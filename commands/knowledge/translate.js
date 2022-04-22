@@ -6,10 +6,24 @@ const bottom = require('bottomify');
 
 const textLenLimit = 200;
 
+const nonConforming = {
+	'cz': 'cs',
+	'jp': 'ja',
+	'dk': 'da',
+	'gr': 'el',
+	'cn': 'zh',
+};
+const nonConformingReverse = Object.fromEntries(Object.entries(nonConforming).map(([k, v]) => [v, k]));
+function conformingToDeepL(lang) {
+	return nonConforming[lang] ?? lang;
+}
+function deepLtoConforming(lang) {
+	return nonConformingReverse[lang] ?? lang;
+}
+
 function langToFlag(lang) {
-	lang = lang.toLowerCase();
+	lang = deepLtoConforming(lang.toLowerCase());
 	if (lang === 'btm') return ':pleading_face:';
-	if (lang === 'ja') return ':flag_jp:';
 	if (lang === 'en') return ':flag_gb:';
 	if (lang.includes('-')) return `:flag_${lang.slice(lang.search('-') + 1)}:`;
 	return `:flag_${lang}:`;
@@ -19,26 +33,26 @@ let langs = [];
 function queryLangs() {
 	return new Promise((resolve, reject) => {
 		if (!process.env.DEEPL_API_KEY) reject('no DEEPL_API_KEY env var');
-		const form = {
-			auth_key: process.env.DEEPL_API_KEY,
-			type: 'target',
+		const headers = {
+			'Authorization': 'DeepL-Auth-Key ' + process.env.DEEPL_API_KEY,
 		};
-		got.post('https://api-free.deepl.com/v2/languages', { form }).then(({ body }) => {
+		got('https://api-free.deepl.com/v2/languages', { headers }).then(({ body }) => {
 			resolve(JSON.parse(body));
-		});
+		}).catch(e => reject(e));
 	});
 }
 queryLangs().then(l => {
 	langs = l;
 	// mara please don't beat me to death
 	langs.push({ language: 'BTM', name: 'Bottom' });
+}).catch(e => {
+	console.error('failed to retrieve languages:', e);
 });
 
 function findLang(target) {
-	let best = '';
+	let best = null;
 	let bestDist = 100;
-	// damn you DeepL with non-standard two-letter codes
-	if (target === 'jp') target = 'ja';
+	target = conformingToDeepL(target);
 	for (const { language, name } of langs) {
 		const includes = target.length >= 5 && name.toLowerCase().includes(target);
 		if (includes || target.toUpperCase() === language) {
@@ -54,9 +68,9 @@ function findLang(target) {
 	return best;
 }
 
-function getTranslation(text, lang) {
+function getTranslation(text, source, target) {
 	// encode bottom
-	if (lang === 'BTM') {
+	if (target === 'BTM') {
 		const translation = bottom.encode(text);
 		return new Promise((resolve) => resolve({
 			data: { translations: [{ text: translation }] },
@@ -70,13 +84,14 @@ function getTranslation(text, lang) {
 
 	// check length
 	if (text.length > textLenLimit) {
-		return new Promise((res, rej) => rej('Size limit exceeded'));
+		return new Promise((_, rej) => rej('Size limit exceeded'));
 	}
 
 	// call DeepL
 	return translate({
 		text,
-		target_lang: lang,
+		source_lang: source === '' ? undefined : source,
+		target_lang: target,
 		auth_key: process.env.DEEPL_API_KEY,
 		free_api: true,
 	});
@@ -85,10 +100,13 @@ function getTranslation(text, lang) {
 module.exports = {
 	name: 'translate',
 	description: 'Translates a string of text (into English by default).',
-	usage: 'translate {<target language>} <text>',
+	usage: 'translate <[ or {>[source language->]<target language><matching closing brace> <text>',
 	examples: [
-		'translate {german} I like berries and cream',
 		'translate Dies ist ein Beispiel.',
+		'translate {german} I like berries and cream',
+		'translate [german] I like writing bots',
+		'translate Privyet, mir! [russian->german]',
+		'translate [list] <- will list all languages',
 	],
 	cooldown: '10',
 	args: true,
@@ -99,20 +117,38 @@ module.exports = {
 			return client.log.error('Please input your DeepL API key in the config.');
 		}
 
-		// choose target language
-		let target = 'EN';
-		if (args[0].startsWith('{') && args[0].endsWith('}')) {
-			const name = args[0].substr(1, args[0].length - 2);
-			target = findLang(name);
-			if (target === '') {
-				return message.channel.send(functions.simpleEmbed('I don\'t know this language.'));
+		// find language specifier in args
+		let [origSource, origTarget] = ['', 'EN'];
+		const regex = /([{[])([a-z]+->)?([a-z]+)[}\]]/i;
+		const match = regex.exec(args.join(' '));
+		if (match) {
+			origSource = match[2] ?? '';
+			origTarget = match[3];
+			args = args.filter(a => !regex.test(a));
+		}
+
+		// if the target language is "list", return an embed with all languages
+		if (origTarget.toLowerCase() === 'list') {
+			const embed = new MessageEmbed();
+			embed.setTitle('Languages');
+			for (const { language, name } of langs) {
+				embed.addField(langToFlag(language) + ' ' + name, language, true);
 			}
-			args.shift();
+			return message.channel.send({ embeds: [embed] });
+		}
+
+		// try to find the languages user specified
+		const [source, target] = [origSource, origTarget].map(findLang);
+		if (!source && origSource) {
+			return message.channel.send(functions.simpleEmbed(`I don't know this source language (${origSource})`));
+		}
+		if (!target) {
+			return message.channel.send(functions.simpleEmbed(`I don't know this target language (${origTarget})`));
 		}
 
 		// query the API
 		const text = args.join(' ');
-		getTranslation(text, target).then(({ data }) => {
+		getTranslation(text, source, target).then(({ data }) => {
 			const { text: translated } = data.translations[0];
 			// send response
 			const embed = new MessageEmbed()
