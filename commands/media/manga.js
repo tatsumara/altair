@@ -29,7 +29,9 @@ module.exports = {
 				{ name: 'Alternate Spellings:', value: alternateSpellings, inline: true },
 				{ name: 'Start date:', value: `${manga.startDate.day || '--'}.${manga.startDate.month || '--'}.${manga.startDate.year || '----'}`, inline: true },
 				{ name: 'End date:', value: `${manga.endDate.day || '--' }.${manga.endDate.month || '--' }.${manga.endDate.year || '----' }`, inline: true },
-				{ name: 'Status:', value: `${manga.status} with ${manga.volumes || 'unknown'} volumes`, inline: true },
+				{ name: 'Status:', inline: true, value:
+					`${manga.status.replace('_', ' ')} ` +
+					`with ${manga.volumes || 'unknown'} volumes` },
 			],
 			description: `${manga.description?.replace(/<[^>]*>/gm, '').split(' ').splice(0, 32).join(' ') || 'No description'}...`,
 			footer: {

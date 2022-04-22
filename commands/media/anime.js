@@ -34,7 +34,7 @@ module.exports = {
 				{ name: 'Start date:', value: formatDate(anime.startDate), inline: true },
 				{ name: 'End date:', value: formatDate(anime.endDate), inline: true },
 				{ name: 'Status:', inline: true, value:
-					`${anime.status.replace('NOT_YET_RELEASED', 'Not yet released')} ` +
+					`${anime.status.replace('_', ' ')} ` +
 					`with ${anime.episodes || 'unknown'} episodes` },
 				{ name: 'Studio:', value: anime.studios.find(studio => studio.isAnimationStudio)?.name || 'unknown', inline: true },
 				{ name: 'Source:', value: anime.source, inline: true },
