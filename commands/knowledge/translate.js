@@ -7,11 +7,14 @@ const bottom = require('bottomify');
 const textLenLimit = 200;
 
 const nonConforming = {
-	'cz': 'cs',
-	'jp': 'ja',
-	'dk': 'da',
-	'gr': 'el',
-	'cn': 'zh',
+	'cz': 'cs', // czech
+	'jp': 'ja', // japanese
+	'dk': 'da', // danish
+	'gr': 'el', // greek
+	'cn': 'zh', // chinese
+	'se': 'sv', // swedish
+	'si': 'sl', // slovenian
+	'ee': 'et', // estonian
 };
 const nonConformingReverse = Object.fromEntries(Object.entries(nonConforming).map(([k, v]) => [v, k]));
 function conformingToDeepL(lang) {
@@ -52,6 +55,7 @@ queryLangs().then(l => {
 function findLang(target) {
 	let best = null;
 	let bestDist = 100;
+	target = target.toLowerCase();
 	target = conformingToDeepL(target);
 	for (const { language, name } of langs) {
 		const includes = target.length >= 5 && name.toLowerCase().includes(target);
@@ -64,7 +68,7 @@ function findLang(target) {
 			bestDist = dist;
 		}
 	}
-	if (bestDist >= 4) return '';
+	if (bestDist >= 4) return null;
 	return best;
 }
 
@@ -78,7 +82,8 @@ function getTranslation(text, source, target) {
 	}
 
 	// decode bottom
-	if (/^[🫂✨👉👈💖🥺, ]+$/u.test(text)) {
+	if (/^[🫂✨👉👈💖🥺, ]+$/u.test(text) || source === 'BTM') {
+		source = '';
 		text = bottom.decode(text);
 	}
 
@@ -119,11 +124,11 @@ module.exports = {
 
 		// find language specifier in args
 		let [origSource, origTarget] = ['', 'EN'];
-		const regex = /([{[])([a-z]+->)?([a-z]+)[}\]]/i;
+		const regex = /([{[])(([a-z]+)->)?([a-z]+)[}\]]/i;
 		const match = regex.exec(args.join(' '));
 		if (match) {
-			origSource = match[2] ?? '';
-			origTarget = match[3];
+			origSource = match[3] ?? '';
+			origTarget = match[4];
 			args = args.filter(a => !regex.test(a));
 		}
 
@@ -132,7 +137,8 @@ module.exports = {
 			const embed = new MessageEmbed();
 			embed.setTitle('Languages');
 			for (const { language, name } of langs) {
-				embed.addField(langToFlag(language) + ' ' + name, language, true);
+				const conformingName = deepLtoConforming(language.toLowerCase());
+				embed.addField(langToFlag(language) + ' ' + name, conformingName, true);
 			}
 			return message.channel.send({ embeds: [embed] });
 		}
