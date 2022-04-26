@@ -4,7 +4,7 @@ const { GOOGLE_IMG_SCRAP } = require('google-img-scrap');
 module.exports = {
 	name: 'image',
 	description: 'Searches on Google Images.',
-	usage: 'image <search query> (You can navigate the results by sending b/n for next and back respectively!)',
+	usage: 'image <search query>',
 	cooldown: '30',
 	args: true,
 	aliases: ['im', 'img'],
