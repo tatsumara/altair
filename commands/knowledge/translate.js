@@ -124,11 +124,11 @@ module.exports = {
 
 		// find language specifier in args
 		let [origSource, origTarget] = ['', 'EN'];
-		const regex = /([{[])(([a-z]+)->)?([a-z]+)[}\]]/i;
+		const regex = /[{[](?:([a-z]+)->)?([a-z]+)[}\]]/i;
 		const match = regex.exec(args.join(' '));
 		if (match) {
-			origSource = match[3] ?? '';
-			origTarget = match[4];
+			origSource = match[1] ?? '';
+			origTarget = match[2];
 			args = args.filter(a => !regex.test(a));
 		}
 
