@@ -1,5 +1,4 @@
 const got = require('got');
-const fs = require('fs');
 
 module.exports = {
 	name: 'cat',
