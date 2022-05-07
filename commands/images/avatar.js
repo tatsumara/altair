@@ -3,7 +3,7 @@ const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.j
 module.exports = {
 	name: 'avatar',
 	description: 'Sends your or the mentioned users avatar.',
-	usage: 'avatar [user]',
+	usage: '/avatar [user]',
 	guildOnly: true,
 	slashOptions: [
 		{ name: 'user', description: 'user to get the avatar of', type: 6, required: false },

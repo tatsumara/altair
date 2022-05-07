@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'banner',
 	description: 'Sends your or the mentioned users banner.',
-	usage: 'banner [user]',
+	usage: '/banner [user]',
 	guildOnly: true,
 	slashOptions: [
 		{ name: 'user', description: 'user to get the banner of', type: 6, required: false },

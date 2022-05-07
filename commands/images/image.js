@@ -4,7 +4,7 @@ const { GOOGLE_IMG_SCRAP } = require('google-img-scrap');
 module.exports = {
 	name: 'image',
 	description: 'Searches on Google Images.',
-	usage: 'image <search query>',
+	usage: '/image <search query>',
 	cooldown: 30,
 	slashOptions: [
 		{ name: 'query', description: 'query to run', type: 3, required: true },

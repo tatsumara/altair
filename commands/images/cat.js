@@ -3,7 +3,6 @@ const got = require('got');
 module.exports = {
 	name: 'cat',
 	description: 'Sends an image of a cat.',
-	guildOnly: false,
 	slashOptions: [],
 	async execute(client, interaction) {
 		const stream = got.stream('https://thiscatdoesnotexist.com/');

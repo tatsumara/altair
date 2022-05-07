@@ -3,7 +3,6 @@ const got = require('got');
 module.exports = {
 	name: 'dadjoke',
 	description: 'Tells a dad joke.',
-	usage: 'dadjoke',
 	slashOptions: [],
 	async execute(_client, interaction) {
 		// make the request
