@@ -25,10 +25,6 @@ module.exports = {
 			result = '"' + result + '"';
 		}
 
-		if (number > 5) {
-			throw Error('number is too big');
-		}
-
 		await interaction.editReply(`"${string}" ${action === 'add' ? '+' : '-'} ${number} = ${result}`);
 	},
 };

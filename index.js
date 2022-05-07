@@ -83,7 +83,13 @@ process.on('uncaughtException', error => {
 
 // have to log in and _then_ add the commands because `applications`
 // only becomes available then
-client.login().then(() => {
+client.login().then(async () => {
+	// wait for options to become available
+	for (const command of slashCommands) {
+		command.options = await command.options;
+	}
+	client.log.info('Calculated options');
+
 	// register slash commands
 	const guild = process.env.ADD_SLASH_TO;
 	const where = guild ? `in guild ${guild}` : 'globally';
