@@ -22,6 +22,7 @@ DEEPL_API_KEY = <>
 * Server specifig config/database implementation
 * Standardize responses, embeds and buttons
 * Paginate anime and manga commands
+* Implement slash commands using [this function](https://discord.js.org/#/docs/discord.js/stable/class/ApplicationCommandManager?scrollTo=set)
 ## Meta
 mara#8977 on Discord
 
