@@ -1,8 +1,8 @@
 module.exports = {
 	name: 'ping',
 	description: 'Pong.',
-	usage: 'seriously? its just ping',
-	execute(client, message) {
-		return message.channel.send('Pong.');
+	slashOptions: [],
+	async execute(client, interaction) {
+		await interaction.editReply('Pong.');
 	},
 };
