@@ -50,7 +50,7 @@ module.exports = {
 
 		try {
 			client.log.info(`${interaction.user.tag} ran /${command.name}`);
-			await interaction.deferReply();
+			if (!command.dontDefer) await interaction.deferReply();
 			await command.execute(client, interaction, functions);
 			client.commandsRan++;
 		} catch (err) {

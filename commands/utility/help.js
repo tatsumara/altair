@@ -7,6 +7,7 @@ module.exports = {
 	slashOptions: [
 		{ name: 'command', description: 'command to describe', type: 3, required: false },
 	],
+	dontDefer: true,
 	async execute(client, interaction, functions) {
 		const cmd = interaction.options.getString('command');
 		const embed = new MessageEmbed()
@@ -29,7 +30,10 @@ module.exports = {
 			// this is probably the only time i'll ever use find(), although it is very nice
 			const command = client.commands.get(name) || client.commands.find(c => c.aliases && c.aliases.includes(name));
 			if (!command) {
-				await interaction.editReply(functions.simpleEmbed('This command doesn\'t exist!', '', client.colors.yellow));
+				await interaction.reply({
+					...functions.simpleEmbed('This command doesn\'t exist!', '', client.colors.yellow),
+					ephemeral: true,
+				});
 				return;
 			}
 			embed.setTitle(`Command "${command.name}"`);
@@ -49,6 +53,6 @@ module.exports = {
 			}
 		}
 
-		await interaction.editReply({ embeds: [embed] });
+		await interaction.reply({ embeds: [embed] });
 	},
 };
