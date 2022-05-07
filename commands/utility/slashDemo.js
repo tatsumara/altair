@@ -13,10 +13,9 @@ module.exports = {
 		{ name: 'string', description: 'string (left hand side)', type: 3, required: true },
 		{ name: 'number', description: 'number (right hand side)', type: 4, required: true },
 	],
+	cooldown: 10,
 
-	execute(client, interaction, _functions) {
-		console.log('slash demo executed');
-
+	async execute(client, interaction, _functions) {
 		const action = interaction.options.getString('action');
 		const string = interaction.options.getString('string');
 		const number = interaction.options.getInteger('number');
@@ -26,6 +25,10 @@ module.exports = {
 			result = '"' + result + '"';
 		}
 
-		interaction.editReply(`"${string}" ${action === 'add' ? '+' : '-'} ${number} = ${result}`);
+		if (number > 5) {
+			throw Error('number is too big');
+		}
+
+		await interaction.editReply(`"${string}" ${action === 'add' ? '+' : '-'} ${number} = ${result}`);
 	},
 };
