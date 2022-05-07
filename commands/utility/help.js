@@ -29,6 +29,7 @@ module.exports = {
 				return message.channel.send(functions.simpleEmbed('This command doesn\'t exist!', '', client.colors.yellow));
 			}
 			embed.setTitle(`Command "${command.name}"`);
+
 			// this looks ugly but it works, maybe i'll just loop over all available properties of the command and display them like that
 			if (command.aliases) embed.addField('Aliases', `\`${command.aliases.join(', ')}\``, true);
 			if (command.usage) embed.addField('Usage', `\`${command.usage}\``, true);
@@ -39,6 +40,10 @@ module.exports = {
 				if (command.examples.length > 1) title += 's';
 				embed.addField(title, command.examples.map(x => `\`${x}\``).join('\n'));
 			}
+
+			embed.addField('Slash?', command.slashOptions
+				? '<:slash:972537915659931668> This is a slash command.'
+				: '<:not_slash:972541239293526076> This is not a slash command.');
 		}
 
 		return message.channel.send({ embeds: [embed] });

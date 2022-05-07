@@ -103,11 +103,11 @@ module.exports = {
 			throw Error('Please input your DeepL API key in the config.');
 		}
 
-		// query the API
 		const text = interaction.options.getString('text');
 		const source = interaction.options.getString('source');
 		const target = interaction.options.getString('target') || 'EN';
 
+		// query the API
 		getTranslation(text, source, target).then(({ data }) => {
 			const { text: translated } = data.translations[0];
 			// send response
