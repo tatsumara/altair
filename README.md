@@ -18,6 +18,7 @@ SAUCENAO_API_KEY = <>
 WOLFRAM_API_KEY = <>
 DEEPL_API_KEY = <>
 ```
+Because global slash commands updates take up to an hour, if you want to test things out locally, you may also set the `ADD_SLASH_TO` environment variable to your test server ID for near-instant updates.
 ## TODO
 * Server specifig config/database implementation
 * Standardize responses, embeds and buttons

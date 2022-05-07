@@ -48,6 +48,7 @@ client.log.info(`Registered ${eventFiles.length} event listeners.`);
 
 // builds the command collection to be used in ./events/message.js
 client.commands = new Collection();
+const slashCommands = [];
 
 const commandFolders = fs.readdirSync('./commands');
 
@@ -57,6 +58,15 @@ for (const folder of commandFolders) {
 		const command = require(`./commands/${folder}/${file}`);
 		command.category = folder;
 		client.commands.set(command.name, command);
+
+		// keep track of slash commands
+		if (command.slashOptions) {
+			slashCommands.push({
+				name: command.name,
+				description: command.description,
+				options: command.slashOptions,
+			});
+		}
 	}
 }
 client.log.info(`Loaded ${client.commands.size} commands.`);
@@ -71,4 +81,21 @@ process.on('uncaughtException', error => {
 	client.log.error(error);
 });
 
-client.login();
+// have to log in and _then_ add the commands because `applications`
+// only becomes available then
+client.login().then(async () => {
+	// wait for options to become available
+	for (const command of slashCommands) {
+		command.options = await command.options;
+	}
+	client.log.info('Calculated options');
+
+	// register slash commands
+	const guild = process.env.ADD_SLASH_TO;
+	const where = guild ? `in guild ${guild}` : 'globally';
+	client.application.commands.set(slashCommands, guild).then(() => {
+		client.log.info(`Registered ${slashCommands.length} slash commands ${where}.`);
+	}).catch(e => {
+		client.log.error('Couldn\'t register slash commands:', e);
+	});
+});
