@@ -12,6 +12,7 @@ module.exports = {
 		//     the check logic (timeouts and stuff) out
 
 		const command = client.commands.get(interaction.commandName);
+		if (!command) return;
 
 		async function error(title, desc, edit = false) {
 			const func = interaction[edit ? 'editReply' : 'reply'].bind(interaction);

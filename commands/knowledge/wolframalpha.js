@@ -1,19 +1,20 @@
 const got = require('got');
 
 module.exports = {
-	name: 'wolframalpha',
+	name: 'wolfram',
 	description: 'Queries WolframAlpha.',
-	usage: 'wolframalpha <query>',
-	args: true,
-	disabled: false,
-	aliases: ['wolfram', 'walpha', 'wa'],
-	async execute(client, message, args) {
+	usage: '/wolfram <query>',
+	slashOptions: [
+		{ name: 'term', description: 'term to define', type: 3, required: true },
+	],
+	async execute(client, interaction) {
+		const term = interaction.options.getString('term');
 		if (!process.env.WOLFRAM_API_KEY) return client.log.error('Please input your WolframAlpha API key in the config.');
 		try {
-			const res = await got(`http://api.wolframalpha.com/v1/spoken?appid=${process.env.WOLFRAM_API_KEY}&i=${encodeURIComponent(args.join(' '))}`);
-			message.reply(res.body + '.');
+			const res = await got(`http://api.wolframalpha.com/v1/spoken?appid=${process.env.WOLFRAM_API_KEY}&i=${encodeURIComponent(term)}`);
+			interaction.editReply(res.body + '.');
 		} catch (err) {
-			return message.reply('I can\'t answer this.');
+			return interaction.editReply('I can\'t answer this.');
 		}
 	},
 };
