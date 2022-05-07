@@ -4,14 +4,16 @@ const { GOOGLE_IMG_SCRAP } = require('google-img-scrap');
 module.exports = {
 	name: 'image',
 	description: 'Searches on Google Images.',
-	usage: '/image <search query>',
-	cooldown: 30,
-	slashOptions: [
-		{ name: 'query', description: 'query to run', type: 3, required: true },
-	],
-	async execute(client, interaction, functions) {
-		const query = interaction.options.getString('query');
-		const safe = !interaction.channel.nsfw;
+	usage: 'image <search query>',
+	cooldown: '30',
+	args: true,
+	aliases: ['im', 'img'],
+	async execute(client, message, args, functions) {
+		const query = args.join(' ');
+		let safe = false;
+		if (!message.channel.nsfw) {
+			safe = true;
+		}
 		const { result } = await GOOGLE_IMG_SCRAP({
 			search: query,
 			safeSearch: safe,
@@ -20,7 +22,7 @@ module.exports = {
 			},
 		});
 		if (!result[0]) {
-			return interaction.editReply(functions.simpleEmbed('Nothing found!'));
+			return message.channel.send(functions.simpleEmbed('Nothing found!'));
 		}
 		let x = 0;
 		const embed = new MessageEmbed()
@@ -37,10 +39,10 @@ module.exports = {
 				new MessageButton({ label: '✕', customId: 'close', style: 'DANGER' }),
 			);
 
-		const imageMessage = await interaction.editReply({ embeds: [embed], components: [buttons] });
+		const imageMessage = await message.reply({ embeds: [embed], components: [buttons] });
 		const filter = i => {
 			i.deferUpdate();
-			return i.user.id === interaction.user.id;
+			return i.user.id === message.author.id;
 		};
 
 		const collector = imageMessage.createMessageComponentCollector({ filter, idle: 60000 });

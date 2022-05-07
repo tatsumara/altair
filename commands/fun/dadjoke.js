@@ -3,15 +3,17 @@ const got = require('got');
 module.exports = {
 	name: 'dadjoke',
 	description: 'Tells a dad joke.',
-	slashOptions: [],
-	async execute(_client, interaction) {
+	usage: 'dadjoke',
+	args: false,
+	aliases: ['joke', 'dad'],
+	execute(client, message) {
 		// make the request
 		const headers = {
 			'Accept': 'application/json',
 		};
 		got('https://icanhazdadjoke.com/', { headers }).then(res => {
 			const { joke } = JSON.parse(res.body);
-			interaction.editReply(joke);
+			return message.reply(joke);
 		});
 	},
 };

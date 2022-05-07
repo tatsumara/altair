@@ -1,14 +1,19 @@
 module.exports = {
 	name: 'userinfo',
 	description: 'Shows info about a user.',
-	usage: '/userinfo <user>',
-	slashOptions: [
-		{ name: 'user', description: 'user to get the avatar of', type: 6, required: false },
-	],
-	async execute(client, interaction) {
-		const member = interaction.options.getMember('user') || interaction.member;
-		member.fetch();
-
+	usage: 'userinfo <mention or id>',
+	guildOnly: true,
+	aliases: ['ui', 'uinfo', 'user'],
+	async execute(client, message, args, functions) {
+		let member = message.mentions.members.first() || args[0]?.match(/\d{17,18}/) || message.member;
+		if (Array.isArray(member)) {
+			try {
+				member = await message.guild.members.fetch(member[0]);
+			} catch {
+				member = undefined;
+			}
+		}
+		if (!member) return message.channel.send(functions.simpleEmbed('User not found or not a user!'));
 		const embed = {
 			color: client.colors.blue,
 			title: `${member.user.tag}`,
@@ -21,6 +26,6 @@ module.exports = {
 				{ name: 'Joined at', value: member.joinedAt.toDateString(), inline: true },
 			],
 		};
-		return interaction.editReply({ embeds: [embed] });
+		return message.channel.send({ embeds: [embed] });
 	},
 };

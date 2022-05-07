@@ -1,12 +1,12 @@
 module.exports = {
 	name: 'serverbanner',
 	description: 'Sends this servers banner.',
-	slashOptions: [],
-	async execute(_client, interaction, functions) {
-		const banner = await interaction.guild.bannerURL({ size: 4096, dynamic: true });
+	guildOnly: true,
+	async execute(client, message, args, functions) {
+		const banner = await message.guild.bannerURL({ size: 4096, dynamic: true });
 
-		if (!banner) return interaction.editReply(functions.simpleEmbed('Server does not have a banner.'));
+		if (!banner) return message.channel.send(functions.simpleEmbed('Server does not have a banner.'));
 
-		return interaction.editReply(banner);
+		return message.channel.send(banner);
 	},
 };

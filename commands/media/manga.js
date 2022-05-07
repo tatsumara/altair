@@ -3,17 +3,18 @@ const anilistNode = require('anilist-node');
 module.exports = {
 	name: 'manga',
 	description: 'Looks up a manga on AniList.',
-	usage: '/manga <manga name>',
-	cooldown: 15,
-	slashOptions: [
-		{ name: 'manga', description: 'manga to look up', type: 3, required: true },
-	],
-	async execute(client, interaction, functions) {
-		const title = interaction.options.getString('manga');
+	usage: 'manga <manga name>',
+	cooldown: '15',
+	args: true,
+	aliases: ['ma'],
+	async execute(client, message, args, functions) {
 		const anilist = new anilistNode();
-		const filter = { isAdult: interaction.channel.nsfw };
-		const data = await anilist.searchEntry.manga(title, filter);
-		if (data.pageInfo.total === 0) return interaction.editReply(functions.simpleEmbed('Nothing found!'));
+		const filter = {};
+		if (!message.channel.nsfw) {
+			filter.isAdult = false;
+		}
+		const data = await anilist.searchEntry.manga(args.join(' '), filter);
+		if (data.pageInfo.total === 0) return message.channel.send(functions.simpleEmbed('Nothing found!'));
 
 		const manga = await anilist.media.manga(data.media[0].id);
 		const alternateSpellings = manga.title.english === null
@@ -40,6 +41,6 @@ module.exports = {
 				url: manga.coverImage.large,
 			},
 		};
-		return interaction.editReply({ embeds: [embed] });
+		return message.channel.send({ embeds: [embed] });
 	},
 };
