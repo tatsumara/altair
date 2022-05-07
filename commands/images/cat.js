@@ -3,9 +3,9 @@ const got = require('got');
 module.exports = {
 	name: 'cat',
 	description: 'Sends an image of a cat.',
-	slashOptions: [],
-	async execute(client, interaction) {
+	guildOnly: false,
+	async execute(client, message) {
 		const stream = got.stream('https://thiscatdoesnotexist.com/');
-		await interaction.editReply({ files: [stream] });
+		await message.reply({ files: [stream] });
 	},
 };

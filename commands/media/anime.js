@@ -7,17 +7,18 @@ function formatDate(date) {
 module.exports = {
 	name: 'anime',
 	description: 'Looks up an anime on AniList.',
-	usage: '/anime <anime name>',
-	cooldown: 15,
-	slashOptions: [
-		{ name: 'anime', description: 'anime to look up', type: 3, required: true },
-	],
-	async execute(_client, interaction, functions) {
-		const title = interaction.options.getString('anime');
+	usage: 'anime <anime name>',
+	cooldown: '15',
+	args: true,
+	aliases: ['ani', 'anilist'],
+	async execute(client, message, args, functions) {
 		const anilist = new anilistNode();
-		const filter = { isAdult: interaction.channel.nsfw };
-		const data = await anilist.searchEntry.anime(title, filter);
-		if (data.pageInfo.total === 0) return interaction.editReply(functions.simpleEmbed('Nothing found!'));
+		const filter = {};
+		if (!message.channel.nsfw) {
+			filter.isAdult = false;
+		}
+		const data = await anilist.searchEntry.anime(args.join(' '), filter);
+		if (data.pageInfo.total === 0) return message.channel.send(functions.simpleEmbed('Nothing found!'));
 
 		const anime = await anilist.media.anime(data.media[0].id);
 		const alternateSpellings = anime.title.english === null
@@ -46,6 +47,6 @@ module.exports = {
 				url: anime.coverImage.large,
 			},
 		};
-		return interaction.editReply({ embeds: [embed] });
+		return message.channel.send({ embeds: [embed] });
 	},
 };

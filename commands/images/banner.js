@@ -1,18 +1,20 @@
 module.exports = {
 	name: 'banner',
 	description: 'Sends your or the mentioned users banner.',
-	usage: '/banner [user]',
+	usage: 'avatar [user]',
 	guildOnly: true,
-	slashOptions: [
-		{ name: 'user', description: 'user to get the banner of', type: 6, required: false },
-	],
-	async execute(_client, interaction, functions) {
-		const user = interaction.options.getUser('user') || interaction.user;
-		await user.fetch();
+	async execute(client, message, args, functions) {
+		let member = message.mentions.users.first() || args[0]?.match(/\d{17,18}/) || message.author;
+		if (Array.isArray(member)) {
+			member = await client.users.fetch(member[0]);
+		}
+		if (!member) return message.channel.send(functions.simpleEmbed('User not found or not a user!'));
+		await member.fetch();
 
-		const banner = await user.bannerURL({ size: 4096, dynamic: true });
-		if (!banner) return interaction.editReply(functions.simpleEmbed('User does not have a banner.'));
+		const banner = await member.bannerURL({ size: 4096, dynamic: true });
 
-		return interaction.editReply(banner);
+		if (!banner) return message.channel.send(functions.simpleEmbed('User does not have a banner.'));
+
+		return message.channel.send(banner);
 	},
 };

@@ -3,15 +3,13 @@ const got = require('got');
 module.exports = {
 	name: 'catsay',
 	description: 'Let a cat say something.',
-	usage: '/catsay <message>',
-	slashOptions: [
-		{ name: 'message', description: 'what does the cat say??', type: 3, required: true },
-	],
-	async execute(_client, interaction) {
-		const msg = interaction.options.getString('message');
+	usage: 'catsay <message>',
+	args: true,
+	async execute(client, message, args) {
+		const msg = args.join(' ');
 		const url = `https://cataas.com/cat/says/${encodeURIComponent(msg)}`;
 		const stream = got.stream(url);
 
-		await interaction.editReply({ files: [stream] });
+		await message.reply({ files: [stream] });
 	},
 };

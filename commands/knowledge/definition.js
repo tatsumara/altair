@@ -2,27 +2,20 @@ const { MessageEmbed } = require('discord.js');
 const got = require('got');
 
 module.exports = {
-	name: 'define',
+	name: 'definition',
 	description: 'Queries definition of a word.',
-	usage: '/define <word>',
-	slashOptions: [
-		{ name: 'term', description: 'term to define', type: 3, required: true },
-	],
-	dontDefer: true,
-	async execute(client, interaction, functions) {
-		const term = interaction.options.getString('term');
-		if (term.search(' ') > -1) {
-			return interaction.reply({
-				...functions.simpleEmbed('Please only run this command with one word.', '', client.colors.yellow),
-				ephemeral: true,
-			});
+	usage: 'definition <word>',
+	args: true,
+	aliases: ['def', 'define'],
+	async execute(client, message, args, functions) {
+		if (args.length > 1) {
+			return message.channel.send(functions.simpleEmbed('Please only run this command with one word.', '', client.colors.yellow));
 		}
 
-		await interaction.deferReply();
 		try {
-			await got(`https://api.dictionaryapi.dev/api/v2/entries/en_US/${term}`).then(res => {
+			await got(`https://api.dictionaryapi.dev/api/v2/entries/en_US/${args[0]}`).then(res => {
 				const result = JSON.parse(res.body)[0];
-				const embed = new MessageEmbed().setTitle(`Definition for '${term}':`).setColor(client.colors.blue);
+				const embed = new MessageEmbed().setTitle(`Definition for '${args[0]}':`).setColor(client.colors.blue);
 				// this isn't the prettiest solution especially because i would like the noun definition to come first, but it works
 				result.meanings.forEach(meaning => {
 					meaning.definitions.slice(0, 3).forEach(definition => {
@@ -31,10 +24,10 @@ module.exports = {
 						);
 					});
 				});
-				interaction.editReply({ embeds: [embed] });
+				message.channel.send({ embeds: [embed] });
 			});
 		} catch {
-			return interaction.editReply(functions.simpleEmbed('Nothing found!'));
+			return message.channel.send(functions.simpleEmbed('Nothing found!'));
 		}
 
 	},

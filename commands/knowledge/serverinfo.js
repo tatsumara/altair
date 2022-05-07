@@ -1,24 +1,24 @@
 module.exports = {
 	name: 'serverinfo',
 	description: 'Shows info about the current server.',
-	slashOptions: [],
-	async execute(client, interaction) {
-		const guild = interaction.guild;
+	guildOnly: true,
+	aliases: ['si', 'sinfo', 'server'],
+	async execute(client, message) {
 		const embed = {
 			color: client.colors.blue,
-			title: `${guild.name}`,
+			title: `${message.guild.name}`,
 			thumbnail: {
-				url: guild.iconURL({ size: 4096, dynamic: true }),
+				url: message.guild.iconURL({ size: 4096, dynamic: true }),
 			},
 			fields: [
-				{ name: 'ID', value: guild.id.toString(), inline: true },
-				{ name: 'Created at', value: guild.createdAt.toDateString(), inline: true },
-				{ name: 'Owner', value: `${await guild.fetchOwner()}`, inline: true },
-				{ name: 'Boosts', value: guild.premiumSubscriptionCount.toString(), inline: true },
-				{ name: 'Members', value: guild.memberCount.toString(), inline: true },
-				{ name: 'Features', value: guild.features.join(', ') || 'NONE', inline: true },
+				{ name: 'ID', value: message.guild.id.toString(), inline: true },
+				{ name: 'Created at', value: message.guild.createdAt.toDateString(), inline: true },
+				{ name: 'Owner', value: `${await message.guild.fetchOwner()}`, inline: true },
+				{ name: 'Boosts', value: message.guild.premiumSubscriptionCount.toString(), inline: true },
+				{ name: 'Members', value: message.guild.memberCount.toString(), inline: true },
+				{ name: 'Features', value: message.guild.features.join(', ') || 'NONE', inline: true },
 			],
 		};
-		return interaction.editReply({ embeds: [embed] });
+		return message.channel.send({ embeds: [embed] });
 	},
 };
