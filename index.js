@@ -91,10 +91,16 @@ client.login().then(async () => {
 	client.log.info('Calculated options');
 
 	// register slash commands
-	const guild = process.env.ADD_SLASH_TO;
+	const reg_only = process.argv.includes('--reg');
+	const guild = reg_only ? undefined : process.env.ADD_SLASH_TO;
 	const where = guild ? `in guild ${guild}` : 'globally';
 	client.application.commands.set(slashCommands, guild).then(() => {
 		client.log.info(`Registered ${slashCommands.length} slash commands ${where}.`);
+		// check if only registration is needed
+		if (reg_only) {
+			client.log.info('Registration only, exiting.');
+			client.destroy();
+		}
 	}).catch(e => {
 		client.log.error('Couldn\'t register slash commands:', e);
 	});
