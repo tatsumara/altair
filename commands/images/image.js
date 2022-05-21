@@ -41,13 +41,15 @@ module.exports = {
 			switch (i.customId) {
 			case 'close':
 				collector.stop();
-				break;
+				return;
 			case 'next':
 				if (x < result.length) x++;
 				break;
 			case 'previous':
 				if (x > 0) x--;
 				break;
+			default:
+				return;
 			}
 			imageMessage.edit({ embeds: [
 				embed.setImage(result[x].image.url)
