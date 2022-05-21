@@ -1,5 +1,6 @@
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
-const { GOOGLE_IMG_SCRAP } = require('google-img-scrap');
+const images = require('free-google-images');
+const rgb2hex = require('rgb2hex');
 
 module.exports = {
 	name: 'image',
@@ -9,27 +10,17 @@ module.exports = {
 	args: true,
 	aliases: ['im', 'img'],
 	async execute(client, message, args, functions) {
-		const query = args.join(' ');
-		let safe = false;
-		if (!message.channel.nsfw) {
-			safe = true;
-		}
-		const { result } = await GOOGLE_IMG_SCRAP({
-			search: query,
-			safeSearch: safe,
-			execute(i) {
-				if (!i.url.match('gstatic.com')) return i;
-			},
-		});
+		let result = await images.search(args.join(' '), !message.channel.nsfw).catch(() => []);
 		if (!result[0]) {
 			return message.channel.send(functions.simpleEmbed('Nothing found!'));
 		}
+		result = result.filter(r => !r.image.url.includes('.svg' || '.SVG'));
 		let x = 0;
 		const embed = new MessageEmbed()
 			.setTitle('Image Search Results:')
-			.setDescription(`"${query}"`)
-			.setColor(client.colors.blue)
-			.setImage(result[x].url)
+			.setDescription(`"${args.join(' ')}"`)
+			.setColor('0x' + rgb2hex(result[x].color).hex)
+			.setImage(result[x].image.url)
 			.setFooter({ text: `${x + 1}/${result.length} - using Google Images` });
 
 		const buttons = new MessageActionRow()
@@ -52,12 +43,16 @@ module.exports = {
 			else if (i.customId === 'next') x++;
 			else if (x === 0) return;
 			else if (i.customId === 'previous') x--;
-			imageMessage.edit({ embeds: [embed.setImage(result[x].url).setFooter({ text: `${x + 1}/${result.length} - using Google Images` })] });
+			imageMessage.edit({ embeds: [
+				embed.setImage(result[x].image.url)
+					.setFooter({ text: `${x + 1}/${result.length} - using Google Images` })
+					.setColor('0x' + rgb2hex(result[x].color).hex),
+			] });
 		});
 		collector.on('end', (collected, reason) => {
 			if (reason === 'idle') imageMessage.edit({ components: [] });
 			if (reason === 'user') {
-				imageMessage.edit({ embeds: [embed.setImage().setDescription(`"${query}"\nImage search closed.`)] });
+				imageMessage.edit({ embeds: [embed.setImage().setDescription(`"${args.join(' ')}"\nImage search closed.`)] });
 				imageMessage.edit({ components: [] });
 			}
 		});
