@@ -38,11 +38,17 @@ module.exports = {
 
 		const collector = imageMessage.createMessageComponentCollector({ filter, idle: 60000 });
 		collector.on('collect', i => {
-			if (i.customId === 'close') return collector.stop();
-			else if (x + 1 === result.length) return;
-			else if (i.customId === 'next') x++;
-			else if (x === 0) return;
-			else if (i.customId === 'previous') x--;
+			switch (i.customId) {
+			case 'close':
+				collector.stop();
+				break;
+			case 'next':
+				if (x < result.length) x++;
+				break;
+			case 'previous':
+				if (x > 0) x--;
+				break;
+			}
 			imageMessage.edit({ embeds: [
 				embed.setImage(result[x].image.url)
 					.setFooter({ text: `${x + 1}/${result.length} - using Google Images` })
