@@ -1,6 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-const fs = require('fs');
-const path = require('path');
 const got = require('got');
 
 function readablePassedSince(date) {
