@@ -21,6 +21,25 @@ function readablePassedSince(date) {
 	return 'just now';
 }
 
+function azimuthToEmoji(degrees) {
+	const directions = [
+		{ range: [-22, 22], direction: 'up' },
+		{ range: [22, 67], direction: 'upper_right' },
+		{ range: [67, 112], direction: 'right' },
+		{ range: [112, 157], direction: 'lower_right' },
+		{ range: [157, 202], direction: 'down' },
+		{ range: [202, 247], direction: 'lower_left' },
+		{ range: [247, 292], direction: 'left' },
+		{ range: [292, 337], direction: 'upper_left' },
+	];
+
+	for (const { range: [left, right], direction } of directions) {
+		if (left <= degrees && degrees <= right) {
+			return `:arrow_${direction}:`;
+		}
+	}
+}
+
 module.exports = {
 	name: 'weather',
 	description: 'Gets the current weather.',
@@ -41,6 +60,7 @@ module.exports = {
 				temp_C: tempC,
 				temp_F: tempF,
 				windspeedKmph: windKmph,
+				winddirDegree: windAzimuth,
 				localObsDateTime: observationTime,
 			}],
 			nearest_area: [{
@@ -72,7 +92,7 @@ module.exports = {
 			.setTitle(`${condition}, feels like ${feelsC}°C (${feelsF}°F)`)
 			.setDescription(`in ${resultLocation}`)
 			.addField(`${tempC}°C (${tempF}°F)`, ':thermometer: Actual temperature')
-			.addField(`${windMs} m/s (${windKmph} km/h)`, ':wind_blowing_face: Wind')
+			.addField(`${windMs} m/s (${windKmph} km/h)`, `${azimuthToEmoji(windAzimuth)} Wind`)
 			.setColor(client.colors.blue)
 			.setFooter({ text: `observed ${difference}` });
 
