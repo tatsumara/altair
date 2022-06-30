@@ -19,6 +19,7 @@
     "free-google-images": "^1.2.1",
     "genius-lyrics": "^4.3.5",
     "got": "11.8.5",
+    "he": "^1.2.0",
     "rgb2hex": "^0.2.5",
     "sift3": "^0.0.1",
     "wikijs": "^6.3.3",

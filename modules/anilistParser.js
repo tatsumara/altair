@@ -7,7 +7,7 @@ module.exports = (res) => {
 		.setColor(res.coverImage.color)
 		.setThumbnail(res.coverImage.extraLarge)
 		.setImage(res.bannerImage)
-		.setDescription(res.description.replace(/<\/?[^>]+(>|$)/g, '').split(' ').splice(0, 50).join(' ') + '...');
+		.setDescription(require('he').decode(res.description.replace(/<\/?[^>]+(>|$)/g, '').split(' ').splice(0, 50).join(' ') + '...'));
 
 	let name;
 	switch (res.status) {
