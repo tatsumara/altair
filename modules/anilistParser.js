@@ -1,13 +1,14 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (res) => {
+	const description = require('he').decode(res.description.replace(/<\/?[^>]+(>|$)/g, '').split(' ').splice(0, 50).join(' ') + '...');
 	const embed = new MessageEmbed()
 		.setTitle(`[${res.format.replace('_', '')}] ${res.title.romaji} (${res.title.native})`)
 		.setURL(res.siteUrl)
 		.setColor(res.coverImage.color)
 		.setThumbnail(res.coverImage.extraLarge)
 		.setImage(res.bannerImage)
-		.setDescription(require('he').decode(res.description.replace(/<\/?[^>]+(>|$)/g, '').split(' ').splice(0, 50).join(' ') + '...'));
+		.setDescription(description);
 
 	let name;
 	switch (res.status) {
