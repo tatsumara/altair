@@ -1,15 +1,20 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (res) => {
-	const description = require('he').decode(res.description.replace(/<\/?[^>]+(>|$)/g, '').split(' ').splice(0, 50).join(' ') + '...');
 	const embed = new MessageEmbed()
 		.setTitle(`[${res.format.replace('_', '')}] ${res.title.romaji} (${res.title.native})`)
 		.setURL(res.siteUrl)
 		.setColor(res.coverImage.color)
 		.setThumbnail(res.coverImage.extraLarge)
-		.setImage(res.bannerImage)
-		.setDescription(description);
+		.setImage(res.bannerImage);
 
+	let description;
+	if (res.description) {
+		description = require('he').decode(res.description.replace(/<\/?[^>]+(>|$)/g, '').split(' ').splice(0, 50).join(' ') + '...');
+	} else {
+		description = 'No description found.';
+	}
+	embed.setDescription(description);
 	let name;
 	switch (res.status) {
 	case 'FINISHED':
@@ -38,8 +43,6 @@ module.exports = (res) => {
 	if (res.trending >= 20) footer += '🔥• ';
 	if (res.averageScore) {
 		footer += `Average score: ${res.averageScore}/100 • Mean score: ${res.meanScore}/100`;
-	} else {
-		footer.slice(0, -1);
 	}
 	embed.setFooter({ text: footer });
 
@@ -55,7 +58,7 @@ module.exports = (res) => {
 		if (res.status === 'FINISHED') embed.addField('Episodes', res.episodes.toString(), true);
 	} else if (res.status === 'FINISHED') {
 		embed.addField('Volumes', res.volumes?.toString() || 'Unknown', true);
-		embed.addField('Chapters', res.chapters?.toString(), true);
+		embed.addField('Chapters', res.chapters?.toString() || 'Unknown', true);
 	}
 	return embed;
 };
