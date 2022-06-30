@@ -54,7 +54,7 @@ module.exports = (res) => {
 	});
 
 	if (!res.format.match(/^(MANGA|ONE_SHOT|NOVEL)$/)) {
-		embed.addField('Studio', res.studios.nodes[0].name, true);
+		embed.addField('Studio', res.studios.nodes[0]?.name || 'Unknown', true);
 		if (res.status === 'FINISHED') embed.addField('Episodes', res.episodes.toString(), true);
 	} else if (res.status === 'FINISHED') {
 		embed.addField('Volumes', res.volumes?.toString() || 'Unknown', true);

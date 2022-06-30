@@ -11,9 +11,9 @@ module.exports = {
 	aliases: ['ani', 'anime', 'man', 'manga'],
 	async execute(client, message, args, functions) {
 		const query = `
-		query ($search: String) {
+		query ($search: String, $isAdult: Boolean) {
 			Page(page: 1, perPage: 10) {
-			  media(search: $search, sort: SEARCH_MATCH) {
+			  media(search: $search, isAdult: $isAdult, sort: SEARCH_MATCH) {
 				id
 				siteUrl
 				type
@@ -61,6 +61,9 @@ module.exports = {
 		const variables = {
 			search: args.join(' '),
 		};
+		if (!message.channel.nsfw) {
+			variables.isAdult = false;
+		}
 		const options = {
 			method: 'POST',
 			headers: {
