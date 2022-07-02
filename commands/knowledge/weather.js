@@ -23,7 +23,7 @@ function readablePassedSince(date) {
 
 function azimuthToEmoji(degrees) {
 	const directions = [
-		{ range: [-22, 22], direction: 'up' },
+		{ range: [337, 22], direction: 'up' },
 		{ range: [22, 67], direction: 'upper_right' },
 		{ range: [67, 112], direction: 'right' },
 		{ range: [112, 157], direction: 'lower_right' },
