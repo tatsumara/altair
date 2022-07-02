@@ -52,7 +52,7 @@ module.exports = {
 				return;
 			}
 			imageMessage.edit({ embeds: [
-				embed.setImage(result[x].image.url)
+				embed.setImage(decodeURI(result[x].image.url))
 					.setFooter({ text: `${x + 1}/${result.length} - using Google Images` })
 					.setColor('0x' + rgb2hex(result[x].color).hex),
 			] });
