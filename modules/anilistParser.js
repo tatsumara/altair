@@ -1,8 +1,9 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (res) => {
+	console.log(res);
 	const embed = new MessageEmbed()
-		.setTitle(`[${res.format.replace('_', '')}] ${res.title.romaji} (${res.title.native})`)
+		.setTitle(`[${res.format?.replace('_', '') || 'UNKNOWN'}] ${res.title.romaji} (${res.title.native})`)
 		.setURL(res.siteUrl)
 		.setColor(res.coverImage.color)
 		.setThumbnail(res.coverImage.extraLarge)
@@ -53,7 +54,7 @@ module.exports = (res) => {
 		embed.addField(staff.role, staff.node.name.full, true);
 	});
 
-	if (!res.format.match(/^(MANGA|ONE_SHOT|NOVEL)$/)) {
+	if (!res.format?.match(/^(MANGA|ONE_SHOT|NOVEL)$/) || res.studios.nodes[0]) {
 		embed.addField('Studio', res.studios.nodes[0]?.name || 'Unknown', true);
 		if (res.status === 'FINISHED') embed.addField('Episodes', res.episodes.toString(), true);
 	} else if (res.status === 'FINISHED') {
