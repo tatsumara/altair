@@ -1,7 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (res) => {
-	console.log(res);
 	const embed = new MessageEmbed()
 		.setTitle(`[${res.format?.replace('_', '') || 'UNKNOWN'}] ${res.title.romaji} (${res.title.native})`)
 		.setURL(res.siteUrl)
