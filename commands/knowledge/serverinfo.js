@@ -51,5 +51,8 @@ module.exports = {
 				msg.edit({ embeds: [bannerEmbed] });
 			}
 		});
+		collector.on('end', (collected, reason) => {
+			if (reason === 'idle') msg.edit({ components: [] });
+		});
 	},
 };
