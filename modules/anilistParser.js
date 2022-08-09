@@ -10,31 +10,37 @@ module.exports = (res) => {
 
 	let description;
 	if (res.description) {
+		// this is to remove some of the html entities left over from anilist
 		description = require('he').decode(res.description.replace(/<\/?[^>]+(>|$)/g, '').split(' ').splice(0, 50).join(' ') + '...');
 	} else {
 		description = 'No description found.';
 	}
 	embed.setDescription(description);
-	let name;
+	let status;
 	switch (res.status) {
+	// .filter(Boolean) filters out parts of the date that don't exist
 	case 'FINISHED':
-		name = `Finished: ${Object.values(res.startDate).filter(Boolean).join('.')}-${Object.values(res.endDate).filter(Boolean).join('.')}`;
+		status = `Finished: ${Object.values(res.startDate).filter(Boolean).join('.')}-${Object.values(res.endDate).filter(Boolean).join('.')}`;
 		break;
 	case 'RELEASING':
-		name = `Releasing since ${Object.values(res.startDate).filter(Boolean).join('.')}`;
+		status = `Releasing since ${Object.values(res.startDate).filter(Boolean).join('.')}`;
 		break;
 	case 'NOT_YET_RELEASED':
-		name = `Releasing: ${Object.values(res.startDate).filter(Boolean).join('.')}`;
+		if (!res.startDate.year) {
+			status = 'Release date not yet known';
+			break;
+		}
+		status = `Releasing: ${Object.values(res.startDate).filter(Boolean).join('.')}`;
 		break;
 	case 'CANCELLED':
-		name = `Cancelled: ${Object.values(res.startDate).filter(Boolean).join('.')}-${Object.values(res.endDate).filter(Boolean).join('.')}`;
+		status = `Cancelled: ${Object.values(res.startDate).filter(Boolean).join('.')}-${Object.values(res.endDate).filter(Boolean).join('.')}`;
 		break;
 	case 'HIATUS':
-		name = `On hiatus, releasing since: ${Object.values(res.startDate).filter(Boolean).join('.')}`;
+		status = `On hiatus, releasing since: ${Object.values(res.startDate).filter(Boolean).join('.')}`;
 		break;
 	}
 	embed.setAuthor({
-		name: name,
+		name: status,
 		iconURL: 'https://anilist.co/img/icons/android-chrome-512x512.png',
 	});
 
