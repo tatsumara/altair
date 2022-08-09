@@ -22,7 +22,7 @@ module.exports = {
 			},
 		});
 		if (!result[0]) {
-			return message.channel.send(functions.simpleEmbed('Nothing found!'));
+			return message.reply(functions.simpleEmbed('Nothing found!'));
 		}
 		let x = 0;
 		const embed = new MessageEmbed()

@@ -15,7 +15,7 @@ module.exports = {
 				member = undefined;
 			}
 		}
-		if (!member) return message.channel.send(functions.simpleEmbed('User not found or not a user!'));
+		if (!member) return message.reply(functions.simpleEmbed('User not found or not a user!'));
 
 		let avatarURL = await member.displayAvatarURL({ dynamic: true });
 

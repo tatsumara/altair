@@ -140,16 +140,16 @@ module.exports = {
 				const conformingName = deepLtoConforming(language.toLowerCase());
 				embed.addField(langToFlag(language) + ' ' + name, conformingName, true);
 			}
-			return message.channel.send({ embeds: [embed] });
+			return message.reply({ embeds: [embed] });
 		}
 
 		// try to find the languages user specified
 		const [source, target] = [origSource, origTarget].map(findLang);
 		if (!source && origSource) {
-			return message.channel.send(functions.simpleEmbed(`I don't know this source language (${origSource})`));
+			return message.reply(functions.simpleEmbed(`I don't know this source language (${origSource})`));
 		}
 		if (!target) {
-			return message.channel.send(functions.simpleEmbed(`I don't know this target language (${origTarget})`));
+			return message.reply(functions.simpleEmbed(`I don't know this target language (${origTarget})`));
 		}
 
 		// query the API
@@ -165,7 +165,7 @@ module.exports = {
 		}).catch(err => {
 			// send error message
 			client.log.info(`Failed to translate string '${text}': ${err}'`);
-			return message.channel.send(functions.simpleEmbed(`Couldn't reach translation service. Text length may have exceeded ${textLenLimit} characters.`));
+			return message.reply(functions.simpleEmbed(`Couldn't reach translation service. Text length may have exceeded ${textLenLimit} characters.`));
 		});
 	},
 };

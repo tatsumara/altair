@@ -26,7 +26,7 @@ module.exports = {
 			// this is probably the only time i'll ever use find(), although it is very nice
 			const command = client.commands.get(name) || client.commands.find(c => c.aliases && c.aliases.includes(name));
 			if (!command) {
-				return message.channel.send(functions.simpleEmbed('This command doesn\'t exist!', '', client.colors.yellow));
+				return message.reply(functions.simpleEmbed('This command doesn\'t exist!', '', client.colors.yellow));
 			}
 			embed.setTitle(`Command "${command.name}"`);
 			// this looks ugly but it works, maybe i'll just loop over all available properties of the command and display them like that
@@ -41,6 +41,6 @@ module.exports = {
 			}
 		}
 
-		return message.channel.send({ embeds: [embed] });
+		return message.reply({ embeds: [embed] });
 	},
 };

@@ -13,14 +13,14 @@ module.exports = {
 			const result = JSON.parse(res.body);
 			// thankfully instead of responding with a 404 this api just sends back nothing, meaning i don't have to catch shit
 			if (!result.list[0]) {
-				return message.channel.send(functions.simpleEmbed('Nothing found!'));
+				return message.reply(functions.simpleEmbed('Nothing found!'));
 			}
 			// might add some more elements to the embed later
 			const embed = new MessageEmbed()
 				.setTitle(`UrbanDictionary: "${args.join(' ')}"`)
 				.setColor(client.colors.blue)
 				.setDescription(result.list[0].definition.replace(/\[/g, '').replace(/\]/g, '') + '\n');
-			return message.channel.send({ embeds: [embed] });
+			return message.reply({ embeds: [embed] });
 		});
 
 	},

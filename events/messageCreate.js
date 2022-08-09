@@ -17,19 +17,19 @@ module.exports = {
 		if (!command) return;
 
 		if (command.disabled) {
-			return message.channel.send(functions.simpleEmbed('This command is currently disabled.', '', client.colors.red));
+			return message.reply(functions.simpleEmbed('This command is currently disabled.', '', client.colors.red));
 		}
 
 		if (command.guildOnly && message.channel.type === 'DM') {
-			return message.channel.send(functions.simpleEmbed('This command only works in servers!', '', client.colors.red));
+			return message.reply(functions.simpleEmbed('This command only works in servers!', '', client.colors.red));
 		}
 
 		if (command.owner && message.author.id !== process.env.OWNER_ID) {
-			return message.channel.send(functions.simpleEmbed('You are not permitted to use this command.', '', client.colors.red));
+			return message.reply(functions.simpleEmbed('You are not permitted to use this command.', '', client.colors.red));
 		}
 
 		if (command.args && !args.length) {
-			return message.channel.send(functions.simpleEmbed('Please provide at least one argument!', '', client.colors.yellow));
+			return message.reply(functions.simpleEmbed('Please provide at least one argument!', '', client.colors.yellow));
 		}
 		// a collection inside of a collection??? i know i know, i don't know
 		if (!client.cooldowns.has(command.name)) {
@@ -73,7 +73,7 @@ module.exports = {
 		} catch (error) {
 			client.log.error(`An error has occured in '${command.name} ${args.join(' ')}'!`);
 			client.log.error(error);
-			message.channel.send(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${process.env.OWNER_ID}> if this issue persists!`, client.colors.red));
+			message.reply(functions.simpleEmbed('', `I'm sorry, something went wrong. Please contact <@${process.env.OWNER_ID}> if this issue persists!`, client.colors.red));
 		}
 	},
 };

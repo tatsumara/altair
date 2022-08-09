@@ -9,7 +9,7 @@ module.exports = {
 	aliases: ['def', 'define'],
 	async execute(client, message, args, functions) {
 		if (args.length > 1) {
-			return message.channel.send(functions.simpleEmbed('Please only run this command with one word.', '', client.colors.yellow));
+			return message.reply(functions.simpleEmbed('Please only run this command with one word.', '', client.colors.yellow));
 		}
 
 		try {
@@ -24,10 +24,10 @@ module.exports = {
 						);
 					});
 				});
-				message.channel.send({ embeds: [embed] });
+				message.reply({ embeds: [embed] });
 			});
 		} catch {
-			return message.channel.send(functions.simpleEmbed('Nothing found!'));
+			return message.reply(functions.simpleEmbed('Nothing found!'));
 		}
 
 	},

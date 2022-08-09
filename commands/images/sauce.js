@@ -21,10 +21,10 @@ module.exports = {
 		} else if (msg.content.split(/ +/)[0] && msg.content.split(/ +/)[0].startsWith('http')) {
 			image = msg.content.split(/ +/)[0];
 		}
-		if (!image) return message.channel.send(functions.simpleEmbed('Please include an image with your message.', '', client.colors.yellow));
+		if (!image) return message.reply(functions.simpleEmbed('Please include an image with your message.', '', client.colors.yellow));
 
 		const { body } = await got(`https://saucenao.com/search.php?api_key=${process.env.SAUCENAO_API_KEY}&output_type=2&db=999&numres=1&url=${encodeURIComponent(image)}`, { responseType: 'json' });
-		if (!body.results) return message.channel.send(functions.simpleEmbed('Nothing found!'));
+		if (!body.results) return message.reply(functions.simpleEmbed('Nothing found!'));
 		const result = saucenaoParser(client, body.results[0]);
 
 		const embed = {
@@ -39,6 +39,6 @@ module.exports = {
 				text: `Confidence: ${result.confidence}%`,
 			},
 		};
-		return message.channel.send({ embeds: [embed] });
+		return message.reply({ embeds: [embed] });
 	},
 };

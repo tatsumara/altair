@@ -12,7 +12,7 @@ module.exports = {
 		const geniusClient = new Genius.Client(process.env.GENIUS_API_KEY);
 
 		const results = await geniusClient.songs.search(args.join(' '));
-		if (!results[0]) return message.channel.send(functions.simpleEmbed('Nothing found!'));
+		if (!results[0]) return message.reply(functions.simpleEmbed('Nothing found!'));
 
 		const lyrics = await results[0].lyrics();
 
@@ -21,7 +21,7 @@ module.exports = {
 			.setURL(results[0].url)
 			.setColor(client.colors.blue)
 			.setAuthor(results[0].fullTitle, results[0].thumbnail, results[0].url);
-		return message.channel.send({ embeds: [embed], files: [{
+		return message.reply({ embeds: [embed], files: [{
 			attachment: Buffer.from(lyrics),
 			name: 'lyrics.txt',
 		}] });

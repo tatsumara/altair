@@ -8,7 +8,7 @@ module.exports = {
 	aliases: ['wiki', 'wp'],
 	async execute(client, message, args, functions) {
 		const search = await wiki().search(args.join(' '));
-		if (!search.results[0]) return message.channel.send(functions.simpleEmbed('Nothing found!'));
+		if (!search.results[0]) return message.reply(functions.simpleEmbed('Nothing found!'));
 		const page = await wiki().page(search.results[0]);
 		message.reply(page.url());
 	},

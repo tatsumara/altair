@@ -11,7 +11,7 @@ module.exports = {
 	async execute(client, message, args, functions) {
 		const result = await ytsr(args.join(' '), { limit: 20 });
 		if (!result.items[0]) {
-			return message.channel.send(functions.simpleEmbed('Nothing found!'));
+			return message.reply(functions.simpleEmbed('Nothing found!'));
 		}
 		let x = 0;
 

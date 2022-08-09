@@ -96,6 +96,6 @@ module.exports = {
 			.setColor(client.colors.blue)
 			.setFooter({ text: `observed ${difference}` });
 
-		await message.channel.send({ embeds: [embed] });
+		await message.reply({ embeds: [embed] });
 	},
 };

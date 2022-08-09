@@ -9,12 +9,12 @@ module.exports = {
 				evaled = require('util').inspect(await evaled);
 			}
 			// i don't understand how the code is actually executed
-			message.channel.send({ files: [{
+			message.reply({ files: [{
 				attachment: Buffer.from(evaled.replace(process.env.DISCORD_TOKEN, '<token went poof>')),
 				name: 'evaled.yml',
 			}] });
 		} catch (err) {
-			return message.channel.send(functions.simpleEmbed('', err.toString(), client.colors.red));
+			return message.reply(functions.simpleEmbed('', err.toString(), client.colors.red));
 		}
 	},
 };
