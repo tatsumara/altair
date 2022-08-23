@@ -16,27 +16,30 @@ module.exports = (res) => {
 		description = 'No description found.';
 	}
 	embed.setDescription(description);
+
+	// .filter(Boolean) filters out parts of the date that don't exist
+	const startDate = Object.values(res.startDate).filter(Boolean).join('.');
+	const endDate = Object.values(res.endDate).filter(Boolean).join('.');
 	let status;
 	switch (res.status) {
-	// .filter(Boolean) filters out parts of the date that don't exist
 	case 'FINISHED':
-		status = `Finished: ${Object.values(res.startDate).filter(Boolean).join('.')}-${Object.values(res.endDate).filter(Boolean).join('.')}`;
+		status = `Finished: ${startDate}-${endDate}`;
 		break;
 	case 'RELEASING':
-		status = `Releasing since ${Object.values(res.startDate).filter(Boolean).join('.')}`;
+		status = `Releasing since ${startDate}`;
 		break;
 	case 'NOT_YET_RELEASED':
 		if (!res.startDate.year) {
 			status = 'Release date not yet known';
 			break;
 		}
-		status = `Releasing: ${Object.values(res.startDate).filter(Boolean).join('.')}`;
+		status = `Releasing: ${startDate}`;
 		break;
 	case 'CANCELLED':
-		status = `Cancelled: ${Object.values(res.startDate).filter(Boolean).join('.')}-${Object.values(res.endDate).filter(Boolean).join('.')}`;
+		status = `Cancelled: ${startDate}-${endDate}`;
 		break;
 	case 'HIATUS':
-		status = `On hiatus, releasing since: ${Object.values(res.startDate).filter(Boolean).join('.')}`;
+		status = `On hiatus, releasing since: ${startDate}`;
 		break;
 	}
 	embed.setAuthor({
@@ -47,9 +50,9 @@ module.exports = (res) => {
 	let footer = '';
 	if (res.isAdult) footer += '🔞• ';
 	if (res.trending >= 20) footer += '🔥• ';
-	if (res.averageScore) {
-		footer += `Average score: ${res.averageScore}/100 • Mean score: ${res.meanScore}/100`;
-	}
+	if (res.averageScore) footer += `Average score: ${res.averageScore}/100 • `;
+	if (res.meanScore) footer += `Mean score: ${res.meanScore}/100`;
+	if (footer.endsWith('• ')) footer = footer.slice(0, -2);
 	embed.setFooter({ text: footer });
 
 	embed.addField('Genres', '`' + res.genres.join(', ') + '`');
@@ -61,9 +64,9 @@ module.exports = (res) => {
 
 	if (!res.format?.match(/^(MANGA|ONE_SHOT|NOVEL)$/) || res.studios.nodes[0]) {
 		embed.addField('Studio', res.studios.nodes[0]?.name || 'Unknown', true);
-		if (res.status === 'FINISHED') embed.addField('Episodes', res.episodes.toString(), true);
-	} else if (res.status === 'FINISHED') {
-		embed.addField('Volumes', res.volumes?.toString() || 'Unknown', true);
+		if (res.status === 'FINISHED' && res.format !== 'MOVIE') embed.addField('Episodes', res.episodes.toString(), true);
+	} else if (res.status === 'FINISHED' && res?.format !== 'ONE_SHOT') {
+		if (res.volumes) embed.addField('Volumes', res.volumes.toString(), true);
 		embed.addField('Chapters', res.chapters?.toString() || 'Unknown', true);
 	}
 	return embed;
