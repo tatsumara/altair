@@ -6,7 +6,7 @@ module.exports = {
 	description: 'Searches a word on the UrbanDictionary.',
 	usage: 'urban <search term>',
 	args: true,
-	aliases: ['urb'],
+	aliases: ['urb', 'ud'],
 	async execute(client, message, args, functions) {
 		const term = encodeURIComponent(args.join(' '));
 		const { body } = await got(`http://api.urbandictionary.com/v0/define?term=${term}`);
