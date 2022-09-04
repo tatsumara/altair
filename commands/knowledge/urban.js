@@ -7,21 +7,26 @@ module.exports = {
 	usage: 'urban <search term>',
 	args: true,
 	aliases: ['urb'],
-	execute(client, message, args, functions) {
+	async execute(client, message, args, functions) {
 		const term = encodeURIComponent(args.join(' '));
-		got(`http://api.urbandictionary.com/v0/define?term=${term}`).then(res => {
-			const result = JSON.parse(res.body);
-			// thankfully instead of responding with a 404 this api just sends back nothing, meaning i don't have to catch shit
-			if (!result.list[0]) {
-				return message.reply(functions.simpleEmbed('Nothing found!'));
-			}
-			// might add some more elements to the embed later
-			const embed = new MessageEmbed()
-				.setTitle(`UrbanDictionary: "${args.join(' ')}"`)
-				.setColor(client.colors.blue)
-				.setDescription(result.list[0].definition.replace(/\[/g, '').replace(/\]/g, '') + '\n');
-			return message.reply({ embeds: [embed] });
+		const { body } = await got(`http://api.urbandictionary.com/v0/define?term=${term}`);
+		const result = JSON.parse(body);
+		if (!result.list[0]) {
+			return message.reply(functions.simpleEmbed('Nothing found!'));
+		}
+
+		const definitions = result.list.sort((a, b) => {
+			return (b.thumbs_up || 0) - (a.thumbs_up || 0);
 		});
 
+		const embed = new MessageEmbed()
+			.setTitle(definitions[0].name || args.join(' '))
+			.setURL(definitions[0].permalink || `http://api.urbandictionary.com/v0/define?term=${term}`)
+			.setAuthor({ iconURL: 'https://pbs.twimg.com/profile_images/1149416858426081280/uvwDuyqS_400x400.png', name: 'Urban Dictionary' })
+			.setFooter({ text: 'Definition by ' + definitions[0].author })
+			.setColor(client.colors.blue)
+			.setDescription(definitions[0].definition.replace(/\[|\]/g, ''));
+
+		return await message.reply({ embeds: [embed] });
 	},
 };
