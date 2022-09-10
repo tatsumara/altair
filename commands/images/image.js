@@ -10,15 +10,11 @@ module.exports = {
 	aliases: ['im', 'img'],
 	async execute(client, message, args, functions) {
 		const query = args.join(' ');
-		let safe = false;
-		if (!message.channel.nsfw) {
-			safe = true;
-		}
 		const { result } = await GOOGLE_IMG_SCRAP({
 			search: query,
-			safeSearch: safe,
+			safeSearch: !message.channel.nsfw,
 			execute(i) {
-				if (!i.url.match('gstatic.com')) return i;
+				if (!i.url.match('gstatic.com' && functions.isURL(decodeURI(i.url)))) return i;
 			},
 		});
 		if (!result[0]) {
