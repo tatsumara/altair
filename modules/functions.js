@@ -31,12 +31,4 @@ module.exports = {
 		const duration = `${day}:${hour.toLocaleString('en-US', { minimumIntegerDigits: 2 })}:${minute.toLocaleString('en-US', { minimumIntegerDigits: 2 })}:${seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`;
 		return duration;
 	},
-	isURL(url) {
-		try {
-			new URL(url);
-		} catch (err) {
-			return false;
-		}
-		return true;
-	},
 };
