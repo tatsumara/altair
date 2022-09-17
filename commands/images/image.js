@@ -14,7 +14,7 @@ module.exports = {
 			search: query,
 			safeSearch: !message.channel.nsfw,
 			execute(i) {
-				if (!i.url.match('gstatic.com' && functions.isURL(decodeURI(i.url)))) return i;
+				if (!i.url.includes('gstatic.com')) return i.url;
 			},
 		});
 		if (!result[0]) {
@@ -25,9 +25,8 @@ module.exports = {
 			.setTitle('Image Search Results:')
 			.setDescription(`"${query}"`)
 			.setColor(client.colors.blue)
-			.setImage(decodeURI(result[x].url))
+			.setImage(result[x])
 			.setFooter({ text: `${x + 1}/${result.length} - using Google Images` });
-
 		const buttons = new MessageActionRow()
 			.addComponents(
 				new MessageButton({ label: '◀', customId: 'previous', style: 'SECONDARY' }),
@@ -57,7 +56,7 @@ module.exports = {
 				return;
 			}
 			imageMessage.edit({ embeds: [
-				embed.setImage(result[x].url)
+				embed.setImage(result[x])
 					.setFooter({ text: `${x + 1}/${result.length} - using Google Images` }),
 			] });
 		});
