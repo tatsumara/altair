@@ -13,11 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: butlerlogic/action-autotag@stable
+        id: autotag
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           strategy: package
           tag_prefix: "v"
           commit_message_template: ""
-      - run: gh release create ${{ github.ref_name }} -R ${{github.repository}} --generate-notes -t "Release ${{github.ref_name}}"
+      - run: gh release create ${{autotag.tag}} -R ${{github.repository}} --generate-notes -t "Release ${{autotag.tag}}"
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
