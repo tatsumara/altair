@@ -2,8 +2,8 @@ name: push-release
 
 on:
   create:
-    branches:
-      - main
+    tags:
+      - v*
 
 jobs:
   push-release:
