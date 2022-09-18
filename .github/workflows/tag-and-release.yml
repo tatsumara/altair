@@ -18,10 +18,6 @@ jobs:
           strategy: package
           tag_prefix: "v"
           commit_message_template: ""
-      - uses: booxmedialtd/ws-action-parse-semver@v1
-        id: semver
-        with:
-          input_string: ${{github.ref_name}}
       - run: gh release create ${{ github.ref_name }} -R ${{github.repository}} --generate-notes -t "Release ${{github.ref_name}}"
         env: 
           GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
