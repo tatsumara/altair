@@ -1,9 +1,9 @@
 name: push-release
 
 on:
-  push:
-    tags:
-      - v*
+  create:
+    branches:
+      - main
 
 jobs:
   push-release:
