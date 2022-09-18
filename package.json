@@ -1,6 +1,6 @@
 {
   "name": "altair",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Altair discord bot",
   "main": "index.js",
   "scripts": {
