@@ -15,11 +15,3 @@ jobs:
           strategy: package
           tag_prefix: "v"
           commit_message_template: ""
-  push-release:
-    needs: create-tag
-    runs-on: ubuntu-latest
-    steps:
-      - uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
