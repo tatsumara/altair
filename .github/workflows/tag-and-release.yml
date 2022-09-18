@@ -1,0 +1,27 @@
+name: tag and release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
+
+jobs:
+  tag-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: butlerlogic/action-autotag@stable
+        with:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          strategy: package
+          tag_prefix: "v"
+          commit_message_template: ""
+      - uses: booxmedialtd/ws-action-parse-semver@v1
+        id: semver
+        with:
+          input_string: ${{github.ref_name}}
+      - run: gh release create ${{ github.ref_name }} -R ${{github.repository}} --generate-notes -t "Release ${{github.ref_name}}"
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
