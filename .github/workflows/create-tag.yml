@@ -2,8 +2,10 @@ name: create-release
 
 on:
   push:
+    branches:
+      - main
     paths:
-    - packages.json
+      - packages.json
 
 jobs:
   create-tag:
