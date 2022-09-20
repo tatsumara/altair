@@ -1,14 +1,14 @@
 {
   "name": "altair",
-  "version": "0.3.0",
-  "description": "Altair discord bot",
+  "version": "1.0.0",
+  "description": "altair discord search engine",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
     "lint": "eslint ."
   },
-  "author": "mara",
+  "author": "tatsumara",
   "license": "MIT",
   "dependencies": {
     "bottomify": "^0.3.0",
