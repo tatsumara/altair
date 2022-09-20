@@ -12,14 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: butlerlogic/action-autotag@stable
+      - name: "Tag current version"
         id: autotag
+        uses: butlerlogic/action-autotag@stable
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           strategy: package
           tag_prefix: "v"
-          commit_message_template: ""
-      - if: ${{steps.autotag.outputs.tagname}}
-        run: gh release create ${{steps.autotag.outputs.tagname}} -R ${{github.repository}} --generate-notes -t "Release ${{steps.autotag.outputs.tagname}}"
+      - name: "Build changelog"
+        if: ${{ steps.autotag.outputs.tagname }}
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@{latest-release}
+        with:
+          commitMode: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: "Create release"
+        if: ${{ steps.autotag.outputs.tagname }}
+        uses: softprops/action-gh-release@1
+        with:
+          body: ${{ steps.changelog.outputs.changelog }}
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
