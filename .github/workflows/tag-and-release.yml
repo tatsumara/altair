@@ -19,6 +19,7 @@ jobs:
           strategy: package
           tag_prefix: "v"
           commit_message_template: ""
-      - run: gh release create ${{steps.autotag.outputs.tag}} -R ${{github.repository}} --generate-notes -t "Release ${{steps.autotag.outputs.tag}}"
+      - if: ${{steps.autotag.outputs.tagname}}
+        run: gh release create ${{steps.autotag.outputs.tagname}} -R ${{github.repository}} --generate-notes -t "Release ${{steps.autotag.outputs.tagname}}"
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
