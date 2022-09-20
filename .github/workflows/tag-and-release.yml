@@ -31,6 +31,7 @@ jobs:
         if: ${{ steps.autotag.outputs.tagname }}
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ steps.autotag.outputs.tagname }}
           body: ${{ steps.changelog.outputs.changelog }}
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

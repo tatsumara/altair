@@ -1,6 +1,6 @@
 {
   "name": "altair",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "altair discord search engine",
   "main": "index.js",
   "scripts": {
