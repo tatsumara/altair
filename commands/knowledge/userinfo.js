@@ -13,7 +13,7 @@ module.exports = {
 				member = undefined;
 			}
 		}
-		if (!member) return message.reply(functions.simpleEmbed('User not found or not a user!'));
+		if (!member) return await message.reply(functions.simpleEmbed('User not found or not a user!'));
 		const embed = {
 			color: client.colors.blue,
 			title: `${member.user.tag}`,
@@ -26,6 +26,6 @@ module.exports = {
 				{ name: 'Joined at', value: member.joinedAt.toDateString(), inline: true },
 			],
 		};
-		return message.reply({ embeds: [embed] });
+		return await message.reply({ embeds: [embed] });
 	},
 };

@@ -6,14 +6,11 @@ module.exports = {
 	usage: 'dadjoke',
 	args: false,
 	aliases: ['joke', 'dad'],
-	execute(client, message) {
-		// make the request
+	async execute(client, message) {
 		const headers = {
-			'Accept': 'application/json',
+			'Accept': 'text/plain',
 		};
-		got('https://icanhazdadjoke.com/', { headers }).then(res => {
-			const { joke } = JSON.parse(res.body);
-			return message.reply(joke);
-		});
+		const { body: joke } = await got('https://icanhazdadjoke.com/', { headers });
+		return await message.reply(joke);
 	},
 };

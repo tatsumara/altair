@@ -8,8 +8,8 @@ module.exports = {
 	aliases: ['wiki', 'wp'],
 	async execute(client, message, args, functions) {
 		const search = await wiki().search(args.join(' '));
-		if (!search.results[0]) return message.reply(functions.simpleEmbed('Nothing found!'));
+		if (!search.results[0]) return await message.reply(functions.simpleEmbed('Nothing found!'));
 		const page = await wiki().page(search.results[0]);
-		message.reply(page.url());
+		return await message.reply(page.url());
 	},
 };

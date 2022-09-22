@@ -79,7 +79,7 @@ module.exports = {
 		let result = await got('https://graphql.anilist.co', options);
 		result = JSON.parse(result.body).data.Page.media;
 		if (!result[0]) {
-			return message.reply(functions.simpleEmbed('Nothing found!'));
+			return await message.reply(functions.simpleEmbed('Nothing found!'));
 		}
 
 		const buttons = new MessageActionRow()

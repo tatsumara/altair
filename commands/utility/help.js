@@ -5,7 +5,7 @@ module.exports = {
 	description: 'Lists all commands and basic usage.',
 	usage: 'help [command name]',
 	aliases: ['commands'],
-	execute(client, message, args, functions) {
+	async execute(client, message, args, functions) {
 		const embed = new MessageEmbed()
 			.setColor(client.colors.blue);
 		if (!args[0]) {
@@ -41,6 +41,6 @@ module.exports = {
 			}
 		}
 
-		return message.reply({ embeds: [embed] });
+		return await message.reply({ embeds: [embed] });
 	},
 };

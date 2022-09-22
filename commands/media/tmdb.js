@@ -13,8 +13,9 @@ module.exports = {
 		if (!process.env.TMDB_API_KEY) return client.log.error('Please input your TMDb API key in the config.');
 		const res = await got(`https://api.themoviedb.org/3/search/multi?api_key=${process.env.TMDB_API_KEY}&language=en_US&include_adult=${message.channel.nsfw}&query=${encodeURIComponent(args.join(' '))}`).json();
 		const results = res.results.filter(entry => entry.media_type !== 'person');
+
 		if (!results[0]) {
-			return message.reply(functions.simpleEmbed('Nothing found!'));
+			return await message.reply(functions.simpleEmbed('Nothing found!'));
 		}
 
 		const buttons = new MessageActionRow()

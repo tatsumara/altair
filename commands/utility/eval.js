@@ -14,7 +14,7 @@ module.exports = {
 				name: 'evaled.yml',
 			}] });
 		} catch (err) {
-			return message.reply(functions.simpleEmbed('', err.toString(), client.colors.red));
+			return await message.reply(functions.simpleEmbed('', err.toString(), client.colors.red));
 		}
 	},
 };

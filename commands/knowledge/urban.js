@@ -8,11 +8,9 @@ module.exports = {
 	args: true,
 	aliases: ['urb', 'ud'],
 	async execute(client, message, args, functions) {
-		const term = encodeURIComponent(args.join(' '));
-		const { body } = await got(`http://api.urbandictionary.com/v0/define?term=${term}`);
-		const result = JSON.parse(body);
+		const { body: result } = await got(`http://api.urbandictionary.com/v0/define?term=${encodeURIComponent(args.join(' '))}`, { responseType: 'json' });
 		if (!result.list[0]) {
-			return message.reply(functions.simpleEmbed('Nothing found!'));
+			return await message.reply(functions.simpleEmbed('Nothing found!'));
 		}
 
 		const definitions = result.list.sort((a, b) => {
@@ -21,7 +19,7 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setTitle(definitions[0].name || args.join(' '))
-			.setURL(definitions[0].permalink || `http://api.urbandictionary.com/v0/define?term=${term}`)
+			.setURL(definitions[0].permalink || `http://api.urbandictionary.com/v0/define?term=${encodeURIComponent(args.join(' '))}`)
 			.setAuthor({ iconURL: 'https://pbs.twimg.com/profile_images/1149416858426081280/uvwDuyqS_400x400.png', name: 'Urban Dictionary' })
 			.setFooter({ text: 'Definition by ' + definitions[0].author })
 			.setColor(client.colors.blue)

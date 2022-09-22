@@ -11,9 +11,9 @@ module.exports = {
 		if (!process.env.WOLFRAM_API_KEY) return client.log.error('Please input your WolframAlpha API key in the config.');
 		try {
 			const res = await got(`http://api.wolframalpha.com/v1/spoken?appid=${process.env.WOLFRAM_API_KEY}&i=${encodeURIComponent(args.join(' '))}`);
-			message.reply(res.body + '.');
+			return await message.reply(res.body + '.');
 		} catch (err) {
-			return message.reply('I can\'t answer this.');
+			return await message.reply('I can\'t answer this.');
 		}
 	},
 };

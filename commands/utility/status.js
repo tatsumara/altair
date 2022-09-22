@@ -4,7 +4,7 @@ module.exports = {
 	name: 'status',
 	description: 'Displays some running information about Altair.',
 	aliases: ['stats', 'stat'],
-	execute(client, message, args, functions) {
+	async execute(client, message, args, functions) {
 		let memberCount = 0;
 		client.guilds.cache.forEach(guild => memberCount = memberCount + guild.memberCount);
 		const embed = new MessageEmbed()
@@ -24,6 +24,6 @@ module.exports = {
 				{ name: 'Built', value: `<t:${process.env.BUILD_TIME || 0}:R>`, inline: true },
 				{ name: 'Latest commit', value: `\`${process.env.LATEST_COMMIT || 'Unknown'}\`` },
 			);
-		return message.reply({ embeds: [embed] });
+		return await message.reply({ embeds: [embed] });
 	},
 };
