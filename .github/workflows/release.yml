@@ -1,0 +1,14 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+      
+jobs:
+  release:
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: ${{ secrets.PAT }}
+          prerelease: false

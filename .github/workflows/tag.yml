@@ -1,0 +1,20 @@
+name: tag
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
+
+jobs:
+  tag-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Tag current version"
+        id: autotag
+        uses: butlerlogic/action-autotag@stable
+        with:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+          strategy: package
+          tag_prefix: "v"
