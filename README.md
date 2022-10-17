@@ -17,6 +17,9 @@ PREFIX = a!
 SAUCENAO_API_KEY = <>
 WOLFRAM_API_KEY = <>
 DEEPL_API_KEY = <>
+CLIENT_ID = <>
+CLIENT_SECRET = <>
+REFRESH_TOKEN = <>
 ```
 ## TODO
 * Server specifig config/database implementation
