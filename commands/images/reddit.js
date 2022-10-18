@@ -63,6 +63,7 @@ let x = 1;
 					.setDescription(`"${subreddit.at(x).data.title}"`),
 			] });
 		});
+		if (x < subreddit.length & subreddit.at(x).data.is_created_from_ads_ui === true) {x++}
 		collector.on('end', (collected, reason) => {
 			if (reason === 'idle') imageMessage.edit({ components: [] });
 			if (reason === 'user') {
