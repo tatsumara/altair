@@ -1,11 +1,5 @@
 const { MessageEmbed, MessageActionRow, MessageButton, Guild, GuildChannel, Channel, Message } = require('discord.js');
-const snoowrap = require('snoowrap');
-const r = new snoowrap({
-	userAgent: 'Mozilla/5.0',
-	clientId: process.env.CLIENT_ID,
-	clientSecret: process.env.CLIENT_SECRET,
-	refreshToken: process.env.REFRESH_TOKEN,
-});
+const got = require("got")
 module.exports = {
 	name: 'reddit',
 	description: 'Shows images from a subreddit.',
@@ -19,22 +13,22 @@ module.exports = {
 		if (args.length > 1) {
 			return message.reply(functions.simpleEmbed('Please provide a single subreddit!'));
 		}
-		let subreddit = await r.getHot(subName)
-		
+		let subredditUrl = await got(`https://www.reddit.com/r/${subName}.json`).json()
+		let subreddit = subredditUrl.data.children
 // stealing mara's code, hopefully works
 // making x = 1 since most subreddits have a shitty pinned post. could i make it not show the pinned post? probably. do i care enough to do that? no
 let x = 1;
-		let imageLink = subreddit.at(x).url
-		let postTitle = subreddit.at(x).title
-		let nsfw = subreddit.at(x).over_18
+		let imageLink = subreddit.at(x).data.url
+		let postTitle = subreddit.at(x).data.title
+		let nsfw = subreddit.at(x).data.over_18
 		if (nsfw === true & message.channel.nsfw === false){
 			return message.reply(functions.simpleEmbed('Cannot post nsfw content in sfw channel!'))
 		}
 		const embed = new MessageEmbed()
 			.setTitle(subName)
-			.setDescription(`"${subreddit.at(x).title}"`)
+			.setDescription(`"${subreddit.at(x).data.title}"`)
 			.setColor(client.colors.blue)
-			.setImage(subreddit.at(x).url)
+			.setImage(subreddit.at(x).data.url)
 			.setFooter({ text: `${x}/${subreddit.length}` });
 		const buttons = new MessageActionRow()
 			.addComponents(
@@ -64,9 +58,9 @@ let x = 1;
 				return;
 			}
 			imageMessage.edit({ embeds: [
-				embed.setImage(subreddit.at(x).url)
+				embed.setImage(subreddit.at(x).data.url)
 					.setFooter({ text: `${x + 1}/${subreddit.length}` })
-					.setDescription(`"${subreddit.at(x).title}"`),
+					.setDescription(`"${subreddit.at(x).data.title}"`),
 			] });
 		});
 		collector.on('end', (collected, reason) => {
