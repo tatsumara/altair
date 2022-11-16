@@ -15,6 +15,12 @@ module.exports = (res) => {
 	} else {
 		description = 'No description found.';
 	}
+	if (res.nextAiringEpisode?.episode) {
+		const airDate = Math.floor(Date.now() / 1000) + res.nextAiringEpisode.timeUntilAiring;
+		description = `**Episode ${res.nextAiringEpisode.episode} airing <t:${airDate}:R>!**
+		
+		` + description;
+	}
 	embed.setDescription(description);
 
 	// .filter(Boolean) filters out parts of the date that don't exist
