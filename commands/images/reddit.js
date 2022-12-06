@@ -1,5 +1,6 @@
+// eslint-disable-next-line no-unused-vars
 const { MessageEmbed, MessageActionRow, MessageButton, Guild, GuildChannel, Channel, Message } = require('discord.js');
-const got = require("got")
+const got = require('got');
 module.exports = {
 	name: 'reddit',
 	description: 'Shows images from a subreddit.',
@@ -8,24 +9,24 @@ module.exports = {
 	args: true,
 	aliases: ['red', 'reddit'],
 	async execute(client, message, args, functions) {
-		let subName = args.at(0);
-		console.log(args, args.length);
+		const subName = args.at(0);
 		if (args.length > 1) {
 			return message.reply(functions.simpleEmbed('Please provide a single subreddit!'));
 		}
-		let subredditUrl = await got(`https://www.reddit.com/r/${subName}.json`).json()
-		let subreddit = subredditUrl.data.children
-// stealing mara's code, hopefully works
-// making x = 1 since most subreddits have a shitty pinned post. could i make it not show the pinned post? probably. do i care enough to do that? no
-let x = 1;
-		let imageLink = subreddit.at(x).data.url
-		let postTitle = subreddit.at(x).data.title
-		let nsfw = subreddit.at(x).data.over_18
-		if (nsfw === true & message.channel.nsfw === false){
-			return message.reply(functions.simpleEmbed('Cannot post nsfw content in sfw channel!'))
+		const subredditUrl = await got(`https://www.reddit.com/r/${subName}.json`).json();
+		const subreddit = subredditUrl.data.children;
+		// stealing mara's code, hopefully works
+		// making x = 1 since most subreddits have a shitty pinned post. could i make it not show the pinned post? probably. do i care enough to do that? no
+		if (subredditUrl.data.after === null) {
+			return message.reply(functions.simpleEmbed('Subreddit does not exist!'));
+		}
+		let x = 1;
+		const nsfw = subreddit.at(x).data.over_18;
+		if (nsfw === true & message.channel.nsfw === false) {
+			return message.reply(functions.simpleEmbed('Cannot post nsfw content in sfw channel!'));
 		}
 		const embed = new MessageEmbed()
-			.setTitle(subName)
+			.setAuthor({ iconURL: 'https://www.redditinc.com/assets/images/site/reddit-logo.png', name: `r/${subName}` })
 			.setDescription(`"${subreddit.at(x).data.title}"`)
 			.setColor(client.colors.blue)
 			.setImage(subreddit.at(x).data.url)
@@ -36,7 +37,7 @@ let x = 1;
 				new MessageButton({ label: '▶', customId: 'next', style: 'SECONDARY' }),
 				new MessageButton({ label: '✕', customId: 'close', style: 'DANGER' }),
 			);
-			const imageMessage = await message.reply({ embeds: [embed], components: [buttons] });
+		const imageMessage = await message.reply({ embeds: [embed], components: [buttons] });
 		const filter = i => {
 			i.deferUpdate();
 			return i.user.id === message.author.id;
@@ -63,7 +64,7 @@ let x = 1;
 					.setDescription(`"${subreddit.at(x).data.title}"`),
 			] });
 		});
-		if (x < subreddit.length & subreddit.at(x).data.is_created_from_ads_ui === true) {x++}
+		if (x < subreddit.length & subreddit.at(x).data.is_created_from_ads_ui === true) {x++;}
 		collector.on('end', (collected, reason) => {
 			if (reason === 'idle') imageMessage.edit({ components: [] });
 			if (reason === 'user') {
@@ -72,4 +73,4 @@ let x = 1;
 			}
 		});
 	},
-}
+};
