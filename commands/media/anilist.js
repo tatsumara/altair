@@ -23,8 +23,20 @@ module.exports = {
 				  native
 				}
 				status(version: 2)
-				startDate { day, month, year }
-				endDate { day, month, year }
+				nextAiringEpisode {
+				  episode
+				  timeUntilAiring
+				}
+				startDate {
+				  day
+				  month
+				  year
+				}
+				endDate {
+				  day
+				  month
+				  year
+				}
 				description(asHtml: false)
 				genres
 				isAdult
@@ -44,7 +56,7 @@ module.exports = {
 					name
 				  }
 				}
-				staff (sort: RELEVANCE){
+				staff(sort: RELEVANCE) {
 				  edges {
 					node {
 					  name {
@@ -56,7 +68,7 @@ module.exports = {
 				}
 			  }
 			}
-		  }					  
+		  }					
 		`;
 		const variables = {
 			search: args.join(' '),
