@@ -1,19 +1,21 @@
-// eslint-disable-next-line no-unused-vars
 const { MessageEmbed, MessageActionRow, MessageButton, Guild, GuildChannel, Channel, Message } = require('discord.js');
 const got = require('got');
 module.exports = {
 	name: 'reddit',
 	description: 'Shows images from a subreddit.',
-	usage: 'reddit <search query>',
+	usage: 'reddit <search query> <sort type> <sorting timeframe>',
 	cooldown: '10',
 	args: true,
 	aliases: ['red', 'reddit'],
 	async execute(client, message, args, functions) {
 		const subName = args.at(0);
-		if (args.length > 1) {
-			return message.reply(functions.simpleEmbed('Please provide a single subreddit!'));
+		let sortType = args.at(1);
+		let timeFrame = args.at(2);
+		if (!['hot', 'top', 'new'].includes(sortType)) {
+			sortType = 'hot';
 		}
-		const subredditUrl = await got(`https://www.reddit.com/r/${subName}.json`).json();
+		timeFrame ??= 'all';
+		const subredditUrl = await got(`https://www.reddit.com/r/${subName}/${sortType}.json?t=${timeFrame}`).json();
 		const subreddit = subredditUrl.data.children;
 		// stealing mara's code, hopefully works
 		// making x = 1 since most subreddits have a shitty pinned post. could i make it not show the pinned post? probably. do i care enough to do that? no
@@ -30,7 +32,7 @@ module.exports = {
 			.setDescription(`"${subreddit.at(x).data.title}"`)
 			.setColor(client.colors.blue)
 			.setImage(subreddit.at(x).data.url)
-			.setFooter({ text: `${x}/${subreddit.length}` });
+			.setFooter({ text: `${x}/${subreddit.length}; posted by ${subreddit.at(x).data.author}, ${subreddit.at(x).data.ups} upvotes.` });
 		const buttons = new MessageActionRow()
 			.addComponents(
 				new MessageButton({ label: '◀', customId: 'previous', style: 'SECONDARY' }),
@@ -60,7 +62,7 @@ module.exports = {
 			}
 			imageMessage.edit({ embeds: [
 				embed.setImage(subreddit.at(x).data.url)
-					.setFooter({ text: `${x + 1}/${subreddit.length}` })
+					.setFooter({ text: `${x + 1}/${subreddit.length}; posted by ${subreddit.at(x).data.author}, ${subreddit.at(x).data.ups} upvotes.` })
 					.setDescription(`"${subreddit.at(x).data.title}"`),
 			] });
 		});
