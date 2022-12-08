@@ -3,7 +3,7 @@ const got = require('got');
 module.exports = {
 	name: 'reddit',
 	description: 'Shows images from a subreddit.',
-	usage: 'reddit <search query> <sort type> <sorting timeframe>',
+	usage: 'reddit <search query> [sort type] [sorting timeframe]',
 	cooldown: '10',
 	args: true,
 	aliases: ['red', 'reddit'],
