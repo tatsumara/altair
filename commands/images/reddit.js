@@ -2,7 +2,7 @@ const { MessageEmbed, MessageActionRow, MessageButton, Guild, GuildChannel, Chan
 const got = require('got');
 module.exports = {
 	name: 'reddit',
-	description: 'Shows images from a subreddit.',
+	description: 'Shows posts from a subreddit.',
 	usage: 'reddit <search query> [sort type] [sorting timeframe]',
 	cooldown: '10',
 	args: true,
@@ -17,22 +17,20 @@ module.exports = {
 		timeFrame ??= 'all';
 		const subredditUrl = await got(`https://www.reddit.com/r/${subName}/${sortType}.json?t=${timeFrame}`).json();
 		const subreddit = subredditUrl.data.children;
-		// stealing mara's code, hopefully works
-		// making x = 1 since most subreddits have a shitty pinned post. could i make it not show the pinned post? probably. do i care enough to do that? no
 		if (subredditUrl.data.after === null) {
 			return message.reply(functions.simpleEmbed('Subreddit does not exist!'));
 		}
-		let x = 1;
+		let x = 0;
 		const nsfw = subreddit.at(x).data.over_18;
 		if (nsfw === true & message.channel.nsfw === false) {
 			return message.reply(functions.simpleEmbed('Cannot post nsfw content in sfw channel!'));
 		}
 		const embed = new MessageEmbed()
 			.setAuthor({ iconURL: 'https://www.redditinc.com/assets/images/site/reddit-logo.png', name: `r/${subName}` })
-			.setDescription(`"${subreddit.at(x).data.title}"`)
+			.setDescription(`["${subreddit.at(x).data.title}"](https://reddit.com${subreddit.at(x).data.permalink})`)
 			.setColor(client.colors.blue)
 			.setImage(subreddit.at(x).data.url)
-			.setFooter({ text: `${x}/${subreddit.length}; posted by ${subreddit.at(x).data.author}, ${subreddit.at(x).data.ups} upvotes.` });
+			.setFooter({ text: `${x + 1}/${subreddit.length} - posted by ${subreddit.at(x).data.author}, ${subreddit.at(x).data.ups} upvotes.` });
 		const buttons = new MessageActionRow()
 			.addComponents(
 				new MessageButton({ label: '◀', customId: 'previous', style: 'SECONDARY' }),
@@ -62,11 +60,10 @@ module.exports = {
 			}
 			imageMessage.edit({ embeds: [
 				embed.setImage(subreddit.at(x).data.url)
-					.setFooter({ text: `${x + 1}/${subreddit.length}; posted by ${subreddit.at(x).data.author}, ${subreddit.at(x).data.ups} upvotes.` })
-					.setDescription(`"${subreddit.at(x).data.title}"`),
+					.setFooter({ text: `${x + 1}/${subreddit.length} - posted by ${subreddit.at(x).data.author}, ${subreddit.at(x).data.ups} upvotes.` })
+					.setDescription(`["${subreddit.at(x).data.title}"](https://reddit.com${subreddit.at(x).data.permalink})`),
 			] });
 		});
-		if (x < subreddit.length & subreddit.at(x).data.is_created_from_ads_ui === true) {x++;}
 		collector.on('end', (collected, reason) => {
 			if (reason === 'idle') imageMessage.edit({ components: [] });
 			if (reason === 'user') {
