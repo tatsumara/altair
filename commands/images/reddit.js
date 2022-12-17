@@ -17,6 +17,9 @@ module.exports = {
 		timeFrame ??= 'all';
 		const subredditUrl = await got(`https://www.reddit.com/r/${subName}/${sortType}.json?t=${timeFrame}`).json();
 		const subreddit = subredditUrl.data.children;
+		if (subreddit.at(0).kind === 't5') {
+			return message.reply(functions.simpleEmbed(`Subreddit does not exist. Did you mean "${subreddit.at(0).data.url}"? `));
+		}
 		if (subredditUrl.data.after === null) {
 			return message.reply(functions.simpleEmbed('Subreddit does not exist!'));
 		}
