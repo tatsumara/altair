@@ -20,7 +20,7 @@ function bytesToSize(bytes, decimals = 2) {
 }
 
 /**
- * Modiefies the embed to display a certain number of packages.
+ * Modifies the embed to display a certain number of packages.
  * @param {MessageEmbed} embed The embed to modify.
  * @param {Array} results The results to display.
  * @param {number} page The page to display.
