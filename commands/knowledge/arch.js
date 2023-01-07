@@ -2,6 +2,31 @@ const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const got = require('got');
 
 /**
+ * Pads a number with leading zeros.
+ * @param {number} n The number to pad.
+ * @param {number} [width] The width of the number.
+ * @returns {string} The padded number.
+ * @example
+ * pad(1, 2); // 01
+ */
+function pad(n, width) {
+	const str = String(n);
+	return str.length >= width ? str : new Array(width - str.length + 1).join('0') + str;
+}
+
+/**
+ * Formats a date into a human-readable string.
+ * @param {number} ms The number of milliseconds since the Unix epoch.
+ * @returns {string} The human-readable string.
+ * @example
+ * formatDate(0); // 1970-01-01
+ */
+function formatDate(ms) {
+	const date = new Date(ms);
+	return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1, 2)}-${pad(date.getUTCDate(), 2)}`;
+}
+
+/**
  * Converts a number of bytes to a human-readable string.
  * @param {number} bytes The number of bytes.
  * @param {number} [decimals=2] The number of decimal places to use.
@@ -20,9 +45,49 @@ function bytesToSize(bytes, decimals = 2) {
 }
 
 /**
+ * Formats a repo package into a human-readable string.
+ * @param {object} pkg The package to format.
+ * @returns {string} The human-readable string.
+ * @example
+ * formatRepoPackage({
+ * 	repo: 'core',
+ * 	pkgname: 'bash',
+ * 	pkgver: '5.1.8',
+ * 	compressed_size: 123456,
+ * 	installed_size: 123456,
+ * }); // core/bash 5.1.8 (120.6 KiB 120.6 KiB)
+ */
+function formatRepoPackage(pkg) {
+	return `${pkg.repo}/${pkg.pkgname} ${pkg.pkgver} (${bytesToSize(pkg.compressed_size)} ${bytesToSize(pkg.installed_size)})`;
+}
+
+/**
+ * Formats an AUR package into a human-readable string.
+ * @param {object} pkg The package to format.
+ * @returns {string} The human-readable string.
+ * @example
+ * formatAURPackage({
+ * 	Name: 'bash',
+ * 	Version: '5.1.8',
+ * 	NumVotes: 123,
+ * 	Popularity: 0.123,
+ * 	OutOfDate: 0,
+ * }); // aur/bash 5.1.8 (+123 0.12%) (Out-of-date 1970-01-01)
+ */
+function formatAURPackage(pkg) {
+	const parts = [`aur/${pkg.Name} ${pkg.Version} (+${pkg.NumVotes} ${pkg.Popularity.toFixed(2)}%)`];
+
+	if (pkg.OutOfDate) {
+		parts.push(`(Out-of-date ${formatDate(pkg.LastModified * 1000)})`);
+	}
+
+	return parts.join(' ');
+}
+
+/**
  * Modifies the embed to display a certain number of packages.
  * @param {MessageEmbed} embed The embed to modify.
- * @param {Array} results The results to display.
+ * @param {({ repo: object } | { aur: object })[]} results The results to display.
  * @param {number} page The page to display.
  * @param {number} [n=5] The number of packages to display.
  * @returns {MessageEmbed} The modified embed.
@@ -38,49 +103,71 @@ function modifyEmbed(embed, results, page, n = 5) {
 	embed.spliceFields(0, embed.fields.length);
 
 	for (let i = index; i < Math.min(index + n, results.length); i++) {
-		const {
-			arch,
-			compressed_size,
-			installed_size,
-			pkgdesc,
-			pkgname,
-			pkgver,
-			repo,
-		} = results[i];
+		const isRepo = results[i].repo;
+		const pkg = isRepo ? results[i].repo : results[i].aur;
 
-		const url = `https://www.archlinux.org/packages/${repo}/${arch}/${pkgname}/`;
-		const info = `${repo}/${pkgname} ${pkgver} (${bytesToSize(compressed_size)} ${bytesToSize(installed_size)})`;
+		const url = isRepo
+			? `https://www.archlinux.org/packages/${pkg.repo}/${pkg.arch}/${pkg.pkgname}/`
+			: `https://aur.archlinux.org/packages/${pkg.Name}/`;
+		const pkgStr = isRepo ? formatRepoPackage(pkg) : formatAURPackage(pkg);
+		const description = isRepo ? pkg.pkgdesc : pkg.Description;
 
-		const name = `${i + 1}. ${info}`;
-		const value = `${pkgdesc}\n${url}`;
-
-		embed.addField(name, value);
+		embed.addField(`${i + 1}. ${pkgStr}`, `${description}\n${url}`);
 	}
 
-	embed.setFooter({ text: `Page ${page + 1} of ${pages} | ${results.length} results` });
+	const repoCount = results.filter((r) => r.repo).length;
+	const aurCount = results.filter((r) => r.aur).length;
+
+	embed.setFooter({ text: `Page ${page + 1} of ${pages} | ${repoCount} repo | ${aurCount} aur | ${results.length} total` });
 
 	return embed;
 }
 
-
-// TODO: aur support
 module.exports = {
 	name: 'arch',
-	description: 'Queries Arch Linux Packages.',
-	usage: 'arch <query>',
+	description: 'Queries Arch Linux Packages',
+	usage: 'arch [--aur] [--repo] <query>',
 	args: true,
 	disabled: false,
 	aliases: ['pacman', 'yay'],
 	async execute(client, message, args, functions) {
-		const query = args.join(' ');
+		const flags = args.filter((arg) => arg.startsWith('--'));
+		const query = args.filter((arg) => !arg.startsWith('--')).join(' ');
+
+		const wantsAur = flags.includes('--aur');
+		const wantsRepo = flags.includes('--repo');
+		const wantsBoth = (wantsAur && wantsRepo) || (!wantsAur && !wantsRepo);
 
 		if (!query) {
 			return message.reply(functions.simpleEmbed('Please provide a query!'));
 		}
 
-		const { results } = await got(`https://www.archlinux.org/packages/search/json/?q=${encodeURIComponent(query)}`).json();
+		const packages = [];
+		const description = [];
 
-		if (results.length === 0) {
+		if (wantsRepo || wantsBoth) {
+			const repoResult = await got(`https://www.archlinux.org/packages/search/json/?q=${encodeURIComponent(query)}`).json();
+			const repoPackages = repoResult.results;
+
+			for (const repo of repoPackages) {
+				packages.push({ repo });
+			}
+
+			description.push(`[Repo](https://www.archlinux.org/packages/search/?q=${encodeURIComponent(query)})`);
+		}
+
+		if (wantsAur || wantsBoth) {
+			const aurResult = await got(`https://aur.archlinux.org/rpc/?v=5&type=search&arg=${encodeURIComponent(query)}`).json();
+			const aurPackages = aurResult.results.sort((a, b) => b.NumVotes - a.NumVotes);
+
+			for (const aur of aurPackages) {
+				packages.push({ aur });
+			}
+
+			description.push(`[AUR](https://aur.archlinux.org/packages/?O=0&K=${encodeURIComponent(query)})`);
+		}
+
+		if (packages.length === 0) {
 			return message.reply(functions.simpleEmbed('Nothing found!'));
 		}
 
@@ -88,17 +175,16 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setTitle(`Arch Linux Packages - "${query}"`)
-			.setColor(client.colors.blue)
-			.setURL(`https://www.archlinux.org/packages/search/?q=${encodeURIComponent(query)}`);
+			.setDescription(description.join(' | '))
+			.setColor(client.colors.blue);
 
-		modifyEmbed(embed, results, page);
+		modifyEmbed(embed, packages, page);
 
 		const buttons = new MessageActionRow()
 			.addComponents(
 				new MessageButton({ label: '◀', customId: 'previous', style: 'SECONDARY' }),
 				new MessageButton({ label: '▶', customId: 'next', style: 'SECONDARY' }),
 			);
-
 
 		const resultMessage = await message.reply({ embeds: [embed], components: [buttons] });
 
@@ -112,7 +198,7 @@ module.exports = {
 		collector.on('collect', async (i) => {
 			switch (i.customId) {
 			case 'next':
-				if (page < results.length) page++;
+				if (page < Math.ceil(packages.length / 5) - 1) page++;
 				break;
 			case 'previous':
 				if (page > 0) page--;
@@ -121,7 +207,7 @@ module.exports = {
 				return;
 			}
 
-			modifyEmbed(embed, results, page);
+			modifyEmbed(embed, packages, page);
 
 			resultMessage.edit({ embeds: [embed] });
 		});
