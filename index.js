@@ -81,27 +81,31 @@ process.on('uncaughtException', error => {
 	client.log.error(error);
 });
 
-// have to log in and _then_ add the commands because `applications`
-// only becomes available then
-client.login().then(async () => {
-	// wait for options to become available
+async function register_slash_commands(interaction) {
 	for (const command of slashCommands) {
 		command.options = await command.options;
 	}
-	client.log.info('Calculated options');
+	client.log.info('Calculated slash options');
 
-	// register slash commands
-	const reg_only = process.argv.includes('--reg');
-	const guild = reg_only ? undefined : process.env.ADD_SLASH_TO;
-	const where = guild ? `in guild ${guild}` : 'globally';
-	client.application.commands.set(slashCommands, guild).then(() => {
-		client.log.info(`Registered ${slashCommands.length} slash commands ${where}.`);
-		// check if only registration is needed
-		if (reg_only) {
-			client.log.info('Registration only, exiting.');
-			client.destroy();
-		}
-	}).catch(e => {
+	client.application.commands.set(slashCommands).then(async () => {
+		client.log.info(`Registered ${slashCommands.length} slash commands.`);
+		await interaction.reply(`:white_check_mark: registered ${slashCommands.length} slash commands globally`);
+	}).catch(async e => {
 		client.log.error('Couldn\'t register slash commands:', e);
+		await interaction.reply(':x: couldn\'t register slash commands');
+	});
+}
+client.register_slash_commands = register_slash_commands;
+
+// have to log in and _then_ add the command because `applications`
+// only becomes available then
+client.login().then(async () => {
+	client.application.commands.set([{
+		name: 'register_slash',
+		description: 'register all slash commands globally',
+	}], process.env.ADD_MASTER_CMD_TO).then(() => {
+		client.log.info('Registered /register_slash');
+	}).catch(e => {
+		client.log.error('Couldn\'t register /register_slash:', e);
 	});
 });

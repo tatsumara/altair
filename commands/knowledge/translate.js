@@ -4,6 +4,11 @@ const got = require('got');
 const bottom = require('bottomify');
 
 const textLenLimit = 200;
+const languageWhitelist = [
+	'EN', 'RU', 'DE', 'ES', 'IT', 'ZH',
+	'JA', 'FI', 'SV', 'UK', 'LV', 'LT',
+	'BTM',
+];
 
 const nonConforming = {
 	'cz': 'cs', // czech
@@ -14,6 +19,7 @@ const nonConforming = {
 	'se': 'sv', // swedish
 	'si': 'sl', // slovenian
 	'ee': 'et', // estonian
+	'ua': 'uk', // ukrainian
 };
 const nonConformingReverse = Object.fromEntries(Object.entries(nonConforming).map(([k, v]) => [v, k]));
 function deepLtoConforming(lang) {
@@ -88,7 +94,7 @@ module.exports = {
 		const lang_choices = langs.map(x => ({
 			name: `${langToUnicodeEmoji(x.language)} ${x.name}`,
 			value: x.language,
-		}));
+		})).filter(x => languageWhitelist.includes(x.value));
 		return [
 			{ name: 'text', description: 'text to translate', type: 3, required: true },
 			{ name: 'source', description: 'source language', type: 3, required: false, choices: lang_choices },
