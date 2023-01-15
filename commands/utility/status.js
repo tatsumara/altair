@@ -21,8 +21,6 @@ module.exports = {
 				{ name: 'Users', value: memberCount.toString(), inline: true },
 				{ name: 'Commands ran', value: client.commandsRan.toString(), inline: true },
 				{ name: 'Prefix', value: process.env.PREFIX, inline: true },
-				{ name: 'Built', value: `<t:${process.env.BUILD_TIME || 0}:R>`, inline: true },
-				{ name: 'Latest commit', value: `\`${process.env.LATEST_COMMIT || 'Unknown'}\`` },
 			);
 		return await message.reply({ embeds: [embed] });
 	},

@@ -12,10 +12,3 @@ COPY . ./
 
 # main command
 CMD ["node", "index.js"]
-
-ARG LATEST_COMMIT="Unknown"
-ARG BUILD_TIME="Unknown"
-
-# set environment variables
-ENV LATEST_COMMIT=$LATEST_COMMIT
-ENV BUILD_TIME=$BUILD_TIME
