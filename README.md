@@ -14,14 +14,13 @@ Simply clone this repository, install dependencies with ``npm install`` then eit
 DISCORD_TOKEN = <your bot token>
 OWNER_ID = <id of your discord account>
 PREFIX = a!
-SAUCENAO_API_KEY = <>
-WOLFRAM_API_KEY = <>
-DEEPL_API_KEY = <>
+<service>_API_KEY = <token/key>
 ```
+Valid services are `SAUCENAO`, `WOLFRAM`, `GENIUS`, `DEEPL`, `NASA`, `TMDB`, and `LASTFM`. You don't need to supply all these keys, if a command that requires one that's not supplied gets executed it will simply silently fail.
 ## TODO
 * Server specifig config/database implementation
 * Standardize responses, embeds and buttons
-* Paginate anime and manga commands
+* Add common pagination class/module
 * Implement slash commands using [this function](https://discord.js.org/#/docs/discord.js/stable/class/ApplicationCommandManager?scrollTo=set)
 ## Meta
 mara#8977 on Discord
