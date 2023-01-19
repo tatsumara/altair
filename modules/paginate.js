@@ -1,4 +1,5 @@
 const { MessageActionRow, MessageButton } = require('discord.js');
+const { simpleEmbed } = require('./functions.js');
 
 module.exports = async (message, pages) => {
 	const buttons = new MessageActionRow()
@@ -34,7 +35,7 @@ module.exports = async (message, pages) => {
 	collector.on('end', (collected, reason) => {
 		if (reason === 'idle') embedMessage.edit({ components: [] });
 		if (reason === 'user') {
-			embedMessage.edit({ embeds: [], components: [], content: 'closed.' });
+			embedMessage.edit(simpleEmbed('Closed.'), { components: [] });
 		}
 	});
 };
