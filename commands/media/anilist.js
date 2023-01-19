@@ -1,6 +1,6 @@
-const { MessageActionRow, MessageButton } = require('discord.js');
 const got = require('got');
 const anilistParser = require('../../modules/anilistParser.js');
+const paginate = require('../../modules/paginate.js');
 
 module.exports = {
 	name: 'anilist',
@@ -94,35 +94,10 @@ module.exports = {
 			return await message.reply(functions.simpleEmbed('Nothing found!'));
 		}
 
-		const buttons = new MessageActionRow()
-			.addComponents(
-				new MessageButton({ label: '◀', customId: 'previous', style: 'SECONDARY' }),
-				new MessageButton({ label: '▶', customId: 'next', style: 'SECONDARY' }),
-			);
-
-		const msg = await message.reply({ embeds: [anilistParser(result[0])], components: [buttons] });
-		const filter = i => {
-			i.deferUpdate();
-			return i.user.id === message.author.id;
-		};
-
-		const collector = msg.createMessageComponentCollector({ filter, idle: 60000 });
-		let x = 0;
-		collector.on('collect', i => {
-			switch (i.customId) {
-			case 'next':
-				if (x < result.length - 1) x++;
-				break;
-			case 'previous':
-				if (x > 0) x--;
-				break;
-			default:
-				return;
-			}
-			msg.edit({ embeds: [anilistParser(result[x])] });
+		const pages = [];
+		result.forEach((res) => {
+			pages.push(anilistParser(res));
 		});
-		collector.on('end', (collected, reason) => {
-			if (reason === 'idle') msg.edit({ components: [] });
-		});
+		paginate(message, pages);
 	},
 };
