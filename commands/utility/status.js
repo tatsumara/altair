@@ -4,6 +4,7 @@ module.exports = {
 	name: 'status',
 	description: 'Displays some running information about Altair.',
 	slashOptions: [],
+
 	async execute(client, interaction, functions) {
 		let memberCount = 0;
 		client.guilds.cache.forEach(guild => memberCount = memberCount + guild.memberCount);

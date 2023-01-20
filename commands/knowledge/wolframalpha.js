@@ -7,6 +7,7 @@ module.exports = {
 	slashOptions: [
 		{ name: 'term', description: 'term to define', type: 3, required: true },
 	],
+
 	async execute(client, interaction) {
 		const term = interaction.options.getString('term');
 		if (!process.env.WOLFRAM_API_KEY) return client.log.error('Please input your WolframAlpha API key in the config.');

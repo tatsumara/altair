@@ -9,6 +9,7 @@ module.exports = {
 	slashOptions: [
 		{ name: 'term', description: 'YouTube search term', type: 3, required: true },
 	],
+
 	async execute(_client, interaction, functions) {
 		const term = interaction.options.getString('term');
 		const result = await ytsr(term, { limit: 20 });

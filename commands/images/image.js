@@ -9,6 +9,7 @@ module.exports = {
 	slashOptions: [
 		{ name: 'query', description: 'query to run', type: 3, required: true },
 	],
+
 	async execute(client, interaction, functions) {
 		const query = interaction.options.getString('query');
 		const safe = !interaction.channel.nsfw;

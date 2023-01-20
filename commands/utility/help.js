@@ -8,6 +8,7 @@ module.exports = {
 		{ name: 'command', description: 'command to describe', type: 3, required: false },
 	],
 	dontDefer: true,
+
 	async execute(client, interaction, functions) {
 		const cmd = interaction.options.getString('command');
 		const embed = new MessageEmbed()

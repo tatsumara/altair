@@ -4,6 +4,7 @@ module.exports = {
 	name: 'dadjoke',
 	description: 'Tells a dad joke.',
 	slashOptions: [],
+
 	async execute(_client, interaction) {
 		// make the request
 		const headers = {

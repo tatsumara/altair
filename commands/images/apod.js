@@ -5,6 +5,7 @@ module.exports = {
 	name: 'apod',
 	description: 'Displays NASA\'s Astronomy Picture of the Day.',
 	slashOptions: [],
+
 	async execute(client, interaction) {
 		if (!process.env.NASA_API_KEY) return client.log.error('Please input your NASA API key in the config.');
 		got(`https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA_API_KEY}`).then(res => {

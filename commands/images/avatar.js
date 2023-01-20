@@ -8,6 +8,7 @@ module.exports = {
 	slashOptions: [
 		{ name: 'user', description: 'user to get the avatar of', type: 6, required: false },
 	],
+
 	async execute(client, interaction) {
 		const member = interaction.options.getMember('user') || interaction.member;
 		member.fetch();

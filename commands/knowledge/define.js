@@ -9,6 +9,7 @@ module.exports = {
 		{ name: 'term', description: 'term to define', type: 3, required: true },
 	],
 	dontDefer: true,
+
 	async execute(client, interaction, functions) {
 		const term = interaction.options.getString('term');
 		if (term.search(' ') > -1) {

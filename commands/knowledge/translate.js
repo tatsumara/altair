@@ -90,6 +90,7 @@ module.exports = {
 		'/translate target:de text:I like writing bots',
 		'/translate source:ru target:de Privyet, mir!',
 	],
+	cooldown: 10,
 	slashOptions: langFetchPromise.then((langs) => {
 		const lang_choices = langs.map(x => ({
 			name: `${langToUnicodeEmoji(x.language)} ${x.name}`,
@@ -101,7 +102,6 @@ module.exports = {
 			{ name: 'target', description: 'target language', type: 3, required: false, choices: lang_choices },
 		];
 	}),
-	cooldown: 10,
 
 	async execute(client, interaction, functions) {
 		// check DEEPL_API_KEY
