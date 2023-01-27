@@ -1,5 +1,6 @@
 const { Client, Collection, Intents } = require('discord.js');
 const fs = require('fs');
+const register = require('./register.js');
 require('dotenv').config();
 
 const intents = [
@@ -48,6 +49,7 @@ client.log.info(`Registered ${eventFiles.length} event listeners.`);
 
 // builds the command collection to be used in ./events/message.js
 client.commands = new Collection();
+const slashCommands = [];
 
 const commandFolders = fs.readdirSync('./commands');
 
@@ -57,6 +59,15 @@ for (const folder of commandFolders) {
 		const command = require(`./commands/${folder}/${file}`);
 		command.category = folder;
 		client.commands.set(command.name, command);
+
+		// keep track of slash commands
+		if (command.slashOptions) {
+			slashCommands.push({
+				name: command.name,
+				description: command.description,
+				options: command.slashOptions,
+			});
+		}
 	}
 }
 client.log.info(`Loaded ${client.commands.size} commands.`);
@@ -71,4 +82,24 @@ process.on('uncaughtException', error => {
 	client.log.error(error);
 });
 
-client.login();
+async function register_slash_commands(interaction) {
+	for (const command of slashCommands) {
+		command.options = await command.options;
+	}
+	client.log.info('Calculated slash options');
+
+	client.application.commands.set(slashCommands).then(async () => {
+		client.log.info(`Registered ${slashCommands.length} slash commands.`);
+		await interaction.reply(`:white_check_mark: registered ${slashCommands.length} slash commands globally`);
+	}).catch(async e => {
+		client.log.error('Couldn\'t register slash commands:', e);
+		await interaction.reply(':x: couldn\'t register slash commands');
+	});
+}
+client.register_slash_commands = register_slash_commands;
+
+// have to log in and _then_ add the command because `applications`
+// only becomes available then
+client.login().then(async () => {
+	register(client, slashCommands);
+});

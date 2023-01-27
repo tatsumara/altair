@@ -6,10 +6,12 @@ module.exports = {
 	name: 'anilist',
 	description: 'Searches for an anime or a manga on AniList.',
 	usage: 'anilist <search term>',
-	cooldown: '15',
-	args: true,
-	aliases: ['ani', 'anime', 'man', 'manga'],
-	async execute(client, message, args, functions) {
+	cooldown: 15,
+	slashOptions: [
+		{ name: 'query', description: 'search term', type: 3, required: true },
+	],
+
+	async execute(_client, interaction, functions) {
 		const query = `
 		query ($search: String, $isAdult: Boolean) {
 			Page(page: 1, perPage: 10) {
@@ -70,12 +72,10 @@ module.exports = {
 			}
 		  }					
 		`;
-		const variables = {
-			search: args.join(' '),
-		};
-		if (!message.channel.nsfw) {
-			variables.isAdult = false;
-		}
+
+		const variables = { search: interaction.options.getString('query') };
+		if (!interaction.channel.nsfw) variables.isAdult = false;
+
 		const options = {
 			method: 'POST',
 			headers: {
@@ -91,13 +91,13 @@ module.exports = {
 		let result = await got('https://graphql.anilist.co', options);
 		result = JSON.parse(result.body).data.Page.media;
 		if (!result[0]) {
-			return await message.reply(functions.simpleEmbed('Nothing found!'));
+			return await interaction.editReply(functions.simpleEmbed('Nothing found!'));
 		}
 
 		const pages = [];
 		result.forEach((res) => {
 			pages.push(anilistParser(res));
 		});
-		paginate(message, pages);
+		paginate(interaction, pages);
 	},
 };

@@ -43,12 +43,13 @@ function azimuthToEmoji(degrees) {
 module.exports = {
 	name: 'weather',
 	description: 'Gets the current weather.',
-	usage: 'weather [<location> OR <@user>]',
-	args: true,
-	aliases: ['we'],
+	usage: 'weather <location>',
+	slashOptions: [
+		{ name: 'location', description: 'which location to get the weather of', type: 3, required: true },
+	],
 
-	async execute(client, message, args) {
-		const location = args.join('+');
+	async execute(client, interaction) {
+		const location = interaction.options.getString('location');
 
 		// get weather
 		// i love pattern matching
@@ -96,6 +97,6 @@ module.exports = {
 			.setColor(client.colors.blue)
 			.setFooter({ text: `observed ${difference}` });
 
-		await message.reply({ embeds: [embed] });
+		await interaction.editReply({ embeds: [embed] });
 	},
 };

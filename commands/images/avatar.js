@@ -3,19 +3,15 @@ const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.j
 module.exports = {
 	name: 'avatar',
 	description: 'Sends your or the mentioned users avatar.',
-	usage: 'avatar [user]',
+	usage: '/avatar [user]',
 	guildOnly: true,
-	aliases: ['av', 'pfp'],
-	async execute(client, message, args, functions) {
-		let member = message.mentions.members.first() || args[0]?.match(/\d{17,18}/) || message.member;
-		if (Array.isArray(member)) {
-			try {
-				member = await message.guild.members.fetch(member[0]);
-			} catch {
-				member = undefined;
-			}
-		}
-		if (!member) return message.reply(functions.simpleEmbed('User not found or not a user!'));
+	slashOptions: [
+		{ name: 'user', description: 'user to get the avatar of', type: 6, required: false },
+	],
+
+	async execute(client, interaction) {
+		const member = interaction.options.getMember('user') || interaction.member;
+		member.fetch();
 
 		let avatarURL = await member.displayAvatarURL({ dynamic: true });
 
@@ -52,13 +48,13 @@ module.exports = {
 			.setImage(`${avatarURL}.${filetypeOptions[0].value}?size=4096`)
 			.setTitle('Open original')
 			.setURL(`${avatarURL}.${filetypeOptions[0].value}?size=4096`);
-		const msg = await message.reply({
+		const msg = await interaction.editReply({
 			embeds: [embed],
 			components: rows,
 		});
 		const filter = i => {
 			i.deferUpdate();
-			return i.user.id === message.author.id;
+			return i.user.id === interaction.user.id;
 		};
 
 		const collector = msg.createMessageComponentCollector({ filter, idle: 30000 });

@@ -3,8 +3,9 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	name: 'status',
 	description: 'Displays some running information about Altair.',
-	aliases: ['stats', 'stat'],
-	async execute(client, message, args, functions) {
+	slashOptions: [],
+
+	async execute(client, interaction, functions) {
 		let memberCount = 0;
 		client.guilds.cache.forEach(guild => memberCount = memberCount + guild.memberCount);
 		const embed = new MessageEmbed()
@@ -22,6 +23,6 @@ module.exports = {
 				{ name: 'Commands ran', value: client.commandsRan.toString(), inline: true },
 				{ name: 'Prefix', value: process.env.PREFIX, inline: true },
 			);
-		return await message.reply({ embeds: [embed] });
+		await interaction.editReply({ embeds: [embed] });
 	},
 };

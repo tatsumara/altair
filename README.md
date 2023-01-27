@@ -20,8 +20,8 @@ Valid services are `SAUCENAO`, `WOLFRAM`, `GENIUS`, `DEEPL`, `NASA`, `TMDB`, and
 ## TODO
 * Server specifig config/database implementation
 * Standardize responses, embeds and buttons
-* Add common pagination class/module
-* Implement slash commands using [this function](https://discord.js.org/#/docs/discord.js/stable/class/ApplicationCommandManager?scrollTo=set)
+* Paginate anime and manga commands
+* Make a message interaction for saucenao in addition to the slash command
 ## Meta
 mara#8977 on Discord
 

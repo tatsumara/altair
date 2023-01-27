@@ -5,13 +5,18 @@ module.exports = {
 	name: 'genre',
 	description: 'Shows you information about a genre.',
 	usage: 'genre <genre name>',
-	args: true,
-	async execute(client, message, args, functions) {
+	slashOptions: [
+		{ name: 'query', description: 'search term', type: 3, required: true },
+	],
+
+	async execute(client, interaction, functions) {
 		if (!process.env.LASTFM_API_KEY) return client.log.error('Please input your Last.fm API key in the config.');
-		const { body: { tag } } = await got(`https://ws.audioscrobbler.com/2.0/?method=tag.getinfo&tag=${encodeURIComponent(args.join(' '))}&api_key=${process.env.LASTFM_API_KEY}&format=json`, { responseType: 'json' });
+
+		const query = interaction.options.getString('query');
+		const { body: { tag } } = await got(`https://ws.audioscrobbler.com/2.0/?method=tag.getinfo&tag=${encodeURIComponent(query)}&api_key=${process.env.LASTFM_API_KEY}&format=json`, { responseType: 'json' });
 
 		if (tag.total === 0 && !tag.wiki.content) {
-			return await message.reply(functions.simpleEmbed('Nothing found!'));
+			return await interaction.editReply(functions.simpleEmbed('Nothing found!'));
 		}
 
 		const embed = new MessageEmbed()
@@ -30,6 +35,6 @@ module.exports = {
 		if (!description.endsWith('.')) description += '...';
 		embed.setDescription(description);
 
-		return await message.reply({ embeds: [embed] });
+		return await interaction.editReply({ embeds: [embed] });
 	},
 };

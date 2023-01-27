@@ -4,14 +4,17 @@ const { MessageActionRow, MessageButton } = require('discord.js');
 module.exports = {
 	name: 'youtube',
 	description: 'Searches for a video on YouTube.',
-	usage: 'youtube <search term>',
-	cooldown: '15',
-	args: true,
-	aliases: ['yt', 'ytube'],
-	async execute(client, message, args, functions) {
-		const result = await ytsr(args.join(' '), { limit: 20 });
+	usage: '/youtube <search term>',
+	cooldown: 15,
+	slashOptions: [
+		{ name: 'term', description: 'YouTube search term', type: 3, required: true },
+	],
+
+	async execute(_client, interaction, functions) {
+		const term = interaction.options.getString('term');
+		const result = await ytsr(term, { limit: 20 });
 		if (!result.items[0]) {
-			return await message.reply(functions.simpleEmbed('Nothing found!'));
+			return interaction.editReply(functions.simpleEmbed('Nothing found!'));
 		}
 		let x = 0;
 
@@ -23,10 +26,10 @@ module.exports = {
 				new MessageButton({ label: '▶', customId: 'next', style: 'SECONDARY' }),
 			);
 
-		const youtubeMessage = await message.reply({ content: `1/${results.length} | ${results[x].url}`, components: [buttons] });
+		const youtubeMessage = await interaction.editReply({ content: `1/${results.length} | ${results[x].url}`, components: [buttons] });
 		const filter = i => {
 			i.deferUpdate();
-			return i.user.id === message.author.id;
+			return i.user.id === interaction.user.id;
 		};
 		const collector = youtubeMessage.createMessageComponentCollector({ filter, idle: 30000 });
 		collector.on('collect', i => {

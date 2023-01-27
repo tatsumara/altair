@@ -5,21 +5,24 @@ const paginate = require('../../modules/paginate.js');
 module.exports = {
 	name: 'image',
 	description: 'Searches on Google Images.',
-	usage: 'image <search query>',
-	cooldown: '10',
-	args: true,
-	aliases: ['im', 'img'],
-	async execute(client, message, args, functions) {
-		const query = args.join(' ');
+	usage: '/image <search query>',
+	cooldown: 30,
+	slashOptions: [
+		{ name: 'query', description: 'query to run', type: 3, required: true },
+	],
+
+	async execute(client, interaction, functions) {
+		const query = interaction.options.getString('query');
+		const safe = !interaction.channel.nsfw;
 		const { result } = await GOOGLE_IMG_SCRAP({
 			search: query,
-			safeSearch: !message.channel.nsfw,
+			safeSearch: safe,
 			execute(i) {
-				if (!i.url.includes('gstatic.com')) return i.url;
+				if (!i.url.match('gstatic.com')) return i;
 			},
 		});
 		if (!result[0]) {
-			return message.reply(functions.simpleEmbed('Nothing found!'));
+			return interaction.editReply(functions.simpleEmbed('Nothing found!'));
 		}
 		const pages = [];
 		result.forEach((res, i) => {
@@ -27,10 +30,10 @@ module.exports = {
 				.setTitle('Image Search Results:')
 				.setDescription(`"${query}"`)
 				.setColor(client.colors.blue)
-				.setImage(res)
+				.setImage(res.url)
 				.setFooter({ text: `${i + 1}/${result.length} - using Google Images` });
 			pages.push(embed);
 		});
-		paginate(message, pages);
+		paginate(interaction, pages);
 	},
 };
