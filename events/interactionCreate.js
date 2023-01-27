@@ -61,7 +61,8 @@ module.exports = {
 			client.commandsRan++;
 		} catch (err) {
 			client.log.error('Error in \'' + interaction.commandName + '\':', err);
-			await error('', `I'm sorry, something went wrong. Please contact <@${process.env.OWNER_ID}> if this issue persists!`, true);
+			const edit = !command.dontDefer;
+			await error('', `I'm sorry, something went wrong. Please contact <@${process.env.OWNER_ID}> if this issue persists!`, edit);
 		}
 	},
 };
