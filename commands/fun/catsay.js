@@ -15,8 +15,7 @@ module.exports = {
 			const stream = got.stream(url);
 			await interaction.editReply({ files: [stream] });
 		} catch {
-			const embed = functions.simpleEmbed('`Cats as a service` is currently unavailable. Please try again later.');
-			await interaction.editReply({ embeds: [embed] });
+			await interaction.editReply(functions.simpleEmbed('`Cats as a service` is currently unavailable. Please try again later.'));
 		}
 	},
 };
