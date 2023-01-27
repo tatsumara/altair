@@ -23,7 +23,7 @@ module.exports = {
 			structure.forEach((array, category) => {
 				let commandList = '';
 				array.forEach(c => commandList += c.name + ' ');
-				embed.addField(category, `\`${commandList}\``, true);
+				embed.addFields({ name: category, value:`\`${commandList}\``, inline: true });
 			});
 			embed.setFooter({ text: 'help <name> to view more about a particular command' });
 		} else {
@@ -40,17 +40,14 @@ module.exports = {
 			embed.setTitle(`Command "${command.name}"`);
 
 			// this looks ugly but it works, maybe i'll just loop over all available properties of the command and display them like that
-			if (command.aliases) embed.addField('Aliases', `:1234: \`${command.aliases.join(', ')}\``, true);
-			if (command.usage) embed.addField('Usage', `:question: \`${command.usage}\``, true);
-			if (command.cooldown) embed.addField('Cooldown', `:stopwatch: \`${command.cooldown}s\``, true);
-			embed.addField('Slash?', command.slashOptions
-				? '<:slash:972537915659931668> yes'
-				: '<:not_slash:972541239293526076> no', true);
-			if (command.description) embed.addField('Description', ':scroll: ' + command.description);
+			if (command.aliases) embed.addFields({ name: 'Aliases', value: `:1234: \`${command.aliases.join(', ')}\``, inline: true });
+			if (command.usage) embed.addFields({ name: 'Usage', value: `:question: \`${command.usage}\``, inline: true });
+			if (command.cooldown) embed.addFields({ name: 'Cooldown', value: `:stopwatch: \`${command.cooldown}s\``, inline: true });
+			if (command.description) embed.addFields({ name: 'Description', value: ':scroll: ' + command.description });
 			if (command.examples) {
 				let title = ':interrobang: Usage example';
 				if (command.examples.length > 1) title += 's';
-				embed.addField(title, command.examples.map(x => `\`${x}\``).join('\n'));
+				embed.addFields({ name: title, value: command.examples.map(x => `\`${x}\``).join('\n') });
 			}
 		}
 

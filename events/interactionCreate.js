@@ -20,7 +20,7 @@ module.exports = {
 		if (!command) return;
 
 		async function error(title, desc, edit = false) {
-			const func = interaction[edit ? 'editReply' : 'reply'].bind(interaction);
+			const func = await interaction[edit ? 'editReply' : 'reply'].bind(interaction);
 			await func({
 				...functions.simpleEmbed(title, desc, client.colors.red),
 				ephemeral: true,
