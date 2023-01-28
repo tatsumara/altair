@@ -82,21 +82,6 @@ process.on('uncaughtException', error => {
 	client.log.error(error);
 });
 
-async function register_slash_commands(interaction) {
-	for (const command of slashCommands) {
-		command.options = await command.options;
-	}
-	client.log.info('Calculated slash options');
-
-	client.application.commands.set(slashCommands).then(async () => {
-		client.log.info(`Registered ${slashCommands.length} slash commands.`);
-		await interaction.reply(`:white_check_mark: registered ${slashCommands.length} slash commands globally`);
-	}).catch(async e => {
-		client.log.error('Couldn\'t register slash commands:', e);
-		await interaction.reply(':x: couldn\'t register slash commands');
-	});
-}
-client.register_slash_commands = register_slash_commands;
 
 // have to log in and _then_ add the command because `applications`
 // only becomes available then
