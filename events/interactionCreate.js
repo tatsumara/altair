@@ -11,11 +11,6 @@ module.exports = {
 		//   - if legacy commands are here to stay, it's a good idea to separate
 		//     the check logic (timeouts and stuff) out
 
-		if (interaction.commandName === 'register_slash') {
-			await client.register_slash_commands(interaction);
-			return;
-		}
-
 		const command = client.commands.get(interaction.commandName);
 		if (!command) return;
 
