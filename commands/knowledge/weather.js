@@ -51,6 +51,12 @@ module.exports = {
 	async execute(client, interaction) {
 		const location = interaction.options.getString('location');
 
+		const result = await got(`https://wttr.in/${location}?format=j1`);
+		if (result.body.startsWith('Unknown location')) {
+			await interaction.editReply({ content: 'Sorry, I don\'t know this place' });
+			return;
+		}
+
 		// get weather
 		// i love pattern matching
 		const {
@@ -70,7 +76,7 @@ module.exports = {
 				region: [{ value: region }],
 				latitude, longitude,
 			}],
-		} = JSON.parse((await got(`https://wttr.in/${location}?format=j1`)).body);
+		} = JSON.parse(result.body);
 
 		// get UTC offset
 		const {
