@@ -11,7 +11,7 @@ module.exports = {
 
 	async execute(client, interaction) {
 		const member = interaction.options.getMember('user') || interaction.member;
-		member.fetch();
+		// member.fetch();
 
 		let avatarURL = await member.displayAvatarURL({ dynamic: true });
 
