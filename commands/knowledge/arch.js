@@ -1,5 +1,7 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const got = require('got');
+
+const paginate = require('../../modules/paginate.js');
 
 /**
  * Pads a number with leading zeros.
@@ -84,136 +86,114 @@ function formatAURPackage(pkg) {
 	return parts.join(' ');
 }
 
-/**
- * Modifies the embed to display a certain number of packages.
- * @param {MessageEmbed} embed The embed to modify.
- * @param {({ repo: object } | { aur: object })[]} results The results to display.
- * @param {number} page The page to display.
- * @param {number} [n=5] The number of packages to display.
- * @returns {MessageEmbed} The modified embed.
- * @example
- * const embed = new MessageEmbed();
- *
- * modifyEmbed(embed, results, 0); // Display the first 5 packages
- */
-function modifyEmbed(embed, results, page, n = 5) {
-	const pages = Math.ceil(results.length / n);
-	const index = page * n;
-
-	embed.spliceFields(0, embed.fields.length);
-
-	for (let i = index; i < Math.min(index + n, results.length); i++) {
-		const isRepo = results[i].repo;
-		const pkg = isRepo ? results[i].repo : results[i].aur;
-
-		const url = isRepo
-			? `https://www.archlinux.org/packages/${pkg.repo}/${pkg.arch}/${pkg.pkgname}/`
-			: `https://aur.archlinux.org/packages/${pkg.Name}/`;
-		const pkgStr = isRepo ? formatRepoPackage(pkg) : formatAURPackage(pkg);
-		const description = isRepo ? pkg.pkgdesc : pkg.Description;
-
-		embed.addField(`${i + 1}. ${pkgStr}`, `${description}\n${url}`);
-	}
-
-	const repoCount = results.filter((r) => r.repo).length;
-	const aurCount = results.filter((r) => r.aur).length;
-
-	embed.setFooter({ text: `Page ${page + 1} of ${pages} | ${repoCount} repo | ${aurCount} aur | ${results.length} total` });
-
-	return embed;
-}
-
 module.exports = {
 	name: 'arch',
 	description: 'Queries Arch Linux Packages',
-	usage: 'arch [--aur] [--repo] <query>',
+	usage: 'arch <query> [--only=repo|aur]',
 	args: true,
 	disabled: false,
 	aliases: ['pacman', 'yay'],
-	async execute(client, message, args, functions) {
-		const flags = args.filter((arg) => arg.startsWith('--'));
-		const query = args.filter((arg) => !arg.startsWith('--')).join(' ');
+	slashOptions: [
+		{
+			name: 'query',
+			description: 'The query to search for',
+			type: 'STRING',
+			required: true,
+		},
+		{
+			name: 'only',
+			description: 'The type of packages to search for. Defaults to both.',
+			type: 'STRING',
+			choices: [
+				{
+					name: 'Repo',
+					value: 'repo',
+				},
+				{
+					name: 'AUR',
+					value: 'aur',
+				},
+			],
+		},
+	],
+	async execute(client, interaction) {
+		const query = interaction.options.getString('query');
+		const only = interaction.options.getString('only');
 
-		const wantsAur = flags.includes('--aur');
-		const wantsRepo = flags.includes('--repo');
-		const wantsBoth = (wantsAur && wantsRepo) || (!wantsAur && !wantsRepo);
-
-		if (!query) {
-			return message.reply(functions.simpleEmbed('Please provide a query!'));
-		}
-
-		const packages = [];
-		const description = [];
-
-		if (wantsRepo || wantsBoth) {
-			const repoResult = await got(`https://www.archlinux.org/packages/search/json/?q=${encodeURIComponent(query)}`).json();
-			const repoPackages = repoResult.results;
-
-			for (const repo of repoPackages) {
-				packages.push({ repo });
-			}
-
-			description.push(`[Repo](https://www.archlinux.org/packages/search/?q=${encodeURIComponent(query)})`);
-		}
-
-		if (wantsAur || wantsBoth) {
-			const aurResult = await got(`https://aur.archlinux.org/rpc/?v=5&type=search&arg=${encodeURIComponent(query)}`).json();
-			const aurPackages = aurResult.results.sort((a, b) => b.NumVotes - a.NumVotes);
-
-			for (const aur of aurPackages) {
-				packages.push({ aur });
-			}
-
-			description.push(`[AUR](https://aur.archlinux.org/packages/?O=0&K=${encodeURIComponent(query)})`);
-		}
-
-		if (packages.length === 0) {
-			return message.reply(functions.simpleEmbed('Nothing found!'));
-		}
-
-		let page = 0;
-
-		const embed = new MessageEmbed()
-			.setTitle(`Arch Linux Packages - "${query}"`)
-			.setDescription(description.join(' | '))
-			.setColor(client.colors.blue);
-
-		modifyEmbed(embed, packages, page);
-
-		const buttons = new MessageActionRow()
-			.addComponents(
-				new MessageButton({ label: '◀', customId: 'previous', style: 'SECONDARY' }),
-				new MessageButton({ label: '▶', customId: 'next', style: 'SECONDARY' }),
-			);
-
-		const resultMessage = await message.reply({ embeds: [embed], components: [buttons] });
-
-		const filter = (i) => {
-			i.deferUpdate();
-			return i.user.id === message.author.id;
+		const repo = {
+			url: {
+				api: `https://www.archlinux.org/packages/search/json/?q=${encodeURIComponent(query)}`,
+				web: `https://www.archlinux.org/packages/search/?q=${encodeURIComponent(query)}`,
+			},
+			packages: [],
 		};
 
-		const collector = resultMessage.createMessageComponentCollector({ filter, time: 60000 });
+		const aur = {
+			url: {
+				api: `https://aur.archlinux.org/rpc/?v=5&type=search&arg=${encodeURIComponent(query)}`,
+				web: `https://aur.archlinux.org/packages/?O=0&K=${encodeURIComponent(query)}`,
+			},
+			packages: [],
+		};
 
-		collector.on('collect', async (i) => {
-			switch (i.customId) {
-			case 'next':
-				if (page < Math.ceil(packages.length / 5) - 1) page++;
-				break;
-			case 'previous':
-				if (page > 0) page--;
-				break;
-			default:
-				return;
-			}
+		if (only !== 'aur') {
+			const { results } = await got(repo.url.api).json();
+			repo.packages = results;
+		}
 
-			modifyEmbed(embed, packages, page);
+		if (only !== 'repo') {
+			const { results } = await got(aur.url.api).json();
+			aur.packages = results.sort((a, b) => b.NumVotes - a.NumVotes);
+		}
 
-			resultMessage.edit({ embeds: [embed] });
-		});
+		const embed = {
+			title: `Arch Linux Packages - ${query}`,
+			color: client.colors.blue,
+			description: [
+				only !== 'aur' && `[Repo](${repo.url.web})`,
+				only !== 'repo' && `[AUR](${aur.url.web})`,
+			]
+				.filter(Boolean)
+				.join(' | '),
+			footer: {
+				text: [
+					only !== 'aur' && `${repo.packages.length} repo packages`,
+					only !== 'repo' && `${aur.packages.length} AUR packages`,
+				]
+					.filter(Boolean)
+					.join(' | '),
+			},
+		};
 
-		collector.on('end', () => {
-			resultMessage.edit({ components: [] });
-		});
+		const embeds = [
+			...repo.packages.map(pkg => ({
+				url: `https://www.archlinux.org/packages/${pkg.repo}/${pkg.arch}/${pkg.pkgname}/`,
+				info: formatRepoPackage(pkg),
+				description: pkg.pkgdesc,
+			})),
+			...aur.packages.map(pkg => ({
+				url: `https://aur.archlinux.org/packages/${pkg.Name}/`,
+				info: formatAURPackage(pkg),
+				description: pkg.Description,
+			})),
+		]
+			.reduce((acc, val, i) => {
+				const idx = Math.floor(i / 5);
+				acc[idx] ??= [];
+				acc[idx].push(val);
+				return acc;
+			}, [])
+			.map((packages, pageIdx, pages) =>
+				new MessageEmbed(embed)
+					.addFields(
+						packages.map(({ url, info, description }, idx) => ({
+							name: `${idx + 1 + pageIdx * 5}. ${info}`,
+							value: `${description}\n${url}`,
+						})),
+					)
+					.setFooter({ text: `${pageIdx + 1}/${pages.length} | ${embed.footer.text}` }),
+			);
+
+		paginate(interaction, embeds);
 	},
 };
