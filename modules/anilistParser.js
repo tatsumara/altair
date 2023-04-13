@@ -61,19 +61,19 @@ module.exports = (res) => {
 	if (footer.endsWith('• ')) footer = footer.slice(0, -2);
 	embed.setFooter({ text: footer });
 
-	embed.addField('Genres', '`' + res.genres.join(', ') + '`');
+	embed.addFields({ name: 'Genres', value: '`' + res.genres.join(', ') + '`' });
 
 	res.staff.edges.slice(0, 3).forEach(staff => {
 		if (staff.role.match(/(Translator|Lettering)/)) return;
-		embed.addField(staff.role, staff.node.name.full, true);
+		embed.addFields({ name: staff.role, value: staff.node.name.full, inline: true });
 	});
 
 	if (!res.format?.match(/^(MANGA|ONE_SHOT|NOVEL)$/) || res.studios.nodes[0]) {
-		embed.addField('Studio', res.studios.nodes[0]?.name || 'Unknown', true);
-		if (res.status === 'FINISHED' && res.format !== 'MOVIE') embed.addField('Episodes', res.episodes.toString(), true);
+		embed.addFields({ name: 'Studio', value: res.studios.nodes[0]?.name || 'Unknown', inline: true });
+		if (res.status === 'FINISHED' && res.format !== 'MOVIE') embed.addFields({ name: 'Episodes', value: res.episodes.toString(), inline: true });
 	} else if (res.status === 'FINISHED' && res?.format !== 'ONE_SHOT') {
-		if (res.volumes) embed.addField('Volumes', res.volumes.toString(), true);
-		embed.addField('Chapters', res.chapters?.toString() || 'Unknown', true);
+		if (res.volumes) embed.addFields({ name: 'Volumes', value: res.volumes.toString(), inline: true });
+		embed.addFields({ name: 'Chapters', value: res.chapters?.toString() || 'Unknown', inline: true });
 	}
 	return embed;
 };
