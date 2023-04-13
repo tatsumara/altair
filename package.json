@@ -23,7 +23,7 @@
     "rgb2hex": "^0.2.5",
     "sift3": "^0.0.1",
     "wikijs": "^6.4.0",
-    "ytsr": "^3.8.0"
+    "youtube-sr": "^4.3.4"
   },
   "devDependencies": {
     "eslint": "^8.32.0",
