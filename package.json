@@ -12,21 +12,21 @@
   "license": "MIT",
   "dependencies": {
     "bottomify": "^0.3.0",
-    "consola": "^2.15.3",
+    "consola": "^3.1.0",
     "deepl": "^1.0.13",
     "discord.js": "^13.14.0",
     "dotenv": "^16.0.3",
-    "genius-lyrics": "^4.4.2",
-    "google-img-scrap": "^1.1.0",
+    "genius-lyrics": "^4.4.3",
+    "google-img-scrap": "^1.1.1",
     "got": "11.8.5",
     "he": "^1.2.0",
     "rgb2hex": "^0.2.5",
     "sift3": "^0.0.1",
-    "wikijs": "^6.4.0",
+    "wikijs": "^6.4.1",
     "youtube-sr": "^4.3.4"
   },
   "devDependencies": {
-    "eslint": "^8.32.0",
-    "nodemon": "^2.0.20"
+    "eslint": "8.40",
+    "nodemon": "^2.0.22"
   }
 }
