@@ -21,7 +21,6 @@ module.exports = {
 				{ name: 'Servers', value: client.guilds.cache.size.toString(), inline: true },
 				{ name: 'Users', value: memberCount.toString(), inline: true },
 				{ name: 'Commands ran', value: client.commandsRan.toString(), inline: true },
-				{ name: 'Prefix', value: process.env.PREFIX, inline: true },
 			);
 		await interaction.editReply({ embeds: [embed] });
 	},
