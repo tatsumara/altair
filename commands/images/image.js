@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const { GOOGLE_IMG_SCRAP } = require('google-img-scrap');
+const got = require('got');
 const paginate = require('../../modules/paginate.js');
 
 module.exports = {
@@ -13,25 +13,22 @@ module.exports = {
 
 	async execute(client, interaction, functions) {
 		const query = interaction.options.getString('query');
-		const safe = !interaction.channel.nsfw;
-		const { result } = await GOOGLE_IMG_SCRAP({
-			search: query,
-			safeSearch: safe,
-			execute(i) {
-				if (!i.url.match('gstatic.com')) return i;
-			},
-		});
-		if (!result[0]) {
+		const safe = !interaction.channel.nsfw ? 'active' : 'off';
+		const url = `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_API_KEY}&cx=${process.env.GOOGLE_API_ID}&searchType=image&safe=${safe}&q=${query}`;
+
+		const result = await got(url).json();
+
+		if (result.searchInformation.totalResults == 0) {
 			return interaction.editReply(functions.simpleEmbed('Nothing found!'));
 		}
 		const pages = [];
-		result.forEach((res, i) => {
+		result.items.forEach((res, i) => {
 			const embed = new MessageEmbed()
 				.setTitle('Image Search Results:')
 				.setDescription(`"${query}"`)
 				.setColor(client.colors.blue)
-				.setImage(res.url)
-				.setFooter({ text: `${i + 1}/${result.length} - using Google Images` });
+				.setImage(res.link)
+				.setFooter({ text: `${i + 1}/${result.items.length} - using Google Images` });
 			pages.push(embed);
 		});
 		paginate(interaction, pages);

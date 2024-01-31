@@ -17,7 +17,6 @@
     "discord.js": "^13.14.0",
     "dotenv": "^16.0.3",
     "genius-lyrics": "^4.4.3",
-    "google-img-scrap": "^1.1.1",
     "got": "11.8.5",
     "he": "^1.2.0",
     "rgb2hex": "^0.2.5",
@@ -27,6 +26,6 @@
   },
   "devDependencies": {
     "eslint": "8.40",
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.0.3"
   }
 }
